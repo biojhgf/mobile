@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-  <title>小手机 · 修复版</title>
+  <title>小手机 · 干净版</title>
   <style>
     @font-face {
       font-family: 'CustomFont';
@@ -37,7 +37,6 @@
     /* ===== 锁屏 ===== */
     #lockscreen {
       position:absolute; inset:0; z-index:1000;
-      background:linear-gradient(150deg,#1a1a1a 0%,#2a2826 100%);
       background-image:url('https://zora404.dpdns.org/file/1786970531449_IMG_5753.jpeg');
       background-size:cover; background-position:center;
       display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -62,7 +61,6 @@
     #desktop {
       flex:1; padding:8px 18px 12px; display:flex; flex-direction:column; background:var(--bg); overflow:hidden; position:relative;
     }
-    /* 桌面壁纸 - 完全不透明 */
     #desktop::before {
       content:''; position:absolute; inset:0;
       background-image:url('https://zora404.dpdns.org/file/1786970535430_IMG_5751.jpeg');
@@ -114,7 +112,6 @@
     .chat-msg .t { font-size:9px; font-weight:300; opacity:0.3; display:block; text-align:right; margin-top:4px; }
     .chat-msg.user .t { color:rgba(255,255,255,0.4); }
     .chat-msg.ai .t { color:var(--text-ter); }
-    /* 表情包在消息中的样式 */
     .chat-msg.sticker { background:none !important; border:none !important; box-shadow:none !important; padding:4px 0; max-width:120px; }
     .chat-msg.sticker img { width:100%; border-radius:var(--radius-sm); max-width:120px; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -128,7 +125,7 @@
     .typing-dots span:nth-child(3){animation-delay:0s}
     @keyframes dotB { 0%,60%,100%{transform:translateY(0);opacity:0.15;} 30%{transform:translateY(-6px);opacity:0.6;} }
 
-    /* ===== 输入栏（含加号+表情按钮） ===== */
+    /* ===== 输入栏 ===== */
     .chat-input { display:flex; gap:6px; padding:8px 0 4px; border-top:var(--border); flex-shrink:0; background:rgba(255,255,255,0.3); backdrop-filter:blur(10px); align-items:center; }
     .chat-input .btn-icon { width:36px; height:36px; border-radius:50%; border:none; background:var(--bg-input); color:var(--text-sec); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s; flex-shrink:0; }
     .chat-input .btn-icon:active { background:var(--text-ter); }
@@ -188,7 +185,7 @@
     .world-item .acts button:active { color:var(--text); }
     .world-item .acts .del { color:#d64545; }
 
-    /* ===== 表情包（消息内部） ===== */
+    /* ===== 表情包 ===== */
     .sticker-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
     .sticker-item { aspect-ratio:1; background:var(--bg-card); border:var(--border); border-radius:var(--radius-sm); overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center; position:relative; }
     .sticker-item:active { transform:scale(0.92); }
@@ -196,7 +193,7 @@
     .sticker-item .del { position:absolute; top:2px; right:2px; background:rgba(255,255,255,0.7); border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#d64545; cursor:pointer; }
     .sticker-item .lb { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.35); color:#fff; font-size:9px; font-weight:300; text-align:center; padding:2px 0; }
 
-    /* ===== 美化（设置内） ===== */
+    /* ===== 美化 ===== */
     .font-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:var(--border); }
     .font-item .name { flex:1; font-size:14px; }
     .widget-item { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:var(--border); }
@@ -243,16 +240,17 @@
     }
     #snackbar.show { opacity:1; transform:translate(-50%,0); pointer-events:auto; }
 
-    /* ===== 通用 ===== */
     .empty-state { text-align:center; color:var(--text-ter); padding:30px 0; font-size:13px; font-weight:300; }
     .empty-state .big { font-size:32px; font-weight:200; display:block; margin-bottom:8px; color:#ddd; }
     .btn { padding:6px 16px; border:none; border-radius:var(--radius-full); font-size:12px; font-weight:400; cursor:pointer; transition:background 0.15s, transform 0.1s; }
     .btn:active { transform:scale(0.94); }
     .btn-dark { background:var(--bg-dark); color:#fff; }
-    .btn-dark:active { background:var(--text-sec); }
     .btn-ghost { background:transparent; color:var(--text-sec); border:var(--border); }
 
     ::-webkit-scrollbar { width:0; background:transparent; }
+
+    /* 让返回按钮可点击区域大一点 */
+    .app-win .header .back { padding:4px 8px; font-size:22px; }
   </style>
 </head>
 <body>
@@ -279,28 +277,26 @@
       <div class="app-item" data-app="chat"><div class="icon gold"><img src="https://zora404.dpdns.org/file/1786970318053_IMG_5742.jpeg" alt="消息"></div><span class="name">消息</span></div>
       <div class="app-item" data-app="roles"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970321106_IMG_5748.jpeg" alt="角色"></div><span class="name">角色</span></div>
       <div class="app-item" data-app="world"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970319904_IMG_5747.jpeg" alt="世界书"></div><span class="name">世界书</span></div>
-      <div class="app-item" data-app="settings"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970320660_IMG_5746.jpeg" alt="设置"></div><span class="name">设置</span></div>
     </div>
     <div id="dock">
+      <div class="app-item" data-app="settings"><div class="icon" style="background:var(--bg-dark);"><img src="https://zora404.dpdns.org/file/1786970320660_IMG_5746.jpeg" alt="设置"></div><span class="name">设置</span></div>
       <div class="app-item" style="opacity:0.15;pointer-events:none;"><div class="icon" style="background:var(--bg-input);color:var(--text-ter);font-size:10px;">电话</div><span class="name">电话</span></div>
       <div class="app-item" style="opacity:0.15;pointer-events:none;"><div class="icon" style="background:var(--bg-input);color:var(--text-ter);font-size:10px;">浏览</div><span class="name">浏览器</span></div>
     </div>
   </div>
 
   <!-- ============================================================
-     消息 (包含对话列表 + 个人资料 + 表情包)
+     消息
      ============================================================ -->
   <div class="app-win" id="chatWin">
     <div class="header">
-      <button class="back" data-close="chatWin">←</button>
+      <button class="back" onclick="closeApp('chatWin')">←</button>
       <span class="title" id="chatTitle">消息</span>
       <button class="action" id="chatToggleProfile">我</button>
     </div>
     <div class="body" id="chatBody">
       <!-- 对话列表 (默认显示) -->
-      <div id="chatListBody">
-        <div class="empty-state"><span class="big">✉</span>暂无对话</div>
-      </div>
+      <div id="chatListBody"><div class="empty-state"><span class="big">✉</span>暂无对话，点击下方添加</div></div>
       <!-- 个人资料 (隐藏) -->
       <div id="profileBody" style="display:none;">
         <div class="profile-header">
@@ -328,7 +324,10 @@
 
   <!-- ===== 聊天窗口 (点击对话后打开) ===== -->
   <div class="app-win" id="convWin">
-    <div class="header"><button class="back" data-close="convWin">←</button><span class="title" id="convTitle">对话</span></div>
+    <div class="header">
+      <button class="back" onclick="closeApp('convWin')">←</button>
+      <span class="title" id="convTitle">对话</span>
+    </div>
     <div class="body" style="padding:8px 14px 12px;">
       <div class="chat-msgs" id="convMsgs"><div class="empty"><span class="big">✧</span>开始对话</div><div class="typing-dots" id="convTyping"><span></span><span></span><span></span></div></div>
       <div class="chat-input">
@@ -350,7 +349,7 @@
     </div>
   </div>
 
-  <!-- ===== 表情包抽屉 (消息内) ===== -->
+  <!-- ===== 表情包抽屉 ===== -->
   <div class="drawer-mask" id="stickerDrawer">
     <div class="drawer-panel">
       <button class="close" id="stickerDrawerClose">✕</button>
@@ -368,7 +367,11 @@
      角色
      ============================================================ -->
   <div class="app-win" id="rolesWin">
-    <div class="header"><button class="back" data-close="rolesWin">←</button><span class="title">角色</span><button class="action" id="addRoleBtn">+ 新建</button></div>
+    <div class="header">
+      <button class="back" onclick="closeApp('rolesWin')">←</button>
+      <span class="title">角色</span>
+      <button class="action" id="addRoleBtn">+ 新建</button>
+    </div>
     <div class="body" id="rolesBody">
       <div class="role-tabs" id="roleTabs">
         <span class="tab active" data-filter="all">全部</span>
@@ -376,7 +379,7 @@
         <span class="tab" data-filter="NPC">NPC</span>
         <span class="tab" data-filter="USER">USER</span>
       </div>
-      <div id="roleList"></div>
+      <div id="roleList"><div class="empty-state"><span class="big">◇</span>暂无角色，点击右上角新建</div></div>
     </div>
   </div>
 
@@ -403,10 +406,14 @@
      世界书
      ============================================================ -->
   <div class="app-win" id="worldWin">
-    <div class="header"><button class="back" data-close="worldWin">←</button><span class="title">世界书</span><button class="action" id="addWorldBtn">+ 新建</button></div>
+    <div class="header">
+      <button class="back" onclick="closeApp('worldWin')">←</button>
+      <span class="title">世界书</span>
+      <button class="action" id="addWorldBtn">+ 新建</button>
+    </div>
     <div class="body" id="worldBody">
       <div style="font-size:12px;font-weight:300;color:var(--text-ter);margin-bottom:4px;">全局自动生效 · 局部需绑定</div>
-      <div id="worldList"></div>
+      <div id="worldList"><div class="empty-state"><span class="big">◈</span>暂无世界书</div></div>
     </div>
   </div>
 
@@ -428,7 +435,10 @@
      设置 (含美化)
      ============================================================ -->
   <div class="app-win" id="settingsWin">
-    <div class="header"><button class="back" data-close="settingsWin">←</button><span class="title">设置</span></div>
+    <div class="header">
+      <button class="back" onclick="closeApp('settingsWin')">←</button>
+      <span class="title">设置</span>
+    </div>
     <div class="body" id="settingsBody"></div>
   </div>
 
@@ -459,17 +469,11 @@
   function load(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){return d;} }
   function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 
-  // ===== 默认数据 =====
-  let chats = load(K.chats, [
-    { id:'c1', name:'luna.chen', avatar:'L', lastMsg:'起来吃饭 · 想吃什么', time:'17:50' }
-  ]);
-  let roles = load(K.roles, [
-    { id:'r1', type:'CHAR', name:'luna.chen', gender:'男', group:'', desc:'Luna Chen - 完整人设' }
-  ]);
-  let worldBooks = load(K.world, [
-    { id:'w1', name:'现代都市', content:'故事发生在2024年的上海…', scope:'global' }
-  ]);
-  let settings = load(K.settings, { notify:true, keepalive:true, dark:false, fontSize:16 });
+  // ===== 默认数据 - 全部为空 =====
+  let chats = load(K.chats, []);
+  let roles = load(K.roles, []);
+  let worldBooks = load(K.world, []);
+  let settings = load(K.settings, { notify:true, keepalive:true, dark:false });
   let messages = load(K.messages, {});
   let currentChatId = load(K.currentChat, null);
   let stickers = load(K.stickers, []);
@@ -504,27 +508,28 @@
   updateClock(); setInterval(updateClock,30000);
 
   // ===== 应用切换 =====
-  function openApp(id){ $$('.app-win').forEach(w=>w.classList.remove('open')); const el=$('#'+id+'Win'); if(el) el.classList.add('open'); }
-  function closeApp(id){ const el=$('#'+id+'Win'); if(el) el.classList.remove('open'); }
-
-  // ===== 返回按钮 - 统一委托 =====
-  document.addEventListener('click', function(e){
-    const back = e.target.closest('[data-close]');
-    if(back){
-      const targetId = back.dataset.close;
-      if(targetId) closeApp(targetId);
-      e.preventDefault();
-    }
-  });
+  window.openApp = function(id){
+    $$('.app-win').forEach(w=>w.classList.remove('open'));
+    const el=$('#'+id);
+    if(el) el.classList.add('open');
+  };
+  window.closeApp = function(id){
+    const el=$('#'+id);
+    if(el) el.classList.remove('open');
+  };
 
   // ===== 桌面点击 =====
   $('#appGrid').addEventListener('click', function(e){
     const item=e.target.closest('.app-item'); if(!item) return;
     const app=item.dataset.app;
-    if(app==='chat'){ renderChatList(); showProfile=false; toggleProfileView(); openApp('chat'); }
-    else if(app==='roles'){ renderRoles(); openApp('roles'); }
-    else if(app==='world'){ renderWorldBooks(); openApp('world'); }
-    else if(app==='settings'){ renderSettings(); openApp('settings'); }
+    if(app==='chat'){ renderChatList(); showProfile=false; toggleProfileView(); openApp('chatWin'); }
+    else if(app==='roles'){ renderRoles(); openApp('rolesWin'); }
+    else if(app==='world'){ renderWorldBooks(); openApp('worldWin'); }
+  });
+  $('#dock').addEventListener('click', function(e){
+    const item=e.target.closest('.app-item'); if(!item) return;
+    const app=item.dataset.app;
+    if(app==='settings'){ renderSettings(); openApp('settingsWin'); }
   });
 
   // ============================================================
@@ -558,7 +563,26 @@
     const body=$('#chatListBody');
     if(!body) return;
     body.innerHTML='';
-    if(chats.length===0){ body.innerHTML='<div class="empty-state"><span class="big">✉</span>暂无对话</div>'; return; }
+    if(chats.length===0){
+      body.innerHTML='<div class="empty-state"><span class="big">✉</span>暂无对话，点击下方添加</div>';
+      const addDiv=document.createElement('div');
+      addDiv.className='chat-list-item';
+      addDiv.style.justifyContent='center';
+      addDiv.style.color='var(--text-ter)';
+      addDiv.style.fontSize='13px';
+      addDiv.textContent='+ 添加对话';
+      addDiv.addEventListener('click', function(){
+        const name=prompt('输入联系人名称：');
+        if(!name) return;
+        const id='c'+Date.now();
+        chats.push({ id, name, avatar:name[0].toUpperCase(), lastMsg:'开始对话', time:timeStr() });
+        save(K.chats, chats);
+        renderChatList();
+        snack('已添加 '+name);
+      });
+      body.appendChild(addDiv);
+      return;
+    }
     chats.forEach(c=>{
       const div=document.createElement('div');
       div.className='chat-list-item';
@@ -566,7 +590,6 @@
       div.addEventListener('click',()=>openConversation(c.id));
       body.appendChild(div);
     });
-    // 添加对话按钮（放在列表末尾）
     const addDiv=document.createElement('div');
     addDiv.className='chat-list-item';
     addDiv.style.justifyContent='center';
@@ -596,7 +619,7 @@
     $('#convTitle').textContent=chat.name;
     convMsgList = messages[chatId] || [];
     renderConvMsgs();
-    openApp('conv');
+    openApp('convWin');
   }
 
   function renderConvMsgs(){
@@ -660,7 +683,7 @@
     return parts;
   }
 
-  // ===== AI 回复 (带表情约束) =====
+  // ===== 发送消息 =====
   async function sendConvMsg(){
     const input=$('#convInput'); if(!input) return;
     const text=input.value.trim(); if(!text) return;
@@ -668,7 +691,6 @@
     input.value='';
     showConvTyping(true);
     await new Promise(r=>setTimeout(r, 400+Math.random()*500));
-    // 构建带表情约束的回复
     let stickerHint='';
     if(stickers.length>0){
       const names=stickers.map(s=>s.name).join(', ');
@@ -676,7 +698,6 @@
     }
     const replies=['嗯嗯，我在听','有意思，继续说','好呀，我记下了','这个想法真棒','哈哈，确实','原来如此','你今天的分享很温暖'];
     let reply=replies[Math.floor(Math.random()*replies.length)];
-    // 随机决定是否插入表情
     if(stickers.length>0 && Math.random()>0.6){
       const s=stickers[Math.floor(Math.random()*stickers.length)];
       reply+=' [表情:'+s.name+']';
@@ -707,7 +728,7 @@
   });
 
   // ============================================================
-  // 表情包系统 (消息内)
+  // 表情包系统
   // ============================================================
   function renderStickers(){
     const grid=$('#stickerGrid'); if(!grid) return;
@@ -779,7 +800,7 @@
     const list=$('#roleList'); if(!list) return;
     const filtered = roleFilter==='all' ? roles : roles.filter(r=>r.type===roleFilter);
     list.innerHTML='';
-    if(filtered.length===0){ list.innerHTML='<div class="empty-state"><span class="big">◇</span>暂无角色</div>'; return; }
+    if(filtered.length===0){ list.innerHTML='<div class="empty-state"><span class="big">◇</span>暂无角色，点击右上角新建</div>'; return; }
     filtered.forEach(r=>{
       const div=document.createElement('div'); div.className='contact-item';
       div.innerHTML='<div class="avatar">'+r.name[0].toUpperCase()+'</div><div class="info"><div class="name">'+r.name+'</div><div class="sub">'+r.gender+' · '+r.type+' · '+(r.group||'未分组')+'</div><div style="font-size:12px;color:var(--text-ter);font-weight:300;">'+r.desc.slice(0,40)+(r.desc.length>40?'…':'')+'</div></div>';
@@ -968,7 +989,7 @@
 
       <!-- 美化区域 -->
       <div style="margin-top:8px;border-top:2px solid var(--gold);padding-top:12px;">
-        <div style="font-size:15px;font-weight:500;margin-bottom:8px;">🎨 美化系统</div>
+        <div style="font-size:15px;font-weight:500;margin-bottom:8px;">美化系统</div>
 
         <div style="font-size:13px;font-weight:400;margin-bottom:4px;">主题 CSS</div>
         <textarea id="themeCss" style="width:100%;min-height:80px;padding:8px;border:var(--border);background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;font-family:monospace;resize:vertical;">.chat-list-item { background: rgba(255,255,255,0.8); }</textarea>
@@ -990,6 +1011,7 @@
         <input type="file" id="setImportInput" accept=".json" style="display:none;">
       </div>
     `;
+
     // 绑定 toggle
     body.querySelectorAll('.toggle').forEach(el=>{
       el.addEventListener('click', function(){
@@ -1159,7 +1181,7 @@
     renderChatList();
     showProfile=false;
     toggleProfileView();
-    console.log('📱 修复版已启动 · 消息/角色/世界书/设置 · 表情包已整合');
+    console.log('📱 干净版已启动 · 无默认数据');
   }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
