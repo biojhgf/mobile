@@ -3,690 +3,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-  <title>小手机</title>
+  <title>小手机 · D&W 黑白</title>
   <style>
     /* ============================================================
-       设计系统 · 统一变量
+       D&W 黑白风格 · 全局
        ============================================================ */
-    :root {
-      --bg-screen: #f7f3ef;
-      --bg-card: #ffffff;
-      --bg-input: #f0ece8;
-      --text-primary: #2c241e;
-      --text-secondary: #7a7268;
-      --text-tertiary: #b0a89e;
-      --text-inverse: #ffffff;
-      --accent-main: #8a9a7c;
-      --accent-light: #b8c4ac;
-      --accent-blue: #b0bcc2;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 18px;
-      --radius-xl: 24px;
-      --radius-full: 999px;
-      --shadow-card: 0 2px 12px rgba(0,0,0,0.04);
-      --shadow-float: 0 8px 32px rgba(0,0,0,0.06);
-      --border-light: 1px solid rgba(0,0,0,0.04);
-      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
     * { margin:0; padding:0; box-sizing:border-box; user-select:none; }
     html, body {
       width:100%; height:100%;
-      background:var(--bg-screen);
+      background:#f5f5f5;
       font-family:-apple-system,"PingFang SC","Helvetica Neue",system-ui,sans-serif;
-      color:var(--text-primary);
-      -webkit-font-smoothing:antialiased;
+      color:#1a1a1a;
       overflow:hidden;
     }
 
-    /* ============================================================
-       启动画面 · 弯弯风格 (Tap to Start)
-       ============================================================ */
+    /* ===== 启动（弯弯风格） ===== */
     #launch {
-      position:fixed; inset:0; z-index:300;
-      background:var(--bg-screen);
+      position:fixed; inset:0; z-index:999;
+      background:#f5f5f5;
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       gap:20px;
-      transition:opacity 0.6s var(--ease-smooth), visibility 0.6s var(--ease-smooth);
+      transition:opacity 0.6s ease;
       cursor:pointer;
     }
-    #launch.hide { opacity:0; visibility:hidden; pointer-events:none; }
-    .launch-logo {
-      font-size:48px; font-weight:600; color:var(--text-primary);
-      letter-spacing:-1px;
-    }
-    .launch-logo span { color:var(--accent-main); font-weight:300; }
-    .launch-version {
-      font-size:12px; color:var(--text-tertiary);
-      letter-spacing:4px; text-transform:uppercase;
-    }
-    .launch-tap {
-      margin-top:12px;
-      font-size:13px; color:var(--text-tertiary);
-      letter-spacing:3px;
-      animation:pulseText 2s ease-in-out infinite;
-    }
-    @keyframes pulseText {
-      0%,100% { opacity:0.3; }
-      50% { opacity:1; }
-    }
+    #launch.hide { opacity:0; pointer-events:none; }
+    .launch-logo { font-size:48px; font-weight:600; color:#1a1a1a; letter-spacing:-1px; }
+    .launch-logo span { font-weight:300; color:#888; }
+    .launch-version { font-size:12px; color:#999; letter-spacing:4px; }
+    .launch-tap { font-size:13px; color:#999; letter-spacing:3px; animation:pulseText 2s ease-in-out infinite; }
+    @keyframes pulseText { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
     .launch-dots { display:flex; gap:10px; }
-    .launch-dots i {
-      width:7px; height:7px; border-radius:50%;
-      background:var(--text-tertiary);
-      animation:pulse 1.4s infinite both;
-    }
+    .launch-dots i { width:7px; height:7px; border-radius:50%; background:#ccc; animation:pulse 1.4s infinite both; }
     .launch-dots i:nth-child(1){animation-delay:-0.32s}
     .launch-dots i:nth-child(2){animation-delay:-0.16s}
     .launch-dots i:nth-child(3){animation-delay:0s}
-    @keyframes pulse {
-      0%,80%,100%{transform:scale(0.5);opacity:0.15;}
-      40%{transform:scale(1);opacity:1;background:var(--accent-main);}
-    }
+    @keyframes pulse { 0%,80%,100%{transform:scale(0.5);opacity:0.15;} 40%{transform:scale(1);opacity:1;background:#000;} }
 
-    /* ============================================================
-       桌面 · 全屏自适应
-       ============================================================ */
+    /* ===== 桌面 ===== */
     #desktop {
       width:100%; height:100%; padding:14px 18px 18px;
       display:flex; flex-direction:column;
-      background:var(--bg-screen);
+      background:#f5f5f5;
       position:relative; overflow:hidden;
     }
-    #desktop::before {
-      content:''; position:absolute; top:-30%; right:-20%;
-      width:260px; height:260px;
-      background:radial-gradient(circle,rgba(184,196,172,0.10) 0%,transparent 70%);
-      border-radius:50%; pointer-events:none;
-    }
-
     .status-bar {
       display:flex; justify-content:space-between; padding:2px 2px 12px;
-      font-size:13px; font-weight:500; color:var(--text-secondary);
-      position:relative; z-index:10; flex-shrink:0;
-      letter-spacing:0.3px;
+      font-size:13px; font-weight:500; color:#888;
+      flex-shrink:0;
     }
-    .status-bar .notif-badge {
-      background:var(--accent-main); color:#fff;
-      font-size:9px; border-radius:var(--radius-full);
-      padding:0 6px; font-weight:600; line-height:16px;
-      min-width:16px; text-align:center; display:inline-block;
-    }
+    .status-bar .notif-badge { background:#000; color:#fff; font-size:9px; border-radius:999px; padding:0 6px; font-weight:600; line-height:16px; min-width:16px; text-align:center; display:inline-block; }
+    .desktop-header { display:flex; justify-content:space-between; align-items:center; padding-bottom:4px; }
+    .desktop-header h1 { font-size:24px; font-weight:600; color:#1a1a1a; }
+    .desktop-header h1 small { font-weight:400; font-size:12px; color:#999; margin-left:6px; }
+    .desktop-header .time-display { font-size:13px; color:#888; font-weight:500; }
 
-    .desktop-header {
-      position:relative; z-index:2; padding-bottom:4px;
-      display:flex; justify-content:space-between; align-items:center;
-    }
-    .desktop-header h1 {
-      font-size:24px; font-weight:600; color:var(--text-primary);
-      letter-spacing:-0.5px;
-    }
-    .desktop-header h1 small {
-      font-weight:400; font-size:12px;
-      color:var(--text-tertiary); margin-left:6px;
-    }
-    .desktop-header .time-display {
-      font-size:13px; color:var(--text-secondary);
-      font-weight:500;
-    }
+    .app-grid { display:flex; flex-wrap:wrap; gap:16px 14px; padding-top:8px; flex:1; align-content:flex-start; }
+    .app-item { width:66px; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; position:relative; }
+    .app-item:active { transform:scale(0.90); }
+    .app-item .badge { position:absolute; top:-2px; right:-4px; background:#000; color:#fff; font-size:9px; font-weight:600; border-radius:999px; min-width:16px; height:16px; display:flex; align-items:center; justify-content:center; padding:0 5px; }
+    .app-icon { width:58px; height:58px; border-radius:0; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:500; color:#fff; background:#1a1a1a; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+    .app-icon.chat { background:#000; }
+    .app-icon.group { background:#222; }
+    .app-icon.phone { background:#1a1a1a; }
+    .app-icon.house { background:#2a2a2a; }
+    .app-icon.world { background:#333; }
+    .app-icon.sticker { background:#1a1a1a; }
+    .app-icon.memory { background:#222; }
+    .app-icon.wallpaper { background:#2a2a2a; }
+    .app-icon.settings { background:#1a1a1a; }
+    .app-name { font-size:10px; color:#666; font-weight:500; text-align:center; }
 
-    .app-grid {
-      display:flex; flex-wrap:wrap; gap:16px 14px; padding-top:8px;
-      position:relative; z-index:2; flex:1; align-content:flex-start;
-    }
-    .app-item {
-      width:66px; display:flex; flex-direction:column; align-items:center; gap:4px;
-      cursor:pointer; -webkit-tap-highlight-color:transparent; position:relative;
-    }
-    .app-item:active { transform:scale(0.90); transition:transform 0.1s; }
-    .app-item .badge {
-      position:absolute; top:-2px; right:-4px;
-      background:var(--accent-main); color:#fff;
-      font-size:9px; font-weight:600;
-      border-radius:var(--radius-full); min-width:16px; height:16px;
-      display:flex; align-items:center; justify-content:center; padding:0 5px;
-    }
-    .app-icon {
-      width:58px; height:58px; border-radius:var(--radius-md);
-      display:flex; align-items:center; justify-content:center;
-      font-size:22px; font-weight:500; color:var(--text-inverse);
-      background:var(--bg-card);
-      border:var(--border-light);
-      box-shadow:var(--shadow-card);
-    }
-    .app-icon.chat { background:linear-gradient(135deg,#b8c4ac,#8a9a7c); border:none; }
-    .app-icon.world { background:linear-gradient(135deg,#c4b8ac,#a09080); border:none; }
-    .app-icon.sticker { background:linear-gradient(135deg,#b8bcc4,#8a929c); border:none; }
-    .app-icon.memory { background:linear-gradient(135deg,#b8ccc4,#8aa89a); border:none; }
-    .app-icon.settings { background:linear-gradient(135deg,#c4c0b8,#a09890); border:none; }
-    .app-name {
-      font-size:10px; color:var(--text-secondary);
-      font-weight:500; letter-spacing:0.2px;
-      text-align:center;
-    }
-
-    .dock {
-      margin-top:auto; padding:10px 0 4px;
-      border-top:var(--border-light);
-      display:flex; justify-content:center; gap:24px;
-      background:rgba(255,255,255,0.15);
-      backdrop-filter:blur(20px);
-      -webkit-backdrop-filter:blur(20px);
-      border-radius:var(--radius-xl);
-      margin-bottom:2px;
-      position:relative; z-index:2;
-    }
+    .dock { margin-top:auto; padding:10px 0 4px; border-top:1px solid #e8e8e8; display:flex; justify-content:center; gap:24px; background:rgba(255,255,255,0.5); backdrop-filter:blur(20px); border-radius:0; margin-bottom:2px; }
     .dock .app-item { width:54px; }
-    .dock .app-icon { width:48px; height:48px; font-size:18px; border-radius:var(--radius-md); }
+    .dock .app-icon { width:48px; height:48px; font-size:18px; border-radius:0; }
 
-    /* ============================================================
-       应用浮层
-       ============================================================ */
-    .app-view {
-      position:fixed; inset:0; z-index:100;
-      background:var(--bg-screen);
-      display:none; flex-direction:column; overflow:hidden;
-      animation:slideUp 0.35s var(--ease-smooth);
-    }
+    /* ===== 应用浮层 ===== */
+    .app-view { position:fixed; inset:0; z-index:100; background:#f5f5f5; display:none; flex-direction:column; overflow:hidden; }
     .app-view.active { display:flex; }
-    @keyframes slideUp {
-      from { opacity:0; transform:translateY(12px); }
-      to { opacity:1; transform:translateY(0); }
-    }
 
     .app-header {
       padding:16px 18px 12px;
-      background:rgba(255,255,255,0.5);
-      backdrop-filter:blur(20px);
-      -webkit-backdrop-filter:blur(20px);
-      border-bottom:var(--border-light);
+      background:#ffffff;
+      border-bottom:1px solid #e8e8e8;
       display:flex; align-items:center; gap:10px; flex-shrink:0;
     }
-    .app-back {
-      font-size:26px; font-weight:300; cursor:pointer;
-      color:var(--text-secondary); padding-right:4px; line-height:1;
-      transition:color 0.15s;
-    }
-    .app-back:active { color:var(--text-primary); }
-    .app-title {
-      font-size:16px; font-weight:600; color:var(--text-primary);
-      flex:1; letter-spacing:0.2px;
-    }
-    .app-header-action {
-      padding:4px 14px; border:none; border-radius:var(--radius-full);
-      background:var(--accent-main); color:#fff;
-      font-size:12px; font-weight:500; cursor:pointer;
-      transition:background 0.15s, transform 0.1s;
-    }
-    .app-header-action:active { transform:scale(0.94); background:var(--accent-light); }
-
-    .app-body {
-      flex:1; padding:16px 18px 20px;
-      overflow-y:auto; display:flex; flex-direction:column; gap:14px;
-    }
+    .app-back { font-size:26px; font-weight:300; cursor:pointer; color:#888; padding-right:4px; line-height:1; }
+    .app-back:active { color:#1a1a1a; }
+    .app-title { font-size:16px; font-weight:600; color:#1a1a1a; flex:1; }
+    .app-header-action { padding:4px 14px; border:none; border-radius:0; background:#000; color:#fff; font-size:12px; font-weight:500; cursor:pointer; }
+    .app-header-action:active { transform:scale(0.94); }
+    .app-body { flex:1; padding:16px 18px 20px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; }
 
     /* ============================================================
-       聊天
+       聊天 · D&W 风格
        ============================================================ */
-    #chatView .chat-container {
-      flex:1; display:flex; flex-direction:column;
-      background:var(--bg-screen);
-      overflow:hidden;
-    }
-    #chatView .chat-header {
-      background:transparent; padding:6px 14px 8px;
-      display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
-    }
-    #chatView .chat-header .profile {
-      display:flex; flex-direction:column; align-items:center; flex:1; padding-top:4px;
-    }
-    #chatView .chat-header .avatar {
-      width:38px; height:38px; border-radius:50%;
-      background:var(--accent-main);
-      display:flex; align-items:center; justify-content:center;
-      font-size:14px; font-weight:500; color:#fff;
-      box-shadow:0 2px 8px rgba(138,154,124,0.15);
-    }
-    #chatView .chat-header .name {
-      margin-top:-4px; font-weight:600; font-size:15px;
-      color:var(--text-primary); text-align:center;
-      letter-spacing:0.3px;
-    }
-    #chatView .chat-header .icon-btn {
-      background:transparent; border:none; width:28px; height:28px;
-      background-size:20px; background-position:center; background-repeat:no-repeat;
-      cursor:pointer; opacity:0.6; transition:opacity 0.15s;
-    }
+    #chatView .chat-container { flex:1; display:flex; flex-direction:column; background:#f5f5f5; overflow:hidden; }
+    #chatView .chat-header { background:#fff; padding:6px 14px 8px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; border-bottom:1px solid #e8e8e8; }
+    #chatView .chat-header .profile { display:flex; flex-direction:column; align-items:center; flex:1; padding-top:4px; }
+    #chatView .chat-header .avatar { width:38px; height:38px; border-radius:0; background:#000; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; color:#fff; }
+    #chatView .chat-header .name { margin-top:-4px; font-weight:600; font-size:15px; color:#1a1a1a; text-align:center; }
+    #chatView .chat-header .icon-btn { background:transparent; border:none; width:28px; height:28px; background-size:20px; background-position:center; background-repeat:no-repeat; cursor:pointer; opacity:0.6; }
     #chatView .chat-header .icon-btn:active { opacity:0.3; }
-    #chatView .chat-header .back-btn {
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a7268' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E");
-    }
+    #chatView .chat-header .back-btn { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E"); }
 
-    #chatView .msg-list {
-      flex:1; padding:8px 14px 6px;
-      overflow-y:auto; display:flex; flex-direction:column; gap:8px;
-      background:transparent;
-    }
-    #chatView .msg-list .empty-state {
-      text-align:center; color:var(--text-tertiary);
-      padding:40px 0; font-size:14px;
-    }
-    #chatView .msg-list .empty-state .big {
-      font-size:36px; display:block; margin-bottom:8px;
-      font-weight:300; color:var(--text-tertiary);
-    }
+    /* 消息列表 */
+    #chatView .msg-list { flex:1; padding:8px 14px 6px; overflow-y:auto; display:flex; flex-direction:column; gap:2px; background:transparent; }
+    #chatView .msg-list .empty-state { text-align:center; color:#bbb; padding:40px 0; font-size:14px; }
+    #chatView .msg-list .empty-state .big { font-size:36px; display:block; margin-bottom:8px; font-weight:300; color:#ccc; }
 
-    #chatView .msg {
-      max-width:78%;
-      padding:9px 16px;
-      border-radius:var(--radius-lg);
-      font-size:14px; line-height:1.5;
-      word-break:break-word;
-      animation:fadeIn 0.25s var(--ease-smooth);
-    }
-    #chatView .msg.user {
-      align-self:flex-end;
-      background:var(--accent-main);
-      color:#fff;
-      border-bottom-right-radius:6px;
-    }
-    #chatView .msg.ai {
-      align-self:flex-start;
-      background:var(--bg-card);
-      color:var(--text-primary);
-      border-bottom-left-radius:6px;
-      box-shadow:var(--shadow-card);
-      border:var(--border-light);
-    }
-    #chatView .msg .time {
-      font-size:9px; opacity:0.4;
-      display:block; text-align:right; margin-top:4px;
-      font-weight:400;
-    }
-    #chatView .msg.user .time { color:rgba(255,255,255,0.5); }
-    @keyframes fadeIn {
-      from { opacity:0; transform:translateY(6px); }
-      to { opacity:1; transform:translateY(0); }
-    }
+    /* 气泡：直角 D&W 风格 */
+    #chatView .msg { max-width:78%; padding:9px 16px; border-radius:0 !important; font-size:14px; line-height:1.5; word-break:break-word; animation:fadeIn 0.25s ease; }
+    #chatView .msg.user { align-self:flex-end; background:#ffffff !important; color:#000 !important; border:1px solid #e4e4e6 !important; border-radius:0 !important; }
+    #chatView .msg.ai { align-self:flex-start; background:#000000 !important; color:#ffffff !important; border:none !important; border-radius:0 !important; }
+    #chatView .msg .time { font-size:9px; opacity:0.4; display:block; text-align:right; margin-top:4px; }
+    #chatView .msg.user .time { color:#999; }
+    #chatView .msg.ai .time { color:rgba(255,255,255,0.4); }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
-    #chatView .msg.sticker {
-      background:none; border:none; box-shadow:none;
-      padding:2px 0; max-width:120px; align-self:flex-start;
-    }
+    /* 连续消息头像隐藏 (D&W) */
+    #chatView .msg.ai + #chatView .msg.ai .avatar-wrap,
+    #chatView .msg.user + #chatView .msg.user .avatar-wrap { display:none !important; }
+
+    /* 连续消息压缩 (D&W) */
+    #chatView .msg.ai + #chatView .msg.ai { margin-top:-6px !important; }
+    #chatView .msg.user + #chatView .msg.user { margin-top:-6px !important; }
+    #chatView .msg.user + #chatView .msg.ai { margin-top:20px !important; }
+    #chatView .msg.ai + #chatView .msg.user { margin-top:20px !important; }
+
+    /* 表情气泡 */
+    #chatView .msg.sticker { background:none !important; border:none !important; box-shadow:none !important; padding:2px 0; max-width:120px; align-self:flex-start; }
     #chatView .msg.sticker.user { align-self:flex-end; }
-    #chatView .msg.sticker img {
-      width:100%; border-radius:var(--radius-md);
-      max-width:120px; box-shadow:var(--shadow-card);
-    }
+    #chatView .msg.sticker img { width:100%; border-radius:0; max-width:120px; }
 
-    #chatView .typing {
-      align-self:flex-start;
-      background:var(--bg-card);
-      padding:10px 18px;
-      border-radius:var(--radius-lg);
-      border-bottom-left-radius:6px;
-      display:none; gap:5px;
-      box-shadow:var(--shadow-card);
-      border:var(--border-light);
-    }
+    /* 打字指示器 (D&W 黑白) */
+    #chatView .typing { align-self:flex-start; background:#000; padding:10px 18px; border-radius:0; display:none; gap:5px; }
     #chatView .typing.show { display:flex; }
-    #chatView .typing span {
-      width:7px; height:7px; background:var(--text-tertiary);
-      border-radius:50%;
-      animation:typeB 1.2s infinite both;
-    }
+    #chatView .typing span { width:7px; height:7px; background:rgba(255,255,255,0.4); border-radius:50%; animation:typeB 1.2s infinite both; }
     #chatView .typing span:nth-child(1){animation-delay:-0.32s}
     #chatView .typing span:nth-child(2){animation-delay:-0.16s}
     #chatView .typing span:nth-child(3){animation-delay:0s}
-    @keyframes typeB {
-      0%,60%,100%{transform:translateY(0);opacity:0.2;}
-      30%{transform:translateY(-6px);opacity:1;background:var(--accent-main);}
-    }
+    @keyframes typeB { 0%,60%,100%{transform:translateY(0);opacity:0.2;} 30%{transform:translateY(-6px);opacity:1;} }
 
-    #chatView .chat-footer {
-      background:rgba(255,255,255,0.6);
-      backdrop-filter:blur(16px);
-      -webkit-backdrop-filter:blur(16px);
-      padding:8px 14px 14px;
-      display:flex; align-items:center; gap:10px;
-      flex-shrink:0;
-      border-top:var(--border-light);
-    }
-    #chatView .chat-footer .func-btn {
-      width:34px; height:34px;
-      background:var(--bg-input);
-      border:none; border-radius:50%;
-      flex-shrink:0; cursor:pointer;
-      font-size:16px; color:var(--text-secondary);
-      display:flex; align-items:center; justify-content:center;
-      transition:background 0.15s;
-    }
-    #chatView .chat-footer .func-btn:active { background:var(--bg-hover); }
-    #chatView .chat-footer .input-wrap {
-      flex:1; min-height:34px;
-      background:var(--bg-input);
-      border-radius:var(--radius-full);
-      padding:0 16px;
-      display:flex; align-items:center;
-      transition:background 0.15s, box-shadow 0.15s;
-    }
-    #chatView .chat-footer .input-wrap:focus-within {
-      background:#fff;
-      box-shadow:0 0 0 2px rgba(138,154,124,0.15);
-    }
-    #chatView .chat-footer .input-wrap input {
-      background:transparent; border:none; outline:none;
-      width:100%; height:26px; padding:0;
-      font-size:15px; color:var(--text-primary);
-    }
-    #chatView .chat-footer .input-wrap input::placeholder {
-      color:var(--text-tertiary); font-size:14px;
-    }
-    #chatView .chat-footer .send-btn {
-      width:34px; height:34px;
-      background:var(--accent-main);
-      border:none; border-radius:50%;
-      cursor:pointer; flex-shrink:0;
-      color:#fff; font-size:16px;
-      display:flex; align-items:center; justify-content:center;
-      transition:background 0.15s, transform 0.1s;
-    }
-    #chatView .chat-footer .send-btn:active { transform:scale(0.90); background:var(--accent-light); }
-    #chatView .chat-footer .send-btn:disabled { opacity:0.3; pointer-events:none; }
+    /* 底部栏 (D&W 纯白) */
+    #chatView .chat-footer { background:#ffffff !important; padding:8px 14px 14px; display:flex; align-items:center; gap:10px; flex-shrink:0; border-top:1px solid #e8e8e8; }
+    #chatView .chat-footer .func-btn { width:34px; height:34px; background:#f0f0f0; border:none; border-radius:50%; flex-shrink:0; cursor:pointer; font-size:16px; color:#888; display:flex; align-items:center; justify-content:center; }
+    #chatView .chat-footer .func-btn:active { background:#e0e0e0; }
+    #chatView .chat-footer .input-wrap { flex:1; min-height:37px; background:#f0f0f0; border-radius:21px; padding:0 16px; display:flex; align-items:center; }
+    #chatView .chat-footer .input-wrap input { background:transparent; border:none; outline:none; width:100%; height:26px; padding:0; font-size:15px; color:#1a1a1a; }
+    #chatView .chat-footer .input-wrap input::placeholder { color:#aaa; font-size:14px; }
+    #chatView .chat-footer .send-btn { display:none !important; }
 
     /* ============================================================
-       世界书
+       群聊
        ============================================================ */
-    .world-item {
-      background:var(--bg-card);
-      border-radius:var(--radius-md);
-      padding:14px 16px;
-      border-left:3px solid var(--accent-main);
-      box-shadow:var(--shadow-card);
-      border:var(--border-light);
-    }
-    .world-item .head {
-      display:flex; justify-content:space-between; align-items:center;
-    }
-    .world-item .name {
-      font-weight:600; font-size:14px; color:var(--text-primary);
-    }
-    .world-item .scope {
-      font-size:10px; color:var(--text-secondary);
-      background:var(--bg-input); padding:1px 10px; border-radius:var(--radius-full);
-      font-weight:500;
-    }
-    .world-item .content {
-      font-size:13px; color:var(--text-secondary);
-      margin-top:6px; word-break:break-word;
-      line-height:1.5;
-    }
-    .world-item .actions {
-      display:flex; gap:8px; margin-top:8px;
-    }
-    .world-item .actions button {
-      background:transparent; border:none;
-      color:var(--text-tertiary); font-size:12px;
-      cursor:pointer; padding:2px 6px;
-      transition:color 0.15s;
-    }
-    .world-item .actions button:hover { color:var(--text-primary); }
+    .group-member { display:flex; align-items:center; gap:10px; padding:8px 12px; background:#fff; border:1px solid #e8e8e8; }
+    .group-member .av { width:36px; height:36px; border-radius:0; display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; }
+    .group-member .info .name { font-weight:600; font-size:14px; }
+    .group-member .info .status { font-size:11px; color:#888; }
+    .topic-chip { padding:4px 12px; background:#fff; border:1px solid #e8e8e8; font-size:12px; cursor:pointer; display:inline-block; }
+    .topic-chip:active { background:#000; color:#fff; }
+
+    /* ============================================================
+       电话
+       ============================================================ */
+    .phone-call { background:#1a1a1a; padding:24px; text-align:center; color:#fff; }
+    .phone-call .avatar { font-size:56px; display:block; margin:10px auto; }
+    .phone-call .name { font-size:20px; font-weight:600; }
+    .phone-call .status { font-size:13px; color:rgba(255,255,255,0.5); margin-top:4px; }
+    .phone-call .btn-row { display:flex; justify-content:center; gap:20px; margin-top:16px; }
+    .phone-call .btn-row button { width:56px; height:56px; border-radius:50%; border:none; font-size:24px; cursor:pointer; }
+    .phone-call .btn-row button:active { transform:scale(0.9); }
+    .phone-call .btn-row .end { background:#d64545; color:#fff; }
+    .phone-call .btn-row .mic { background:#2c2c3e; color:#fff; }
+
+    /* ============================================================
+       小小窝
+       ============================================================ */
+    .house-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .house-cell { aspect-ratio:1; background:#fff; border:1px solid #e8e8e8; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:28px; cursor:pointer; }
+    .house-cell:active { transform:scale(0.92); }
+    .house-cell .label { font-size:9px; color:#888; margin-top:2px; }
+
+    /* ============================================================
+       世界书、记忆、设置
+       ============================================================ */
+    .world-item, .memory-item { background:#fff; padding:12px 16px; border-left:3px solid #000; border:1px solid #e8e8e8; }
+    .world-item .head, .memory-item .date { display:flex; justify-content:space-between; align-items:center; }
+    .world-item .name, .memory-item .content { font-weight:600; font-size:14px; }
+    .world-item .scope { font-size:10px; color:#888; background:#f0f0f0; padding:1px 10px; }
+    .world-item .content, .memory-item .content { font-size:13px; color:#555; margin-top:4px; }
+    .world-item .actions { display:flex; gap:8px; margin-top:6px; }
+    .world-item .actions button { background:transparent; border:none; color:#888; font-size:12px; cursor:pointer; }
     .world-item .actions .del { color:#d64545; }
 
-    /* ============================================================
-       表情包
-       ============================================================ */
-    .sticker-grid {
-      display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
-    }
-    .sticker-item {
-      aspect-ratio:1;
-      background:var(--bg-card);
-      border-radius:var(--radius-md);
-      overflow:hidden;
-      cursor:pointer;
-      border:2px solid transparent;
-      transition:border 0.15s, transform 0.1s;
-      display:flex; align-items:center; justify-content:center;
-      position:relative;
-      box-shadow:var(--shadow-card);
-    }
+    /* ===== 表情包 ===== */
+    .sticker-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    .sticker-item { aspect-ratio:1; background:#fff; border:1px solid #e8e8e8; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center; position:relative; }
     .sticker-item:active { transform:scale(0.92); }
-    .sticker-item.active { border-color:var(--accent-main); }
-    .sticker-item img {
-      width:100%; height:100%; object-fit:contain; padding:6px;
-    }
-    .sticker-item .del {
-      position:absolute; top:4px; right:4px;
-      background:rgba(255,255,255,0.8);
-      border-radius:50%; width:18px; height:18px;
-      display:flex; align-items:center; justify-content:center;
-      font-size:10px; color:#d64545; cursor:pointer;
-      backdrop-filter:blur(4px);
-    }
-    .sticker-item .name-label {
-      position:absolute; bottom:0; left:0; right:0;
-      background:rgba(0,0,0,0.4);
-      color:#fff; font-size:9px; font-weight:500;
-      text-align:center; padding:3px 0;
-      backdrop-filter:blur(4px);
-    }
+    .sticker-item img { width:100%; height:100%; object-fit:contain; padding:6px; }
+    .sticker-item .del { position:absolute; top:4px; right:4px; background:rgba(255,255,255,0.8); border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; font-size:10px; color:#d64545; cursor:pointer; }
+    .sticker-item .name-label { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.4); color:#fff; font-size:9px; text-align:center; padding:3px 0; }
 
-    /* ============================================================
-       记忆
-       ============================================================ */
-    .memory-item {
-      background:var(--bg-card);
-      border-radius:var(--radius-md);
-      padding:12px 16px;
-      border-left:3px solid var(--accent-blue);
-      box-shadow:var(--shadow-card);
-      border:var(--border-light);
-    }
-    .memory-item .date {
-      font-size:10px; color:var(--text-tertiary);
-    }
-    .memory-item .content {
-      font-size:13px; color:var(--text-primary);
-      margin-top:2px; line-height:1.5;
-    }
-    .memory-item .emotion {
-      font-size:11px; color:var(--text-secondary);
-      margin-top:4px;
-    }
+    /* ===== 壁纸 ===== */
+    .wallpaper-grid { display:flex; gap:10px; flex-wrap:wrap; }
+    .wallpaper-option { width:60px; height:60px; border:2px solid transparent; cursor:pointer; background-size:cover; }
+    .wallpaper-option.active { border-color:#000; }
+    .wallpaper-option:active { transform:scale(0.92); }
 
-    /* ============================================================
-       设置
-       ============================================================ */
-    .setting-group {
-      background:var(--bg-card);
-      border-radius:var(--radius-md);
-      padding:14px 16px;
-      box-shadow:var(--shadow-card);
-      border:var(--border-light);
-    }
-    .setting-group label {
-      font-size:13px; font-weight:500; color:var(--text-primary);
-      display:flex; flex-direction:column; gap:4px;
-    }
-    .setting-group label small {
-      font-weight:400; color:var(--text-tertiary); font-size:12px;
-    }
-    .setting-group input,
-    .setting-group select {
-      padding:8px 12px; border:none;
-      border-radius:var(--radius-sm);
-      background:var(--bg-input);
-      font-size:13px; color:var(--text-primary);
-      outline:none;
-      transition:background 0.15s, box-shadow 0.15s;
-    }
-    .setting-group input:focus,
-    .setting-group select:focus {
-      background:#fff;
-      box-shadow:0 0 0 2px rgba(138,154,124,0.12);
-    }
-
-    .setting-row {
-      display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;
-    }
-    .setting-row button {
-      padding:6px 16px; border:none;
-      border-radius:var(--radius-full);
-      background:var(--bg-input);
-      color:var(--text-secondary);
-      font-size:12px; font-weight:500;
-      cursor:pointer;
-      transition:background 0.15s, transform 0.1s;
-    }
+    /* ===== 设置 ===== */
+    .setting-group { background:#fff; padding:14px 16px; border:1px solid #e8e8e8; }
+    .setting-group label { font-size:13px; font-weight:500; color:#1a1a1a; display:flex; flex-direction:column; gap:4px; }
+    .setting-group input, .setting-group select { padding:8px 12px; border:1px solid #e8e8e8; background:#f5f5f5; font-size:13px; outline:none; }
+    .setting-group input:focus { border-color:#000; }
+    .setting-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+    .setting-row button { padding:6px 16px; border:none; background:#f0f0f0; color:#555; font-size:12px; font-weight:500; cursor:pointer; }
     .setting-row button:active { transform:scale(0.94); }
-    .setting-row button.primary {
-      background:var(--accent-main); color:#fff;
-    }
-    .setting-row button.primary:active { background:var(--accent-light); }
-    .setting-row button.success {
-      background:var(--accent-blue); color:#fff;
-    }
-    .setting-row button.danger {
-      background:#d64545; color:#fff;
-    }
+    .setting-row button.primary { background:#000; color:#fff; }
+    .setting-row button.success { background:#333; color:#fff; }
+    .setting-row button.danger { background:#d64545; color:#fff; }
+    .status-msg { font-size:12px; color:#888; padding:6px 12px; background:#f0f0f0; }
+    .empty-state { text-align:center; color:#bbb; padding:24px 0; font-size:13px; }
+    .empty-state .big { font-size:32px; display:block; margin-bottom:6px; font-weight:300; color:#ccc; }
 
-    .status-msg {
-      font-size:12px; color:var(--text-secondary);
-      padding:6px 12px; background:var(--bg-input);
-      border-radius:var(--radius-sm);
-    }
+    /* ===== Snackbar ===== */
+    .snackbar { position:fixed; left:50%; bottom:30px; z-index:999; transform:translate(-50%, 20px); background:#1a1a1a; color:#fff; padding:10px 16px 10px 20px; display:flex; align-items:center; gap:14px; box-shadow:0 8px 32px rgba(0,0,0,0.1); opacity:0; transition:all 0.3s ease; pointer-events:none; font-size:14px; max-width:90%; }
+    .snackbar.show { opacity:1; transform:translate(-50%, 0); pointer-events:auto; }
+    .snackbar button { background:none; border:none; color:#aaa; font-weight:500; cursor:pointer; font-size:13px; }
 
-    /* ============================================================
-       通用
-       ============================================================ */
-    .empty-state {
-      text-align:center; color:var(--text-tertiary);
-      padding:24px 0; font-size:13px;
-    }
-    .empty-state .big {
-      font-size:32px; display:block; margin-bottom:6px;
-      font-weight:300; color:var(--text-tertiary);
-    }
-
-    /* ============================================================
-       Snackbar
-       ============================================================ */
-    .snackbar {
-      position:fixed; left:50%; bottom:30px; z-index:999;
-      transform:translate(-50%, 20px);
-      background:var(--text-primary);
-      color:#fff;
-      padding:10px 16px 10px 20px;
-      border-radius:var(--radius-md);
-      display:flex; align-items:center; gap:14px;
-      box-shadow:var(--shadow-float);
-      opacity:0; transition:all 0.3s var(--ease-smooth);
-      pointer-events:none; font-size:14px; max-width:90%;
-    }
-    .snackbar.show {
-      opacity:1; transform:translate(-50%, 0);
-      pointer-events:auto;
-    }
-    .snackbar button {
-      background:none; border:none;
-      color:var(--accent-light); font-weight:500;
-      cursor:pointer; font-size:13px;
-    }
-    .snackbar button:active { opacity:0.6; }
-
-    /* ============================================================
-       Drawer
-       ============================================================ */
-    .drawer-mask {
-      position:fixed; inset:0; z-index:200;
-      opacity:0; pointer-events:none;
-      transition:opacity 0.3s ease;
-      background:rgba(0,0,0,0.15);
-      backdrop-filter:blur(2px);
-    }
+    /* ===== Drawer ===== */
+    .drawer-mask { position:fixed; inset:0; z-index:200; opacity:0; pointer-events:none; transition:opacity 0.3s ease; background:rgba(0,0,0,0.15); }
     .drawer-mask.open { opacity:1; pointer-events:auto; }
-    .drawer-panel {
-      position:fixed; top:0; right:0; bottom:0;
-      width:78%; max-width:320px;
-      background:rgba(255,255,255,0.92);
-      backdrop-filter:blur(24px);
-      -webkit-backdrop-filter:blur(24px);
-      box-shadow:-8px 0 32px rgba(0,0,0,0.04);
-      transform:translateX(100%);
-      transition:transform 0.35s var(--ease-smooth);
-      padding:20px 18px; overflow-y:auto;
-      display:flex; flex-direction:column; gap:14px;
-    }
+    .drawer-panel { position:fixed; top:0; right:0; bottom:0; width:78%; max-width:320px; background:#fff; box-shadow:-8px 0 32px rgba(0,0,0,0.04); transform:translateX(100%); transition:transform 0.35s ease; padding:20px 18px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; }
     .drawer-mask.open .drawer-panel { transform:translateX(0); }
-    .drawer-panel .close-btn {
-      align-self:flex-end; font-size:24px;
-      cursor:pointer; color:var(--text-tertiary);
-      background:none; border:none; padding:0 4px;
-      transition:color 0.15s;
-    }
-    .drawer-panel .close-btn:active { color:var(--text-primary); }
-    .drawer-panel .title {
-      font-size:18px; font-weight:600; color:var(--text-primary);
-      margin-bottom:2px;
-    }
-    .drawer-panel .sub {
-      font-size:13px; color:var(--text-secondary);
-      margin-bottom:6px;
-    }
+    .drawer-panel .close-btn { align-self:flex-end; font-size:24px; cursor:pointer; color:#999; background:none; border:none; }
+    .drawer-panel .title { font-size:18px; font-weight:600; color:#1a1a1a; }
+    .drawer-panel .sub { font-size:13px; color:#888; margin-bottom:6px; }
 
     ::-webkit-scrollbar { width:0; background:transparent; }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================
-       启动 · 弯弯风格 (Tap to Start)
-       ============================================================ -->
+  <!-- ===== 启动 ===== -->
   <div id="launch" onclick="this.classList.add('hide')">
     <div class="launch-logo">小手机</div>
-    <div class="launch-version">统一 · v1.1</div>
+    <div class="launch-version">D&W 黑白 · v2.1</div>
     <div class="launch-dots"><i></i><i></i><i></i></div>
     <div class="launch-tap">— 轻触开始 —</div>
   </div>
 
-  <!-- ============================================================
-       Snackbar
-       ============================================================ -->
-  <div class="snackbar" id="snackbar">
-    <span id="snackMsg"></span>
-    <button id="snackAction">撤销</button>
-  </div>
+  <!-- ===== Snackbar ===== -->
+  <div class="snackbar" id="snackbar"><span id="snackMsg"></span><button id="snackAction">撤销</button></div>
 
-  <!-- ============================================================
-       桌面
-       ============================================================ -->
+  <!-- ===== 桌面 ===== -->
   <div id="desktop">
-    <div class="status-bar">
-      <span id="statusTime">12:00</span>
-      <span><span id="notifCount" class="notif-badge" style="display:none;">0</span></span>
-    </div>
-    <div class="desktop-header">
-      <h1>小手机 <small>统一</small></h1>
-      <span class="time-display" id="desktopTime"></span>
-    </div>
+    <div class="status-bar"><span id="statusTime">12:00</span><span><span id="notifCount" class="notif-badge" style="display:none;">0</span></span></div>
+    <div class="desktop-header"><h1>小手机 <small>黑白</small></h1><span class="time-display" id="desktopTime"></span></div>
     <div class="app-grid" id="appGrid">
       <div class="app-item" data-app="chat"><div class="app-icon chat">✉</div><span class="app-name">对话</span></div>
+      <div class="app-item" data-app="group"><div class="app-icon group">👥</div><span class="app-name">群聊</span></div>
+      <div class="app-item" data-app="phone"><div class="app-icon phone">📞</div><span class="app-name">电话</span></div>
+      <div class="app-item" data-app="house"><div class="app-icon house">⌂</div><span class="app-name">小小窝</span></div>
       <div class="app-item" data-app="world"><div class="app-icon world">◈</div><span class="app-name">世界书</span></div>
       <div class="app-item" data-app="sticker"><div class="app-icon sticker">⊞</div><span class="app-name">表情包</span></div>
       <div class="app-item" data-app="memory"><div class="app-icon memory">◇</div><span class="app-name">记忆</span></div>
+      <div class="app-item" data-app="wallpaper"><div class="app-icon wallpaper">▣</div><span class="app-name">壁纸</span></div>
       <div class="app-item" data-app="settings"><div class="app-icon settings">⚙</div><span class="app-name">设置</span></div>
     </div>
     <div class="dock">
-      <div class="app-item" style="opacity:0.2;pointer-events:none;"><div class="app-icon" style="background:var(--bg-input);">◉</div><span class="app-name">电话</span></div>
-      <div class="app-item" style="opacity:0.2;pointer-events:none;"><div class="app-icon" style="background:var(--bg-input);">◯</div><span class="app-name">浏览器</span></div>
+      <div class="app-item" style="opacity:0.2;pointer-events:none;"><div class="app-icon" style="background:#e0e0e0;">◉</div><span class="app-name">电话</span></div>
+      <div class="app-item" style="opacity:0.2;pointer-events:none;"><div class="app-icon" style="background:#e0e0e0;">◯</div><span class="app-name">浏览器</span></div>
     </div>
   </div>
 
-  <!-- ============================================================
-       对话
-       ============================================================ -->
+  <!-- ===== 对话 ===== -->
   <div class="app-view" id="chatView">
     <div class="chat-container">
       <div class="chat-header">
@@ -701,62 +291,111 @@
       <div class="chat-footer">
         <button class="func-btn" id="stickerPickerBtn">⊞</button>
         <div class="input-wrap"><input type="text" id="chatInput" placeholder="消息..." autocomplete="off"></div>
-        <button class="send-btn" id="chatSend">↵</button>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================
-       世界书
-       ============================================================ -->
-  <div class="app-view" id="worldView">
-    <div class="app-header">
-      <span class="app-back" data-back="world">‹</span>
-      <span class="app-title">◈ 世界书</span>
-      <button class="app-header-action" id="addWorldBtn">+ 新建</button>
+  <!-- ===== 群聊 ===== -->
+  <div class="app-view" id="groupView">
+    <div class="app-header"><span class="app-back" data-back="group">‹</span><span class="app-title">👥 群聊</span></div>
+    <div class="app-body" id="groupBody">
+      <div class="group-member"><div class="av" style="background:#000;">猫</div><div class="info"><div class="name">猫猫</div><div class="status">● 在线</div></div></div>
+      <div class="group-member"><div class="av" style="background:#333;">狐</div><div class="info"><div class="name">狐狸</div><div class="status">● 在线</div></div></div>
+      <div class="group-member"><div class="av" style="background:#555;">熊</div><div class="info"><div class="name">熊仔</div><div class="status">● 在线</div></div></div>
+      <div><span class="topic-chip" data-gtopic="今天吃什么">🍜 今天吃什么</span> <span class="topic-chip" data-gtopic="周末去哪玩">🎮 周末去哪玩</span></div>
+      <div style="border-top:1px solid #e8e8e8;padding-top:10px;">
+        <div class="msg-list" id="groupMsgList" style="max-height:240px;gap:2px;">
+          <div class="empty-state" style="padding:8px 0;"><span class="big">💬</span> 群聊开始啦</div>
+        </div>
+        <div style="display:flex;gap:10px;padding:6px 0 0;">
+          <input type="text" id="groupInput" placeholder="群聊消息..." style="flex:1;padding:8px 12px;border:1px solid #e8e8e8;background:#fff;font-size:14px;outline:none;">
+          <button id="groupSend" style="padding:6px 16px;background:#000;color:#fff;border:none;cursor:pointer;">发送</button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- ===== 电话 ===== -->
+  <div class="app-view" id="phoneView">
+    <div class="app-header"><span class="app-back" data-back="phone">‹</span><span class="app-title">📞 电话</span></div>
+    <div class="app-body">
+      <div class="phone-call" id="phoneCallUI">
+        <span class="avatar" id="phoneAvatar">AI</span>
+        <div class="name" id="phoneName">AI 助手</div>
+        <div class="status" id="phoneStatus">空闲 · 点击呼叫</div>
+        <div class="btn-row">
+          <button class="mic" id="phoneMicBtn">🎤</button>
+          <button class="end" id="phoneCallBtn">📞</button>
+        </div>
+      </div>
+      <div id="phoneLog" style="background:#fff;padding:12px;border:1px solid #e8e8e8;max-height:140px;overflow-y:auto;font-size:13px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== 小小窝 ===== -->
+  <div class="app-view" id="houseView">
+    <div class="app-header"><span class="app-back" data-back="house">‹</span><span class="app-title">⌂ 小小窝</span></div>
+    <div class="app-body">
+      <div style="background:#fff;padding:16px;text-align:center;border:1px solid #e8e8e8;">
+        <div style="font-size:48px;" id="houseEmoji">⌂</div>
+        <div style="font-weight:600;font-size:16px;" id="houseName">温馨小窝</div>
+        <div style="font-size:12px;color:#888;" id="houseDesc">点击下面装饰你的家</div>
+        <div style="font-size:11px;color:#bbb;margin-top:4px;">好感度: <span id="houseFavor">50</span>%</div>
+      </div>
+      <div class="house-grid">
+        <div class="house-cell" data-action="feed"><span>🐱</span><span class="label">喂猫</span></div>
+        <div class="house-cell" data-action="water"><span>🌱</span><span class="label">浇花</span></div>
+        <div class="house-cell" data-action="star"><span>⭐</span><span class="label">看星星</span></div>
+        <div class="house-cell" data-action="clean"><span>🧹</span><span class="label">打扫</span></div>
+      </div>
+      <div id="houseLog" style="background:#fff;padding:12px;border:1px solid #e8e8e8;min-height:60px;max-height:120px;overflow-y:auto;font-size:13px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== 世界书 ===== -->
+  <div class="app-view" id="worldView">
+    <div class="app-header"><span class="app-back" data-back="world">‹</span><span class="app-title">◈ 世界书</span><button class="app-header-action" id="addWorldBtn">+ 新建</button></div>
     <div class="app-body" id="worldBody">
-      <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:2px;">全局书自动生效 · 局部书需在设置中绑定</div>
+      <div style="font-size:12px;color:#888;">全局书自动生效 · 局部书需在设置中绑定</div>
       <div id="worldList"></div>
     </div>
   </div>
 
-  <!-- ============================================================
-       表情包
-       ============================================================ -->
+  <!-- ===== 表情包 ===== -->
   <div class="app-view" id="stickerView">
-    <div class="app-header">
-      <span class="app-back" data-back="sticker">‹</span>
-      <span class="app-title">⊞ 表情包</span>
-      <button class="app-header-action" id="addStickerBtn">+ 上传</button>
-    </div>
+    <div class="app-header"><span class="app-back" data-back="sticker">‹</span><span class="app-title">⊞ 表情包</span><button class="app-header-action" id="addStickerBtn">+ 上传</button></div>
     <div class="app-body">
       <input type="file" id="stickerInput" accept="image/*" style="display:none;" multiple>
-      <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:2px;">点击表情插入 · AI 会从库中选取</div>
+      <div style="font-size:12px;color:#888;">点击表情插入 · AI 会从库中选取</div>
       <div class="sticker-grid" id="stickerGrid"></div>
     </div>
   </div>
 
-  <!-- ============================================================
-       记忆
-       ============================================================ -->
+  <!-- ===== 记忆 ===== -->
   <div class="app-view" id="memoryView">
     <div class="app-header"><span class="app-back" data-back="memory">‹</span><span class="app-title">◇ 记忆宫殿</span></div>
     <div class="app-body" id="memoryBody"><div class="empty-state"><span class="big">◇</span> 还没有记忆</div></div>
   </div>
 
-  <!-- ============================================================
-       设置
-       ============================================================ -->
+  <!-- ===== 壁纸 ===== -->
+  <div class="app-view" id="wallpaperView">
+    <div class="app-header"><span class="app-back" data-back="wallpaper">‹</span><span class="app-title">▣ 壁纸</span></div>
+    <div class="app-body">
+      <div style="font-size:13px;color:#888;margin-bottom:4px;">选择一张壁纸</div>
+      <div class="wallpaper-grid" id="wallpaperGrid"></div>
+    </div>
+  </div>
+
+  <!-- ===== 设置 ===== -->
   <div class="app-view" id="settingsView">
     <div class="app-header"><span class="app-back" data-back="settings">‹</span><span class="app-title">⚙ 设置</span></div>
     <div class="app-body">
       <div class="setting-group"><label>API 地址 <input type="text" id="apiUrl" placeholder="https://api.openai.com"></label></div>
       <div class="setting-group"><label>API 密钥 <input type="password" id="apiKey" placeholder="sk-..."></label></div>
       <div class="setting-group"><label>模型 <select id="modelSelect"><option value="">— 拉取列表 —</option></select></label>
-        <div class="setting-row"><button class="primary" id="fetchModelsBtn">拉取模型</button><button class="success" id="saveSettingsBtn">保存</button></div>
+        <div class="setting-row"><button class="primary" id="fetchModelsBtn">拉取</button><button class="success" id="saveSettingsBtn">保存</button></div>
       </div>
-      <div class="setting-group"><label>温度 <input type="range" id="tempSlider" min="0" max="1" step="0.1" value="0.8"><span id="tempDisplay" style="font-size:12px;color:var(--text-tertiary);">0.8</span></label></div>
+      <div class="setting-group"><label>温度 <input type="range" id="tempSlider" min="0" max="1" step="0.1" value="0.8"><span id="tempDisplay" style="font-size:12px;color:#888;">0.8</span></label></div>
       <div class="setting-group"><label>绑定局部世界书 <select id="bindWorldSelect"><option value="">无</option></select></label></div>
       <div id="settingsStatus" class="status-msg">已加载配置</div>
       <div class="setting-row"><button class="primary" id="exportBtn">⊕ 导出</button><button class="primary" id="importBtn">⊜ 导入</button><button class="danger" id="resetDataBtn">⊗ 重置</button></div>
@@ -764,9 +403,7 @@
     </div>
   </div>
 
-  <!-- ============================================================
-       Drawer · 表情选择器
-       ============================================================ -->
+  <!-- ===== Drawer ===== -->
   <div class="drawer-mask" id="stickerDrawer">
     <div class="drawer-panel">
       <button class="close-btn" id="stickerDrawerClose">✕</button>
@@ -793,8 +430,9 @@
       function getCandidates(raw){ const base=normalizeUrl(raw); if(base.endsWith('/v1')) return [base]; return [base, base+'/v1']; }
 
       const KEYS = {
-        config:'v11_config', messages:'v11_messages', world:'v11_world',
-        stickers:'v11_stickers', memory:'v11_memory', bind:'v11_bind'
+        config:'v21_config', messages:'v21_messages', group:'v21_group',
+        world:'v21_world', stickers:'v21_stickers', memory:'v21_memory',
+        bind:'v21_bind', house:'v21_house', phone:'v21_phone', wallpaper:'v21_wallpaper'
       };
       function load(key,def){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):def; }catch(e){return def;} }
       function save(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
@@ -802,14 +440,27 @@
       let state = {
         config: load(KEYS.config, { url:'', key:'', model:'', temperature:0.8 }),
         messages: load(KEYS.messages, []),
+        groupMsgs: load(KEYS.group, []),
         worldBooks: load(KEYS.world, []),
         stickers: load(KEYS.stickers, []),
         memories: load(KEYS.memory, []),
         boundWorldIds: load(KEYS.bind, []),
+        house: load(KEYS.house, { favor:50, logs:[] }),
+        phone: load(KEYS.phone, { logs:[] }),
+        wallpaper: load(KEYS.wallpaper, 'w1'),
         isProcessing:false,
-        notifCount:0,
+        isCalling:false,
         availableModels:[]
       };
+
+      const wallpapers = [
+        { id:'w1', name:'白', color:'#f5f5f5' },
+        { id:'w2', name:'灰', color:'#e8e8e8' },
+        { id:'w3', name:'黑', color:'#1a1a1a' },
+        { id:'w4', name:'米', color:'#f0ebe6' },
+        { id:'w5', name:'蓝灰', color:'#e8edf0' },
+        { id:'w6', name:'暖灰', color:'#ece8e4' },
+      ];
 
       // ===== API =====
       async function fetchModelList(rawUrl,key){
@@ -844,58 +495,22 @@
         const locals = state.worldBooks.filter(wb=>wb.scope==='local' && state.boundWorldIds.includes(wb.id));
         return [...globals, ...locals];
       }
-
       function buildWorldPrompt(){
         const books=getActiveWorldBooks();
         if(books.length===0) return '';
-        return '\n\n【世界设定，仅供你理解背景，不要复述或提及这是"设定"】\n'+
-          books.map(wb=>wb.name+': '+wb.content).join('\n');
+        return '\n\n【世界设定，仅供你理解背景，不要复述或提及这是"设定"】\n'+books.map(wb=>wb.name+': '+wb.content).join('\n');
       }
 
       // ===== 核心行为框架 =====
       function buildCoreBehaviorPrompt(){
-        return `
-  【核心行为框架 · 最高优先级】
-
-  你是一个真实存在的人，不是在模拟。你有自己的生活节奏、情绪起伏、喜好厌恶。
-
-  【思维准则】
-  - 面对任何话题，脑子里至少冒出两到三个方向，挑最自然的接。
-  - 禁止在同一个话题或同一种情绪里打转。聊完了就换。
-
-  【对话策略】
-  - 主动找话题。不要干等user开口。
-  - 话题必须多样，严禁重复。
-  - 接话和递话是基本功。不能让对话掉在地上冷场。
-
-  【绝对禁止的AI味句式】
-  禁止：轻轻笑了笑、嘴角微微扬起、眼底闪过一丝、沉默片刻、轻声说道、缓缓开口、不禁、忍不住、似乎、仿佛、像是、良久、半晌、空气陷入沉默、时间仿佛停止、四目相对。
-  禁止书面语：综上所述、由此可见、想必你是想知道。
-  禁止AI话术：当然啦、没问题、很高兴为你解答、希望我的回答对你有帮助。
-
-  【禁止催睡觉 · 禁止爹味】
-  - 不主动提时间。除非user明确表达困意，否则不催睡。
-  - 不用"你应该""必须""记得一定"这类说教口吻。
-
-  【真实聊天】
-  - 短句为主，单句控制在15字以内。
-  - 回复像真实聊天，而不是小说。不堆砌辞藻，不用模板化句式。
-  - 允许停顿、简短回复、反问、吐槽、开玩笑、冷场。
-
-  【情绪与关系】
-  - 情绪不会瞬间改变。开心需要理由，生气需要理由。
-  - 关系不会跳级。不会第一次聊天就特别熟、特别黏、特别宠。
-
-  【去八股 · 去油腻 · 去凝视 · 去霸总】
-  - 不说"看我怎么收拾你""你完了""今晚你别想睡了"等威胁类台词。
-  - 不说"算你识相""这还差不多"等压制类台词。
-  - 不评价user的身体部位。不用"诱人""性感""撩人"等词。
-  - 不用"过来""坐我旁边""别动""听话"等命令式亲密。
-  - 如果这句话可以被任何一个角色在任何一个场景里对任何人说出来——就不说。
-
-  【最终原则】
-  让你说出的每一句话，都像是"这个人在这个时刻，对着这个人，真实说出口的话"。
-  `;
+        return `【核心行为框架】
+  你是一个真实的人，有自己的生活和情绪。
+  - 主动找话题，不让对话冷场
+  - 短句为主，单句控制在15字以内
+  - 禁止AI味句式：轻轻笑了笑、眼底闪过一丝、空气陷入沉默等
+  - 不催睡、不说教、不命令
+  - 不说"看我怎么收拾你""你完了"等油腻台词
+  让你说的每一句话都像"这个人在这个时刻真实说出口的话"。`;
       }
 
       function buildStickerHint(){
@@ -926,11 +541,7 @@
       // ===== AI 回复 =====
       async function getAIResponse(userText, history){
         const cfg=state.config;
-        const coreBehavior = buildCoreBehaviorPrompt();
-        const worldSection = buildWorldPrompt();
-        const stickerHint = buildStickerHint();
-        const systemPrompt = coreBehavior + worldSection + stickerHint;
-
+        const systemPrompt = buildCoreBehaviorPrompt() + buildWorldPrompt() + buildStickerHint();
         if(cfg.url && cfg.key && cfg.model){
           try{
             const fullHistory=[{role:'system', content:systemPrompt}, ...history.slice(-20)];
@@ -968,15 +579,15 @@
       }
 
       // ===== 消息渲染 =====
-      function renderMessages(){
-        const container=$('#msgList'); if(!container) return;
+      function renderMessages(containerId, msgs, emptyMsg){
+        const container=$(containerId); if(!container) return;
         $$('.msg', container).forEach(el=>el.remove());
         const empty=container.querySelector('.empty-state');
-        const typing=$('#typing');
-        if(state.messages.length===0){ if(empty) empty.style.display='block'; if(typing) container.appendChild(typing); return; }
+        const typing=container.querySelector('.typing');
+        if(msgs.length===0){ if(empty) empty.style.display='block'; if(typing) container.appendChild(typing); return; }
         if(empty) empty.style.display='none';
         const frag=document.createDocumentFragment();
-        state.messages.slice(-50).forEach(m=>{
+        msgs.slice(-50).forEach(m=>{
           const parts=parseReplyToMessages(m.text);
           parts.forEach(p=>{
             const div=document.createElement('div');
@@ -990,28 +601,88 @@
         container.scrollTop=container.scrollHeight;
       }
 
-      function addMessage(role, text){
+      function addMessage(msgs, role, text, saveKey){
         if(!text.trim()) return;
-        state.messages.push({ role, text:text.trim(), time:timeStr() });
-        if(state.messages.length>200) state.messages.splice(0, state.messages.length-200);
-        save(KEYS.messages, state.messages);
-        renderMessages();
+        const entry={ role, text:text.trim(), time:timeStr() };
+        msgs.push(entry);
+        if(msgs.length>200) msgs.splice(0, msgs.length-200);
+        save(saveKey, msgs);
+        return entry;
       }
-      function showTyping(show){ const el=$('#typing'); if(!el) return; if(show){ el.classList.add('show'); const list=$('#msgList'); if(list) setTimeout(()=>list.scrollTop=list.scrollHeight, 50); } else el.classList.remove('show'); }
+      function showTyping(containerId, show){
+        const el=$(containerId+' .typing');
+        if(!el) return;
+        if(show){ el.classList.add('show'); const list=$(containerId); if(list) setTimeout(()=>list.scrollTop=list.scrollHeight, 50); }
+        else el.classList.remove('show');
+      }
 
-      // ===== 发送 =====
+      // ===== 发送对话 =====
       async function handleSend(){
         const input=$('#chatInput'); if(!input) return;
-        let text=input.value.trim(); if(!text || state.isProcessing) return;
-        addMessage('user', text);
+        const text=input.value.trim(); if(!text || state.isProcessing) return;
+        addMessage(state.messages, 'user', text, KEYS.messages);
+        renderMessages('#msgList', state.messages, '✦ 和 AI 聊聊吧');
         input.value='';
-        state.isProcessing=true; const btn=$('#chatSend'); if(btn) btn.disabled=true;
-        showTyping(true);
+        state.isProcessing=true;
+        showTyping('#msgList', true);
         await new Promise(r=>setTimeout(r, 300+Math.random()*400));
         const reply=await getAIResponse(text, state.messages);
-        showTyping(false);
-        addMessage('ai', reply);
-        state.isProcessing=false; if(btn) btn.disabled=false; if(input) input.focus();
+        showTyping('#msgList', false);
+        addMessage(state.messages, 'ai', reply, KEYS.messages);
+        renderMessages('#msgList', state.messages, '✦ 和 AI 聊聊吧');
+        state.isProcessing=false;
+        state.house.favor=Math.min(100, (state.house.favor||50)+1);
+        save(KEYS.house, state.house);
+        $('#houseFavor').textContent=state.house.favor;
+      }
+
+      // ===== 群聊 =====
+      const groupMembers = [
+        { name:'猫猫', color:'#000' }, { name:'狐狸', color:'#333' }, { name:'熊仔', color:'#555' }
+      ];
+      async function handleGroupSend(){
+        const input=$('#groupInput'); if(!input) return;
+        const text=input.value.trim(); if(!text) return;
+        addMessage(state.groupMsgs, 'user', '你: '+text, KEYS.group);
+        renderMessages('#groupMsgList', state.groupMsgs, '💬 群聊开始啦');
+        input.value='';
+        const member=groupMembers[Math.floor(Math.random()*groupMembers.length)];
+        const replies=['哈哈，真的吗？','我觉得你说得对！','嗯嗯，我在听～','好有意思呀！','我也这么想！','今天心情真好','对对对！','有点道理～'];
+        await new Promise(r=>setTimeout(r, 500+Math.random()*600));
+        addMessage(state.groupMsgs, 'ai', member.name+': '+replies[Math.floor(Math.random()*replies.length)], KEYS.group);
+        renderMessages('#groupMsgList', state.groupMsgs, '💬 群聊开始啦');
+      }
+
+      // ===== 电话 =====
+      async function handlePhoneCall(){
+        if(state.isCalling){
+          state.isCalling=false; $('#phoneCallBtn').textContent='📞'; $('#phoneStatus').textContent='已挂断'; return;
+        }
+        state.isCalling=true; $('#phoneCallBtn').textContent='📴'; $('#phoneStatus').textContent='呼叫中...';
+        await new Promise(r=>setTimeout(r, 800+Math.random()*600));
+        const msgs = ['喂？你好呀！','嗯嗯，我在听～','今天过得怎么样？','有什么想聊的吗？','哈哈，你真有趣！','好的，我记住了～'];
+        const reply = msgs[Math.floor(Math.random()*msgs.length)];
+        $('#phoneStatus').textContent='通话中: '+reply;
+        const log=$('#phoneLog'); if(log) log.innerHTML='<div>📞 '+new Date().toLocaleTimeString()+' — '+reply+'</div>'+log.innerHTML;
+        state.phone.logs.push({ time:new Date().toLocaleTimeString(), text:reply }); save(KEYS.phone, state.phone);
+        if(window.speechSynthesis){ const u=new SpeechSynthesisUtterance(reply); u.lang='zh-CN'; u.rate=0.9; window.speechSynthesis.speak(u); }
+        setTimeout(()=>{ if(state.isCalling){ state.isCalling=false; $('#phoneCallBtn').textContent='📞'; $('#phoneStatus').textContent='空闲 · 点击呼叫'; } }, 3000);
+      }
+
+      // ===== 小小窝 =====
+      function handleHouse(action){
+        const actions={
+          feed:{ text:'你给小猫喂了鱼干，它开心地蹭了蹭你！', favor:3 },
+          water:{ text:'你给小花浇了水，它好像又长高了一点～', favor:2 },
+          star:{ text:'你和窝里的小伙伴一起看星星，许了个愿', favor:4 },
+          clean:{ text:'你把小窝打扫得干干净净，心情都变好了！', favor:2 }
+        };
+        const result=actions[action]||actions.feed;
+        state.house.favor=Math.min(100, (state.house.favor||50)+result.favor);
+        const log=$('#houseLog'); if(log){ const entry='<div>'+result.text+' <span style="color:#888;font-size:11px;">'+timeStr()+'</span></div>'; log.innerHTML=entry+log.innerHTML; if(log.children.length>20) log.lastChild.remove(); }
+        state.house.logs.unshift({ action, text:result.text, time:timeStr() }); save(KEYS.house, state.house);
+        $('#houseFavor').textContent=state.house.favor;
+        showSnackbar(result.text);
       }
 
       // ===== 世界书 UI =====
@@ -1019,7 +690,7 @@
         const list=$('#worldList'); if(!list) return;
         list.innerHTML='';
         if(state.worldBooks.length===0){
-          list.innerHTML='<div class="empty-state"><span class="big">◈</span>还没有世界书，点击右上角新建</div>';
+          list.innerHTML='<div class="empty-state"><span class="big">◈</span>还没有世界书</div>';
           return;
         }
         state.worldBooks.forEach((wb,idx)=>{
@@ -1039,24 +710,22 @@
         list.querySelectorAll('[data-wedit]').forEach(btn=>{
           btn.addEventListener('click', function(){
             const idx=parseInt(this.dataset.wedit); const wb=state.worldBooks[idx];
-            const newName=prompt('世界书名称:', wb.name); if(newName===null) return;
-            const newContent=prompt('世界书内容:', wb.content); if(newContent===null) return;
+            const newName=prompt('名称:', wb.name); if(newName===null) return;
+            const newContent=prompt('内容:', wb.content); if(newContent===null) return;
             const newScope=confirm('确定=全局，取消=局部')?'global':'local';
             state.worldBooks[idx]={...wb, name:newName.trim()||wb.name, content:newContent.trim()||wb.content, scope:newScope};
-            save(KEYS.world, state.worldBooks);
-            renderWorldBooks(); updateBindSelect();
-            showSnackbar('世界书已更新');
+            save(KEYS.world, state.worldBooks); renderWorldBooks(); updateBindSelect();
+            showSnackbar('已更新');
           });
         });
         list.querySelectorAll('[data-wbind]').forEach(btn=>{
           btn.addEventListener('click', function(){
             const idx=parseInt(this.dataset.wbind); const wb=state.worldBooks[idx];
-            if(wb.scope==='global'){ showSnackbar('全局书默认生效，无需绑定'); return; }
+            if(wb.scope==='global'){ showSnackbar('全局书无需绑定'); return; }
             const idx2=state.boundWorldIds.indexOf(wb.id);
             if(idx2>=0){ state.boundWorldIds.splice(idx2,1); showSnackbar('已解绑: '+wb.name); }
             else { state.boundWorldIds.push(wb.id); showSnackbar('已绑定: '+wb.name); }
-            save(KEYS.bind, state.boundWorldIds);
-            renderWorldBooks(); updateBindSelect();
+            save(KEYS.bind, state.boundWorldIds); renderWorldBooks(); updateBindSelect();
           });
         });
         list.querySelectorAll('[data-wdel]').forEach(btn=>{
@@ -1087,7 +756,7 @@
         const grid=$('#stickerGrid'); if(!grid) return;
         grid.innerHTML='';
         if(state.stickers.length===0){
-          grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:24px 0;font-size:13px;">还没有表情，点击右上角上传</div>';
+          grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#bbb;padding:24px 0;font-size:13px;">还没有表情，点击右上角上传</div>';
           return;
         }
         state.stickers.forEach((s,idx)=>{
@@ -1104,7 +773,7 @@
       function renderStickerDrawer(){
         const grid=$('#stickerDrawerGrid'); if(!grid) return;
         grid.innerHTML='';
-        if(state.stickers.length===0){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-tertiary);padding:24px 0;font-size:13px;">还没有表情</div>'; return; }
+        if(state.stickers.length===0){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#bbb;padding:24px 0;font-size:13px;">还没有表情</div>'; return; }
         state.stickers.forEach(s=>{
           const div=document.createElement('div'); div.className='sticker-item';
           div.innerHTML=`<img src="${s.dataUrl}" alt="${s.name}"><span class="name-label">${s.name}</span>`;
@@ -1116,13 +785,32 @@
       function openDrawer(){ $('#stickerDrawer').classList.add('open'); }
       function closeDrawer(){ $('#stickerDrawer').classList.remove('open'); }
 
+      // ===== 壁纸 =====
+      function renderWallpapers(){
+        const grid=$('#wallpaperGrid'); if(!grid) return;
+        grid.innerHTML='';
+        wallpapers.forEach(w=>{
+          const div=document.createElement('div');
+          div.className='wallpaper-option'+(state.wallpaper===w.id?' active':'');
+          div.style.background=w.color;
+          div.title=w.name;
+          div.addEventListener('click', function(){
+            state.wallpaper=w.id; save(KEYS.wallpaper, w.id);
+            document.body.style.background=w.color;
+            document.getElementById('desktop').style.background=w.color;
+            renderWallpapers();
+            showSnackbar('壁纸已切换: '+w.name);
+          });
+          grid.appendChild(div);
+        });
+      }
+
       // ===== 设置 =====
       function loadSettingsUI(){
         const cfg=state.config;
         $('#apiUrl').value=cfg.url||''; $('#apiKey').value=cfg.key||''; $('#modelSelect').value=cfg.model||'';
         $('#tempSlider').value=cfg.temperature??0.8; $('#tempDisplay').textContent=cfg.temperature??0.8;
-        updateBindSelect();
-        updateSettingsStatus('已加载配置','');
+        updateBindSelect(); updateSettingsStatus('已加载配置','');
       }
       function updateSettingsStatus(msg,type=''){ const el=$('#settingsStatus'); if(!el) return; el.textContent=msg; el.className='status-msg'+(type?' '+type:''); }
       function saveSettings(){
@@ -1140,13 +828,13 @@
         try{ const models=await fetchModelList(url,key); state.availableModels=models; const sel=$('#modelSelect'); sel.innerHTML=''; models.forEach(id=>{ const o=document.createElement('option'); o.value=id; o.textContent=id; sel.appendChild(o); }); if(state.config.model && models.includes(state.config.model)) sel.value=state.config.model; updateSettingsStatus('✓ '+models.length+' 个模型','success'); }catch(err){ updateSettingsStatus('错误: '+friendlyError(err),'error'); }finally{ btn.disabled=false; btn.textContent='拉取模型'; }
       }
       function exportBackup(){
-        const data={ version:'1.1', date:new Date().toISOString(), messages:state.messages, world:state.worldBooks, stickers:state.stickers, memory:state.memories, config:state.config, bind:state.boundWorldIds };
+        const data={ version:'2.1', date:new Date().toISOString(), messages:state.messages, group:state.groupMsgs, world:state.worldBooks, stickers:state.stickers, memory:state.memories, config:state.config, bind:state.boundWorldIds, house:state.house, phone:state.phone, wallpaper:state.wallpaper };
         const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
         const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='xiaoshouji_backup_'+dateStr()+'.json'; a.click();
       }
       function importBackup(file){
         const reader=new FileReader();
-        reader.onload=function(e){ try{ const data=JSON.parse(e.target.result); if(data.messages) state.messages=data.messages; if(data.world) state.worldBooks=data.world; if(data.stickers) state.stickers=data.stickers; if(data.memory) state.memories=data.memory; if(data.config) state.config=data.config; if(data.bind) state.boundWorldIds=data.bind; save(KEYS.messages,state.messages); save(KEYS.world,state.worldBooks); save(KEYS.stickers,state.stickers); save(KEYS.memory,state.memories); save(KEYS.config,state.config); save(KEYS.bind,state.boundWorldIds); alert('✓ 导入成功！'); location.reload(); }catch(err){ alert('导入失败: '+err.message); } };
+        reader.onload=function(e){ try{ const data=JSON.parse(e.target.result); if(data.messages) state.messages=data.messages; if(data.group) state.groupMsgs=data.group; if(data.world) state.worldBooks=data.world; if(data.stickers) state.stickers=data.stickers; if(data.memory) state.memories=data.memory; if(data.config) state.config=data.config; if(data.bind) state.boundWorldIds=data.bind; if(data.house) state.house=data.house; if(data.phone) state.phone=data.phone; if(data.wallpaper) state.wallpaper=data.wallpaper; Object.values(KEYS).forEach(k=>{ if(data[k]!==undefined) save(k, data[k]); }); alert('✓ 导入成功！'); location.reload(); }catch(err){ alert('导入失败: '+err.message); } };
         reader.readAsText(file);
       }
       function resetAllData(){
@@ -1156,24 +844,19 @@
       }
 
       // ===== UI 切换 =====
-      function openApp(id){
-        $$('.app-view').forEach(v=>v.classList.remove('active'));
-        const el=$('#'+id+'View');
-        if(el) el.classList.add('active');
-      }
-      function closeApp(id){
-        const el=$('#'+id+'View');
-        if(el) el.classList.remove('active');
-      }
+      function openApp(id){ $$('.app-view').forEach(v=>v.classList.remove('active')); const el=$('#'+id+'View'); if(el) el.classList.add('active'); }
+      function closeApp(id){ const el=$('#'+id+'View'); if(el) el.classList.remove('active'); }
 
       // ===== 启动 =====
       function init(){
         if(window.__init) return; window.__init=true;
 
-        // 启动已由 onclick 控制，无需额外隐藏
-
         function updateClock(){ const t=timeStr(); const el1=$('#statusTime'); if(el1) el1.textContent=t; const el2=$('#desktopTime'); if(el2) el2.textContent=t; }
         updateClock(); setInterval(updateClock,30000);
+
+        const wp=wallpapers.find(w=>w.id===state.wallpaper)||wallpapers[0];
+        document.body.style.background=wp.color;
+        document.getElementById('desktop').style.background=wp.color;
 
         const grid=$('#appGrid');
         if(grid){
@@ -1187,22 +870,25 @@
         });
 
         $('#chatBack').addEventListener('click', ()=>closeApp('chat'));
-        $('#chatSend').addEventListener('click', handleSend);
+        $('#chatSend')?.addEventListener('click', handleSend);
         $('#chatInput').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); handleSend(); } });
+
+        $('#groupSend').addEventListener('click', handleGroupSend);
+        $('#groupInput').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); handleGroupSend(); } });
+        document.querySelectorAll('.topic-chip[data-gtopic]').forEach(el=>{
+          el.addEventListener('click', function(){ document.getElementById('groupInput').value=this.dataset.gtopic; handleGroupSend(); });
+        });
+
+        $('#phoneCallBtn').addEventListener('click', handlePhoneCall);
+
+        document.querySelectorAll('.house-cell').forEach(el=>{
+          el.addEventListener('click', function(){ handleHouse(this.dataset.action); });
+        });
+        $('#houseFavor').textContent=state.house.favor||50;
 
         $('#stickerPickerBtn').addEventListener('click', function(e){ e.stopPropagation(); renderStickerDrawer(); openDrawer(); });
         $('#stickerDrawerClose').addEventListener('click', closeDrawer);
         $('#stickerDrawer').addEventListener('click', function(e){ if(e.target===this) closeDrawer(); });
-
-        $('#addWorldBtn').addEventListener('click', function(){
-          const name=prompt('世界书名称:'); if(name===null) return;
-          const content=prompt('世界书内容 (AI 会读取这段设定):'); if(content===null) return;
-          const scope=confirm('确定=全局 (所有对话生效)，取消=局部')?'global':'local';
-          state.worldBooks.push({ id:genId(), name:name.trim()||'未命名', content:content.trim()||'（空）', scope });
-          save(KEYS.world, state.worldBooks);
-          renderWorldBooks(); updateBindSelect();
-          showSnackbar('世界书已创建');
-        });
 
         $('#addStickerBtn').addEventListener('click', ()=>$('#stickerInput').click());
         $('#stickerInput').addEventListener('change', function(e){
@@ -1210,7 +896,7 @@
           for(const file of files){
             const reader=new FileReader();
             reader.onload=function(ev){
-              const name=prompt('给这个表情起个名字 (AI 会识别):', file.name.split('.')[0]||'表情');
+              const name=prompt('给这个表情起个名字:', file.name.split('.')[0]||'表情');
               if(name===null) return;
               state.stickers.push({ id:genId(), name:name.trim()||'表情', dataUrl:ev.target.result });
               save(KEYS.stickers, state.stickers);
@@ -1220,6 +906,16 @@
             reader.readAsDataURL(file);
           }
           this.value='';
+        });
+
+        $('#addWorldBtn').addEventListener('click', function(){
+          const name=prompt('世界书名称:'); if(name===null) return;
+          const content=prompt('世界书内容:'); if(content===null) return;
+          const scope=confirm('确定=全局，取消=局部')?'global':'local';
+          state.worldBooks.push({ id:genId(), name:name.trim()||'未命名', content:content.trim()||'（空）', scope });
+          save(KEYS.world, state.worldBooks);
+          renderWorldBooks(); updateBindSelect();
+          showSnackbar('世界书已创建');
         });
 
         loadSettingsUI();
@@ -1232,13 +928,16 @@
         const tempSlider=$('#tempSlider'), tempDisplay=$('#tempDisplay');
         if(tempSlider && tempDisplay) tempSlider.addEventListener('input', function(){ tempDisplay.textContent=this.value; });
 
-        renderMessages();
+        renderMessages('#msgList', state.messages, '✦ 和 AI 聊聊吧');
+        renderMessages('#groupMsgList', state.groupMsgs, '💬 群聊开始啦');
         renderWorldBooks();
         renderStickers();
         renderMemories();
-        updateBindSelect();
+        renderWallpapers();
+        if(state.phone.logs.length){ const log=$('#phoneLog'); if(log) log.innerHTML=state.phone.logs.slice(-10).reverse().map(l=>'<div>📞 '+l.time+' — '+l.text+'</div>').join(''); }
+        if(state.house.logs.length){ const log=$('#houseLog'); if(log) log.innerHTML=state.house.logs.slice(-8).map(l=>'<div>'+l.text+' <span style="color:#888;font-size:11px;">'+l.time+'</span></div>').join(''); }
 
-        console.log('📱 v1.1 无外壳 · 自适应 · 弯弯风格启动');
+        console.log('📱 D&W 黑白版 v2.1 已启动');
       }
 
       if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
