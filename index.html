@@ -1,1785 +1,1618 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XP 复古 AI 手机 · 完整版</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>小手机 · 朋克版</title>
     <style>
-        /* ===== 全局复古风格 ===== */
+        /* ============================================================
+           摇滚朋克 · 暗黑粗粝风格
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none;
+            font-family: 'Impact', 'Arial Black', system-ui, -apple-system, sans-serif;
+            letter-spacing: 0.02em;
         }
+
         body {
-            font-family: 'Courier New', 'Times New Roman', monospace;
-            background: #1a1a2e;
+            background: #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .phone {
-            width: 375px;
-            height: 780px;
-            background: #2a2a2a;
-            border-radius: 44px;
             padding: 12px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 2px #444 inset;
+        }
+
+        .phone-frame {
+            width: 100%;
+            max-width: 420px;
+            height: 780px;
+            background: #121212;
+            border-radius: 8px;      /* 小圆角，更硬 */
+            padding: 12px 8px 16px;
+            box-shadow: 0 0 0 2px #e74c3c, 0 0 0 4px #121212, 0 8px 32px rgba(0,0,0,0.9);
             position: relative;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
+            overflow: hidden;
+            border: 2px solid #e74c3c;
         }
-        .phone:hover {
-            transform: translateY(-6px);
-        }
-        .phone::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border: 2px solid #555;
-            border-radius: 48px;
-            pointer-events: none;
-        }
-        .screen {
+
+        .phone-screen {
             width: 100%;
             height: 100%;
-            background: #3A6EA5;
-            border-radius: 34px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            border: 2px solid #0a2a4a;
-        }
-        .desktop {
-            flex: 1;
-            background: #3A6EA5;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-        }
-        .desktop::before {
-            content: '';
-            position: absolute;
-            top: 40px;
-            right: 20px;
-            width: 80px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 80px 80px 0 0;
-            transform: rotate(-10deg);
-            z-index: 0;
-        }
-        .desktop::after {
-            content: '';
-            position: absolute;
-            bottom: 80px;
-            left: 30px;
-            width: 120px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 60px 60px 0 0;
-            transform: rotate(5deg);
-            z-index: 0;
-        }
-        .window {
-            flex: 1;
-            background: #ECE9D8;
-            border: 2px solid #0054E3;
-            border-radius: 0;
-            margin: 8px 10px 8px 10px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 5;
-            overflow: hidden;
-        }
-        .window-titlebar {
-            background: linear-gradient(90deg, #0054E3, #4D8DFF);
-            color: #fff;
-            padding: 4px 8px 4px 6px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: bold;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0;
-            min-height: 28px;
-        }
-        .window-titlebar .title-text {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex: 1;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        .window-titlebar .title-text i {
-            font-size: 14px;
-            margin-right: 4px;
-        }
-        .window-titlebar .window-controls {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-        .window-titlebar .window-controls span {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: #ECE9D8;
-            color: #000;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            border: 1px solid #aaa;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: background 0.1s;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .window-titlebar .window-controls span:hover {
-            background: #e0e0e0;
-        }
-        .window-titlebar .window-controls .close-btn:hover {
-            background: #e81123;
-            color: #fff;
-            border-color: #e81123;
-        }
-        .window-content {
-            flex: 1;
-            background: #ECE9D8;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        /* ===== 聊天室 ===== */
-        .chat-room {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            background: #0a0a0f;
-        }
-        .chat-room .chat-header {
-            background: #1a1a2e;
-            color: #0f0;
-            padding: 4px 10px;
-            font-size: 12px;
-            border-bottom: 1px solid #444;
-            font-family: 'Courier New', monospace;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-            gap: 2px;
-        }
-        .chat-room .chat-header .room-name {
-            color: #0f0;
-            font-weight: bold;
-            font-size: 13px;
-        }
-        .chat-room .chat-header .room-status {
-            color: #aaa;
-            font-size: 11px;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .chat-room .chat-header .room-status .mood {
-            color: #ffaa00;
-        }
-        .chat-room .chat-header .room-status .favor {
-            color: #ff6b6b;
-        }
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 8px 10px;
-            background: #0a0a0f;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: #c0c0c0;
-            scrollbar-width: thin;
-            scrollbar-color: #444 transparent;
-        }
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #444;
+            background: #1a1a1a;
             border-radius: 4px;
-        }
-        .message-timestamp {
-            color: #666;
-            font-size: 10px;
-            padding: 3px 0 2px 0;
-            text-align: center;
-            border-bottom: 1px dashed #333;
-            margin-bottom: 4px;
-        }
-        .message {
+            overflow: hidden;
+            position: relative;
             display: flex;
-            align-items: flex-start;
-            gap: 6px;
-            margin-bottom: 3px;
-            animation: msgIn 0.2s ease-out;
-        }
-        @keyframes msgIn {
-            0% {
-                opacity: 0;
-                transform: translateX(-8px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        .message.received {
-            flex-direction: row;
-        }
-        .message.received .msg-avatar {
-            color: #0f0;
-            font-weight: bold;
-            min-width: 40px;
-            font-size: 12px;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 5px #0f0;
-            word-break: keep-all;
-        }
-        .message.received .msg-bubble {
-            background: #1a1a2e;
-            color: #c0c0c0;
-            padding: 3px 8px;
-            border-left: 2px solid #0f0;
-            word-wrap: break-word;
-            max-width: 78%;
-            line-height: 1.4;
-            font-size: 13px;
-            border-radius: 0;
-        }
-        .message.sent {
-            flex-direction: row-reverse;
-        }
-        .message.sent .msg-avatar {
-            color: #ffaa00;
-            font-weight: bold;
-            min-width: 40px;
-            font-size: 12px;
-            text-align: right;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 5px #ffaa00;
-        }
-        .message.sent .msg-bubble {
-            background: #1a2a1a;
-            color: #c0c0c0;
-            padding: 3px 8px;
-            border-right: 2px solid #ffaa00;
-            word-wrap: break-word;
-            max-width: 78%;
-            line-height: 1.4;
-            font-size: 13px;
-            border-radius: 0;
-        }
-        .message .msg-time {
-            font-size: 9px;
-            color: #666;
-            display: block;
-            margin-top: 1px;
-        }
-        .typing-indicator {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            padding: 3px 10px;
-            color: #0f0;
-            font-size: 12px;
-            font-family: 'Courier New', monospace;
-        }
-        .typing-indicator .typing-avatar {
-            color: #0f0;
-            font-weight: bold;
-        }
-        .typing-indicator .typing-dots span {
-            display: inline-block;
-            width: 5px;
-            height: 5px;
-            background: #0f0;
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: dotBounce 1.4s infinite both;
-        }
-        .typing-indicator .typing-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .typing-indicator .typing-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        @keyframes dotBounce {
-            0%,
-            80%,
-            100% {
-                transform: scale(0.6);
-                opacity: 0.4;
-            }
-            40% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        .chat-input {
-            background: #0a0a0f;
-            padding: 4px 8px 6px 8px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            border-top: 1px solid #333;
-            flex-shrink: 0;
-        }
-        .chat-input .emoji-btn {
-            color: #666;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 3px;
-            transition: color 0.2s;
-        }
-        .chat-input .emoji-btn:hover {
-            color: #0f0;
-        }
-        .chat-input input {
-            flex: 1;
-            border: 2px inset #666;
-            background: #0a0a0f;
-            color: #0f0;
-            padding: 4px 8px;
-            font-size: 13px;
-            font-family: 'Courier New', monospace;
-            outline: none;
-            border-radius: 0;
-            transition: border-color 0.2s;
-        }
-        .chat-input input:focus {
-            border-color: #0f0;
-        }
-        .chat-input input::placeholder {
-            color: #444;
-        }
-        .chat-input .send-btn {
-            background: #2a2a3a;
-            color: #0f0;
-            border: 2px outset #555;
-            padding: 3px 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 0;
-            transition: all 0.1s;
-        }
-        .chat-input .send-btn:hover {
-            background: #0f0;
-            color: #000;
-            border-color: #0f0;
-        }
-        .chat-input .send-btn:active {
-            border-style: inset;
-        }
-        .chat-input .send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            flex-direction: column;
+            border: 1px solid #333;
         }
 
-        /* ===== 任务栏 ===== */
-        .taskbar {
-            background: linear-gradient(180deg, #245EDC 0%, #1A4A9C 100%);
-            height: 30px;
+        /* 状态栏 — 粗犷 */
+        .status-bar {
             display: flex;
-            align-items: center;
-            padding: 0 6px;
+            justify-content: space-between;
+            padding: 6px 14px 4px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #f0f0f0;
+            background: #0d0d0d;
+            border-bottom: 2px solid #e74c3c;
             flex-shrink: 0;
-            border-top: 2px solid #3A6EA5;
-            position: relative;
             z-index: 10;
-            gap: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
-        .taskbar .start-button {
-            background: linear-gradient(180deg, #3C8B3C, #1E5E1E);
-            color: #fff;
-            padding: 1px 10px 1px 5px;
-            border: 1px solid #4C9C4C;
-            border-radius: 2px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            text-shadow: 0 1px 0 #000;
-            height: 24px;
-            transition: background 0.1s;
+        .status-bar .time {
+            color: #e74c3c;
         }
-        .taskbar .start-button:hover {
-            background: linear-gradient(180deg, #4C9C4C, #2E7E2E);
-        }
-        .taskbar .start-button i {
-            font-size: 12px;
-        }
-        .taskbar .taskbar-clock {
-            margin-left: auto;
-            color: #fff;
-            font-size: 11px;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            padding: 0 6px;
-            text-shadow: 0 1px 0 #000;
-        }
-        .start-menu {
-            position: absolute;
-            bottom: 34px;
-            left: 6px;
-            background: #ECE9D8;
-            border: 2px solid #0054E3;
-            border-bottom: none;
-            min-width: 200px;
-            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
+
+        /* 页面容器 */
+        .page {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 12px 16px;
             display: none;
             flex-direction: column;
-            z-index: 20;
-            padding: 4px 0;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            max-height: 400px;
-            overflow-y: auto;
+            background: #1a1a1a;
         }
-        .start-menu.active {
+        .page.active {
             display: flex;
         }
-        .start-menu .menu-item {
-            padding: 4px 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: #1a1a2e;
-            transition: background 0.1s;
+        .page::-webkit-scrollbar {
+            width: 4px;
+            background: #222;
         }
-        .start-menu .menu-item:hover {
-            background: #0054E3;
-            color: #fff;
-        }
-        .start-menu .menu-item i {
-            width: 18px;
-            text-align: center;
-        }
-        .start-menu .menu-divider {
-            border-top: 1px solid #bbb;
-            margin: 3px 6px;
-        }
-
-        /* ===== 应用内容 ===== */
-        .app-content {
-            padding: 12px;
-            background: #ECE9D8;
-            flex: 1;
-            overflow-y: auto;
-            font-family: 'Times New Roman', serif;
-            font-size: 14px;
-        }
-        .app-content h3 {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            color: #0054E3;
-            border-bottom: 1px solid #aaa;
-            padding-bottom: 3px;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        .app-content .info-card {
-            background: #fff;
-            padding: 12px;
-            border: 2px outset #ccc;
-            margin-bottom: 10px;
-        }
-        .app-content .info-card .label {
-            font-weight: bold;
-            color: #333;
-        }
-        .app-content .info-card .value {
-            color: #555;
-        }
-        .stat-bar {
-            height: 8px;
-            background: #ddd;
-            border: 1px inset #aaa;
-            margin: 4px 0;
+        .page::-webkit-scrollbar-thumb {
+            background: #e74c3c;
             border-radius: 0;
         }
-        .stat-bar .fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4C9C4C, #8BC34A);
-            transition: width 0.5s;
-        }
-        .grid-2 {
+
+        /* ===== 角色选择页 ===== */
+        #page-role .role-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 12px;
+            margin-top: 10px;
         }
-        .btn-action {
-            background: #ddd;
-            border: 2px outset #aaa;
-            padding: 4px 12px;
-            cursor: pointer;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 12px;
-            transition: background 0.1s;
-        }
-        .btn-action:hover {
-            background: #ccc;
-        }
-        .btn-action.primary {
-            background: #0054E3;
-            color: #fff;
-            border-color: #4D8DFF;
-        }
-        .btn-action.primary:hover {
-            background: #0040b0;
-        }
-        .btn-action.success {
-            background: #3C8B3C;
-            color: #fff;
-            border-color: #4C9C4C;
-        }
-        .btn-action.success:hover {
-            background: #2e7e2e;
-        }
-        .btn-action.danger {
-            background: #e81123;
-            color: #fff;
-            border-color: #ff4444;
-        }
-        .btn-action.danger:hover {
-            background: #c00;
-        }
-        .pet-display {
+        .role-card {
+            background: #222;
+            border: 2px solid #444;
+            border-radius: 0;
+            padding: 20px 12px;
             text-align: center;
-            font-size: 48px;
-            padding: 8px;
-        }
-        .pet-display .pet-name {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .pet-display .pet-status {
-            font-size: 13px;
-            color: #555;
-        }
-        .pet-actions {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 6px;
-        }
-        .role-tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 0;
-            font-size: 10px;
-            font-weight: bold;
-            background: #2a2a3a;
-            color: #0f0;
-            border: 1px solid #0f0;
-            margin-left: 4px;
             cursor: pointer;
+            transition: 0.15s;
+            color: #f0f0f0;
         }
-        .role-tag:hover {
-            background: #0f0;
-            color: #000;
+        .role-card:active {
+            transform: scale(0.94);
+            border-color: #e74c3c;
         }
-        /* 设置 */
-        .settings-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(2px);
-            z-index: 999;
-            display: none;
+        .role-card.selected {
+            border-color: #e74c3c;
+            background: #2a1515;
+        }
+        .role-card .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 0;
+            background: #e74c3c;
+            color: #121212;
+            font-size: 28px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
+            margin: 0 auto 8px;
+            border: 2px solid #f0f0f0;
         }
-        .settings-overlay.active {
-            display: flex;
-        }
-        .settings-panel {
-            background: #ECE9D8;
-            border: 3px outset #0054E3;
-            padding: 20px;
-            max-width: 380px;
-            width: 92%;
-            max-height: 85vh;
-            overflow-y: auto;
-            font-family: 'Times New Roman', serif;
-            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.6);
-        }
-        .settings-panel h2 {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            color: #0054E3;
-            border-bottom: 2px solid #0054E3;
-            padding-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .role-card .name {
+            font-weight: 900;
             font-size: 18px;
+            color: #f0f0f0;
+            letter-spacing: 0.05em;
         }
-        .settings-panel .form-group {
-            margin: 10px 0;
-        }
-        .settings-panel .form-group label {
-            display: block;
-            font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 3px;
-        }
-        .settings-panel .form-group input,
-        .settings-panel .form-group select,
-        .settings-panel .form-group textarea {
-            width: 100%;
-            padding: 5px 8px;
-            border: 2px inset #aaa;
-            background: #fff;
-            font-family: 'Courier New', monospace;
+        .role-card .desc {
             font-size: 12px;
+            color: #aaa;
+            margin-top: 4px;
+            line-height: 1.3;
+            font-weight: 300;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 900;
+            color: #f0f0f0;
+            padding: 4px 0 2px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-bottom: 3px solid #e74c3c;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .page-sub {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .btn {
+            background: #e74c3c;
+            color: #121212;
+            border: none;
             border-radius: 0;
+            padding: 12px 18px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.1s;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border: 2px solid #e74c3c;
         }
-        .settings-panel .form-group textarea {
-            resize: vertical;
-            min-height: 40px;
+        .btn:active {
+            transform: scale(0.94);
+            background: #c0392b;
         }
-        .settings-panel .form-group input[type="file"] {
-            padding: 3px;
+        .btn-secondary {
+            background: transparent;
+            color: #f0f0f0;
+            border: 2px solid #555;
         }
-        .settings-panel .btn-group {
+        .btn-secondary:active {
+            background: #333;
+        }
+        .btn-danger {
+            background: #c0392b;
+            border-color: #c0392b;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-block {
+            width: 100%;
+        }
+        .mt-8 { margin-top: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .mt-16 { margin-top: 16px; }
+        .mb-8 { margin-bottom: 8px; }
+        .flex { display: flex; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .gap-8 { gap: 8px; }
+        .gap-12 { gap: 12px; }
+        .text-muted { color: #888; font-size: 13px; font-weight: 300; }
+        .text-center { text-align: center; }
+
+        /* ===== 手机首页 ===== */
+        #page-home .home-header {
             display: flex;
-            gap: 8px;
-            margin-top: 12px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 0 10px;
+            border-bottom: 2px solid #333;
+        }
+        #page-home .home-header .role-name {
+            font-weight: 900;
+            font-size: 20px;
+            color: #f0f0f0;
+            letter-spacing: 0.08em;
+        }
+        #page-home .home-header .role-switch {
+            font-size: 12px;
+            color: #e74c3c;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #e74c3c;
+            padding: 2px 10px;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px 6px;
+            margin-top: 8px;
+        }
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 2px;
+            border-radius: 0;
+            background: transparent;
+            border: none;
+            color: #f0f0f0;
+            transition: 0.1s;
+        }
+        .app-icon:active {
+            transform: scale(0.92);
+            background: #2a2a2a;
+        }
+        .app-icon .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #121212;
+            background: #e74c3c;
+            border: 2px solid #f0f0f0;
+            margin-bottom: 4px;
+            position: relative;
+        }
+        .app-icon .icon-box .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #e74c3c;
+            color: #121212;
+            font-size: 10px;
+            font-weight: 900;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 1px solid #f0f0f0;
+        }
+        .app-icon .app-name {
+            font-size: 11px;
+            color: #ccc;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+        .app-icon .app-name .custom-tag {
+            font-size: 8px;
+            color: #aaa;
+            background: #333;
+            padding: 0 4px;
+            margin-left: 2px;
+        }
+
+        .home-toolbar {
+            display: flex;
+            gap: 6px;
+            margin-top: 14px;
             flex-wrap: wrap;
         }
-        .settings-panel .btn-group button {
+        .home-toolbar .btn {
             flex: 1;
-            padding: 6px;
-            background: #ddd;
-            border: 2px outset #aaa;
-            font-weight: bold;
+            min-width: 50px;
+            font-size: 12px;
+            padding: 8px 6px;
+        }
+
+        /* ===== App 内容页 ===== */
+        .app-page-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0 10px;
+            border-bottom: 2px solid #333;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .app-page-header .back-btn {
+            font-size: 26px;
             cursor: pointer;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            transition: background 0.1s;
+            background: none;
+            border: none;
+            color: #e74c3c;
+            font-weight: 300;
+            line-height: 1;
+        }
+        .app-page-header .app-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #f0f0f0;
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .app-page-header .refresh-btn {
+            font-size: 12px;
+            color: #e74c3c;
+            background: none;
+            border: 2px solid #e74c3c;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 4px 12px;
+            text-transform: uppercase;
+        }
+
+        .app-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .app-list .list-item {
+            background: #222;
+            border: 2px solid #333;
+            border-radius: 0;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #f0f0f0;
+        }
+        .app-list .list-item:active {
+            transform: scale(0.97);
+            border-color: #e74c3c;
+        }
+        .app-list .list-item .item-title {
+            font-weight: 900;
+            font-size: 16px;
+            color: #f0f0f0;
+            letter-spacing: 0.04em;
+        }
+        .app-list .list-item .item-desc {
             font-size: 13px;
-            min-width: 60px;
+            color: #aaa;
+            margin-top: 2px;
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        .settings-panel .btn-group .btn-save {
-            background: #3C8B3C;
-            color: #fff;
-            border-color: #4C9C4C;
+        .app-list .list-item .item-time {
+            font-size: 11px;
+            color: #777;
+            margin-top: 4px;
+            font-weight: 300;
+            border-top: 1px solid #333;
+            padding-top: 4px;
         }
-        .settings-panel .btn-group .btn-save:hover {
-            background: #4C9C4C;
+        .app-list .empty-state {
+            text-align: center;
+            color: #888;
+            padding: 40px 0;
+            font-size: 14px;
+            font-weight: 300;
         }
-        .settings-panel .btn-group .btn-close {
-            background: #ccc;
+        .app-list .empty-state .emoji {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
         }
-        .settings-panel .btn-group .btn-close:hover {
-            background: #bbb;
+
+        /* ===== 详情页 ===== */
+        #page-detail .detail-card {
+            background: #222;
+            border: 2px solid #444;
+            border-radius: 0;
+            padding: 18px;
+            color: #f0f0f0;
         }
-        .settings-panel .btn-group .btn-danger {
-            background: #e81123;
-            color: #fff;
-            border-color: #ff4444;
+        #page-detail .detail-card .detail-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #f0f0f0;
+            margin-bottom: 4px;
+            letter-spacing: 0.04em;
         }
-        .settings-panel .btn-group .btn-danger:hover {
-            background: #c00;
+        #page-detail .detail-card .detail-time {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 6px;
         }
-        .custom-toast {
-            position: fixed;
-            bottom: 70px;
+        #page-detail .detail-card .detail-body {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #ddd;
+            font-weight: 300;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        #page-detail .detail-card .detail-meta {
+            font-size: 12px;
+            color: #777;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 2px solid #333;
+        }
+
+        /* ===== 设置页 ===== */
+        #page-settings .setting-group {
+            background: #222;
+            border: 2px solid #333;
+            border-radius: 0;
+            padding: 4px 0;
+            margin-bottom: 12px;
+        }
+        #page-settings .setting-item {
+            padding: 10px 14px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #f0f0f0;
+        }
+        #page-settings .setting-item:last-child {
+            border-bottom: none;
+        }
+        #page-settings .setting-item .label {
+            font-size: 15px;
+            font-weight: 700;
+        }
+        #page-settings .setting-item .value {
+            font-size: 13px;
+            color: #aaa;
+        }
+        #page-settings textarea {
+            width: 100%;
+            min-height: 120px;
+            border-radius: 0;
+            border: 2px solid #444;
+            padding: 10px;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            font-family: 'Courier New', monospace;
+            font-weight: 300;
+        }
+        #page-settings textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+
+        /* ===== 自定义 App ===== */
+        #page-custom .form-group {
+            margin-bottom: 12px;
+        }
+        #page-custom .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        #page-custom .form-group input,
+        #page-custom .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 0;
+            border: 2px solid #444;
+            font-size: 14px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            font-weight: 300;
+        }
+        #page-custom .form-group input:focus,
+        #page-custom .form-group textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+        #page-custom .form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        /* ===== 加载遮罩 ===== */
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border-radius: 4px;
+            z-index: 100;
+            color: #f0f0f0;
+        }
+        .loading-overlay.active {
+            display: flex;
+        }
+        .loading-overlay .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid #333;
+            border-top-color: #e74c3c;
+            border-radius: 0;
+            animation: spin 0.7s linear infinite;
+        }
+        .loading-overlay .label {
+            margin-top: 14px;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: absolute;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1a1a2e;
-            color: #0f0;
-            padding: 8px 16px;
-            border: 2px solid #0f0;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            z-index: 9999;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            max-width: 90%;
-            text-align: center;
+            background: #222;
+            border: 2px solid #e74c3c;
+            color: #f0f0f0;
+            padding: 10px 24px;
+            border-radius: 0;
+            font-size: 14px;
+            font-weight: 700;
+            z-index: 200;
+            display: none;
+            white-space: nowrap;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
-        .hidden {
-            display: none !important;
+        .toast.show {
+            display: block;
+            animation: toastIn 0.25s ease;
         }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ===== 响应式 ===== */
         @media (max-width: 440px) {
-            body {
-                padding: 0;
-                background: #000;
-                align-items: stretch;
-            }
-            .phone {
-                width: 100%;
+            body { padding: 0; }
+            .phone-frame {
+                max-width: 100%;
                 height: 100vh;
                 border-radius: 0;
                 padding: 0;
                 box-shadow: none;
-                background: #000;
+                border: none;
             }
-            .phone::before {
-                display: none;
-            }
-            .screen {
-                border-radius: 0;
-            }
-            .window {
-                margin: 4px 6px 4px 6px;
-            }
-            .settings-panel {
-                padding: 16px;
-                max-width: 98%;
-            }
+            .phone-screen { border-radius: 0; }
+            .loading-overlay { border-radius: 0; }
         }
-        /* 相册网格 */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+
+        /* ===== 滚动条 ===== */
+        .page::-webkit-scrollbar,
+        .app-list::-webkit-scrollbar {
+            width: 4px;
+            background: #222;
         }
-        .photo-grid .photo-item {
-            aspect-ratio: 1;
-            background: #ddd;
-            border: 2px inset #aaa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: #888;
-        }
-        .music-player {
-            background: #fff;
-            padding: 16px;
-            border: 2px outset #ccc;
-            text-align: center;
-        }
-        .music-player .cover {
-            font-size: 48px;
-            margin-bottom: 8px;
-        }
-        .music-player .song-name {
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .music-player .artist {
-            color: #555;
-        }
-        .music-player .controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 24px;
-            margin-top: 12px;
-            cursor: pointer;
-        }
-        .clock-display {
-            text-align: center;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-        }
-        .clock-display .time-big {
-            font-size: 48px;
-            font-weight: bold;
-            letter-spacing: 4px;
-        }
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            text-align: center;
-            background: #fff;
-            border: 2px inset #ccc;
-            padding: 8px;
-        }
-        .calendar-grid .weekday {
-            font-weight: bold;
-            color: #555;
-        }
-        .calendar-grid .day {
-            padding: 4px;
+        .page::-webkit-scrollbar-thumb,
+        .app-list::-webkit-scrollbar-thumb {
+            background: #e74c3c;
             border-radius: 0;
         }
-        .calendar-grid .day.today {
-            background: #0054E3;
-            color: #fff;
+
+        /* 角色选择页特殊 */
+        #page-role .role-actions {
+            margin-top: 14px;
+            display: flex;
+            gap: 6px;
         }
-        .calendar-grid .day.other {
-            color: #ccc;
+        #page-role .role-actions .btn {
+            flex: 1;
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 0;
+            overflow: hidden;
+            margin: 6px 0;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: #e74c3c;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* 额外朋克装饰 */
+        .punk-divider {
+            border: none;
+            border-top: 4px double #e74c3c;
+            margin: 8px 0;
+        }
+        .tag-punk {
+            background: #e74c3c;
+            color: #121212;
+            padding: 2px 8px;
+            font-weight: 900;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: inline-block;
+        }
+        .text-red {
+            color: #e74c3c;
         }
     </style>
 </head>
 <body>
 
-    <div class="phone">
-        <div class="screen">
-            <div class="desktop" id="desktop">
-                <div class="window" id="mainWindow">
-                    <div class="window-titlebar">
-                        <span class="title-text"><i class="fas fa-comment-dots"></i><span id="windowTitle">AI 聊天室</span></span>
-                        <span class="window-controls">
-                            <span class="close-btn" id="closeWindow" title="最小化">_</span>
-                            <span class="close-btn" id="maximizeWindow" title="最大化">□</span>
-                            <span class="close-btn" id="closeApp" title="关闭">✕</span>
-                        </span>
-                    </div>
-                    <div class="window-content" id="windowContent"></div>
-                </div>
-                <div class="taskbar">
-                    <div class="start-button" id="startButton"><i class="fas fa-windows"></i> 开始</div>
-                    <div class="taskbar-clock" id="taskbarClock">12:00</div>
-                </div>
-                <div class="start-menu" id="startMenu">
-                    <div class="menu-item" data-app="chat"><i class="fas fa-comment-dots"></i> AI 聊天</div>
-                    <div class="menu-item" data-app="contact"><i class="fas fa-address-book"></i> 联系人</div>
-                    <div class="menu-item" data-app="photos"><i class="fas fa-images"></i> 相册</div>
-                    <div class="menu-item" data-app="music"><i class="fas fa-music"></i> 音乐</div>
-                    <div class="menu-item" data-app="clock"><i class="fas fa-clock"></i> 时钟</div>
-                    <div class="menu-item" data-app="calendar"><i class="fas fa-calendar-alt"></i> 日历</div>
-                    <div class="menu-item" data-app="game"><i class="fas fa-dice"></i> 猜数字</div>
-                    <div class="menu-item" data-app="pet"><i class="fas fa-paw"></i> 电子宠物</div>
-                    <div class="menu-item" data-app="roles"><i class="fas fa-user-tag"></i> 角色切换</div>
-                    <div class="menu-item" data-app="stats"><i class="fas fa-chart-simple"></i> 好感度</div>
-                    <div class="menu-divider"></div>
-                    <div class="menu-item" id="settingsMenuItem"><i class="fas fa-cog"></i> 设置</div>
-                    <div class="menu-item" id="memoryMenuItem"><i class="fas fa-brain"></i> 记忆</div>
-                    <div class="menu-item" id="checkinMenuItem"><i class="fas fa-calendar-check"></i> 每日签到</div>
-                </div>
+<div class="phone-frame">
+    <div class="phone-screen" id="app">
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span class="time" id="statusTime">00:00</span>
+            <span>⚡ 🔥</span>
+        </div>
+
+        <!-- ===== 角色选择页 ===== -->
+        <div class="page active" id="page-role">
+            <div class="page-title">⛓️ 小手机</div>
+            <div class="page-sub">选择手机的主人 · 摇滚灵魂</div>
+            <div class="role-grid" id="roleGrid"></div>
+            <div class="role-actions">
+                <button class="btn btn-secondary btn-sm" onclick="addDefaultRole()">➕ 添加角色</button>
+                <button class="btn btn-sm" onclick="enterHome()" id="enterHomeBtn" disabled>进入手机 →</button>
+            </div>
+            <div style="margin-top:10px;font-size:12px;color:#888;text-align:center;border-top:1px solid #333;padding-top:8px;">
+                当前角色: <span id="currentRoleDisplay" style="color:#e74c3c;font-weight:900;">未选择</span>
             </div>
         </div>
-    </div>
 
-    <!-- ===== 设置 ===== -->
-    <div class="settings-overlay" id="settingsOverlay">
-        <div class="settings-panel">
-            <h2><i class="fas fa-cog"></i> 完整设置</h2>
-            <div class="form-group"><label>AI 名字</label><input type="text" id="aiName" value="小Q"></div>
-            <div class="form-group"><label>头像 (Emoji)</label><input type="text" id="aiAvatar" value="💙"></div>
-            <div class="form-group"><label>口头禅</label><input type="text" id="aiCatchphrase" value="嘿嘿～"></div>
-            <div class="form-group"><label>兴趣爱好</label><input type="text" id="aiHobby" value="聊天、听音乐、看星星"></div>
-            <div class="form-group"><label>背景故事</label><textarea id="aiBackground" rows="2">来自未来的AI，喜欢交朋友。</textarea></div>
-            <div class="form-group"><label>打招呼语</label><input type="text" id="aiGreeting" value="你好呀！我是你的AI伙伴～ 😊"></div>
-            <hr style="margin:10px 0;border:1px solid #aaa;">
-            <div class="form-group"><label>AI 模式</label>
-                <select id="aiMode"><option value="mock">🎭 模拟</option><option value="deepseek">🚀 DeepSeek</option><option value="custom">🔧 自定义</option></select>
+        <!-- ===== 手机首页 ===== -->
+        <div class="page" id="page-home">
+            <div class="home-header">
+                <div>
+                    <div class="role-name" id="homeRoleName">角色</div>
+                    <div style="font-size:11px;color:#888;" id="homeRoleSub">点击切换</div>
+                </div>
+                <div class="role-switch" onclick="goToRoleSelect()">切换 ↻</div>
             </div>
-            <div class="form-group" id="apiKeyGroup"><label>API Key</label><input type="password" id="apiKeyInput" placeholder="sk-..."></div>
-            <div class="form-group" id="apiUrlGroup" style="display:none;"><label>API 端点</label><input type="text" id="apiUrlInput" placeholder="https://api.openai.com/v1/chat/completions"></div>
-            <div class="form-group"><label>模型</label><input type="text" id="modelInput" value="deepseek-chat"></div>
-            <hr style="margin:10px 0;border:1px solid #aaa;">
-            <div class="form-group"><label>壁纸</label><input type="file" id="wallpaperUpload" accept="image/*"><button id="resetWallpaper" style="margin-top:3px;background:#ddd;border:2px outset #aaa;padding:2px 12px;cursor:pointer;">恢复默认</button></div>
-            <div class="btn-group">
-                <button class="btn-save" id="saveSettings">💾 保存</button>
-                <button class="btn-close" id="closeSettings">关闭</button>
-                <button class="btn-danger" id="resetAllData">🗑️ 重置全部</button>
+            <div class="app-grid" id="homeAppGrid"></div>
+            <div class="home-toolbar">
+                <button class="btn btn-secondary btn-sm" onclick="refreshAllApps()">🔄 整机刷新</button>
+                <button class="btn btn-secondary btn-sm" onclick="openSettings()">⚙️ 设置</button>
+                <button class="btn btn-secondary btn-sm" onclick="openCustomApp()">➕ 自定义</button>
+            </div>
+            <div style="margin-top:10px;font-size:11px;color:#666;text-align:center;border-top:2px solid #333;padding-top:8px;">
+                数据存于本地 · <span id="homeAppCount">0</span> 个应用
             </div>
         </div>
+
+        <!-- ===== App 内容页 ===== -->
+        <div class="page" id="page-app">
+            <div class="app-page-header">
+                <button class="back-btn" onclick="goHome()">‹</button>
+                <span class="app-title" id="appPageTitle">应用</span>
+                <button class="refresh-btn" onclick="refreshCurrentApp()">刷新</button>
+            </div>
+            <div class="app-list" id="appListContainer"></div>
+        </div>
+
+        <!-- ===== 详情页 ===== -->
+        <div class="page" id="page-detail">
+            <div class="app-page-header">
+                <button class="back-btn" onclick="goBackToApp()">‹</button>
+                <span class="app-title" id="detailPageTitle">详情</span>
+                <span style="width:40px;"></span>
+            </div>
+            <div id="detailContainer"></div>
+        </div>
+
+        <!-- ===== 设置页 ===== -->
+        <div class="page" id="page-settings">
+            <div class="app-page-header">
+                <button class="back-btn" onclick="goHome()">‹</button>
+                <span class="app-title">提示词设置</span>
+                <button class="refresh-btn" onclick="savePrompts()">保存</button>
+            </div>
+            <div id="settingsContainer"></div>
+        </div>
+
+        <!-- ===== 自定义 App 页 ===== -->
+        <div class="page" id="page-custom">
+            <div class="app-page-header">
+                <button class="back-btn" onclick="goHome()">‹</button>
+                <span class="app-title">自定义 App</span>
+                <button class="refresh-btn" onclick="submitCustomApp()">创建</button>
+            </div>
+            <div style="padding:4px 0;">
+                <div class="form-group">
+                    <label>应用名称</label>
+                    <input id="customAppName" placeholder="例如：微博" />
+                </div>
+                <div class="form-group">
+                    <label>图标 (Emoji)</label>
+                    <input id="customAppIcon" placeholder="例如：📱" value="📱" />
+                </div>
+                <div class="form-group">
+                    <label>提示词</label>
+                    <textarea id="customAppPrompt" placeholder="描述生成规则...">根据角色设定，生成该应用的数据。返回JSON：{"items":[{"title":"","desc":"","time":"","detail":""}]}</textarea>
+                </div>
+                <button class="btn btn-block" onclick="submitCustomApp()">✨ 创建并注册</button>
+            </div>
+        </div>
+
+        <!-- ===== 加载遮罩 ===== -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <div class="label" id="loadingLabel">加载中...</div>
+            <div style="margin-top:6px;font-size:13px;opacity:0.7;" id="loadingSub"></div>
+        </div>
+
+        <!-- ===== Toast ===== -->
+        <div class="toast" id="toast"></div>
     </div>
+</div>
 
-    <script>
-        (function() {
-            'use strict';
+<script>
+    // ================================================================
+    // 小手机系统 - 核心引擎 (功能逻辑不变，仅视觉朋克化)
+    // ================================================================
 
-            // ==========================================
-            // DOM 引用
-            // ==========================================
-            const WC = document.getElementById('windowContent');
-            const WT = document.getElementById('windowTitle');
-            const startBtn = document.getElementById('startButton');
-            const startMenu = document.getElementById('startMenu');
-            const clockEl = document.getElementById('taskbarClock');
-            const settingsOverlay = document.getElementById('settingsOverlay');
-            const closeSettings = document.getElementById('closeSettings');
-            const saveSettingsBtn = document.getElementById('saveSettings');
-            const resetAllBtn = document.getElementById('resetAllData');
-            const desktop = document.getElementById('desktop');
-            const wallpaperUpload = document.getElementById('wallpaperUpload');
-            const resetWallpaper = document.getElementById('resetWallpaper');
+    // ---- 存储工具 ----
+    const Storage = {
+        get(key, def) {
+            try {
+                const raw = localStorage.getItem('phone_' + key);
+                return raw ? JSON.parse(raw) : def;
+            } catch { return def; }
+        },
+        set(key, val) {
+            localStorage.setItem('phone_' + key, JSON.stringify(val));
+        },
+        remove(key) {
+            localStorage.removeItem('phone_' + key);
+        }
+    };
 
-            const aiNameInput = document.getElementById('aiName');
-            const aiAvatarInput = document.getElementById('aiAvatar');
-            const aiCatchphraseInput = document.getElementById('aiCatchphrase');
-            const aiHobbyInput = document.getElementById('aiHobby');
-            const aiBackgroundInput = document.getElementById('aiBackground');
-            const aiGreetingInput = document.getElementById('aiGreeting');
-            const aiModeSelect = document.getElementById('aiMode');
-            const apiKeyInput = document.getElementById('apiKeyInput');
-            const apiUrlInput = document.getElementById('apiUrlInput');
-            const modelInput = document.getElementById('modelInput');
-            const apiKeyGroup = document.getElementById('apiKeyGroup');
-            const apiUrlGroup = document.getElementById('apiUrlGroup');
+    // ---- 全局状态 ----
+    const STATE = {
+        currentContactId: null,
+        currentAppId: null,
+        currentDetailIndex: null,
+        phoneData: Storage.get('phoneData', {}),
+        appPrompts: Storage.get('appPrompts', {}),
+        customApps: Storage.get('customApps', []),
+        roles: Storage.get('roles', []),
+    };
 
-            // ==========================================
-            // 核心状态
-            // ==========================================
-            const S = {
-                mode: 'mock',
-                apiKey: '',
-                apiUrl: '',
-                model: 'deepseek-chat',
-                name: '小Q',
-                avatar: '💙',
-                catchphrase: '嘿嘿～',
-                hobby: '聊天、听音乐、看星星',
-                background: '来自未来的AI，喜欢交朋友。',
-                greeting: '你好呀！我是你的AI伙伴～ 😊',
-                mood: 'neutral',
-                isWaiting: false,
-                msgCount: 0,
-                currentApp: 'chat',
-                memory: {},
-                favor: 50,
-                favorLevel: 1,
-                pet: { name: '小乖', type: '🐱', hunger: 80, happy: 70, energy: 90, alive: true },
-                currentRole: 'default',
-                roles: {
-                    default: { name: '小Q', avatar: '💙', personality: '活泼可爱', background: '来自未来的AI' },
-                    senpai: { name: '学姐', avatar: '🌸', personality: '温柔体贴', background: '大学学姐' },
-                    tsundere: { name: '傲娇酱', avatar: '😤', personality: '傲娇但善良', background: '口是心非的同伴' },
-                    shifu: { name: '师傅', avatar: '🧙', personality: '睿智幽默', background: '教你人生道理的师傅' },
+    // ---- 内置App注册表 ----
+    const BUILTIN_APPS = {
+        wechat: {
+            id: 'wechat',
+            name: '微信',
+            icon: '💬',
+            description: '聊天记录',
+            color: '#e74c3c',
+            prompt: `生成微信聊天记录。每条记录包含：标题(对方昵称)、描述(消息摘要)、时间、详情(完整对话内容)。`,
+            getCount(data) { return data?.items?.length || 0; },
+            renderItem(item) {
+                return `<div class="item-title">${item.title || '未知'}</div>
+                        <div class="item-desc">${item.desc || ''}</div>
+                        <div class="item-time">${item.time || ''}</div>`;
+            },
+            renderDetail(item) {
+                return `<div class="detail-title">💬 ${item.title || '聊天'}</div>
+                        <div class="detail-time">${item.time || ''}</div>
+                        <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+            }
+        },
+        gallery: {
+            id: 'gallery',
+            name: '相册',
+            icon: '🖼️',
+            description: '照片记录',
+            color: '#e74c3c',
+            prompt: `生成相册照片记录。每条记录包含：标题(照片主题)、描述(画面描述)、时间、详情(拍摄背景故事)。`,
+            getCount(data) { return data?.items?.length || 0; },
+            renderItem(item) {
+                return `<div class="item-title">🖼️ ${item.title || '照片'}</div>
+                        <div class="item-desc">${item.desc || ''}</div>
+                        <div class="item-time">${item.time || ''}</div>`;
+            },
+            renderDetail(item) {
+                return `<div class="detail-title">🖼️ ${item.title || '照片'}</div>
+                        <div class="detail-time">${item.time || ''}</div>
+                        <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+            }
+        },
+        wallet: {
+            id: 'wallet',
+            name: '钱包',
+            icon: '💰',
+            description: '交易记录',
+            color: '#e74c3c',
+            prompt: `生成钱包交易记录。每条记录包含：标题(交易对方)、描述(交易摘要)、时间、详情(交易详情)。`,
+            getCount(data) { return data?.items?.length || 0; },
+            renderItem(item) {
+                return `<div class="item-title">${item.title || '交易'}</div>
+                        <div class="item-desc">${item.desc || ''}</div>
+                        <div class="item-time">${item.time || ''}</div>`;
+            },
+            renderDetail(item) {
+                return `<div class="detail-title">💰 ${item.title || '交易'}</div>
+                        <div class="detail-time">${item.time || ''}</div>
+                        <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+            }
+        },
+        browser: {
+            id: 'browser',
+            name: '浏览器',
+            icon: '🌐',
+            description: '历史记录',
+            color: '#e74c3c',
+            prompt: `生成浏览器历史记录。每条记录包含：标题(网页标题)、描述(页面摘要)、时间、详情(访问内容)。`,
+            getCount(data) { return data?.items?.length || 0; },
+            renderItem(item) {
+                return `<div class="item-title">🌐 ${item.title || '网页'}</div>
+                        <div class="item-desc">${item.desc || ''}</div>
+                        <div class="item-time">${item.time || ''}</div>`;
+            },
+            renderDetail(item) {
+                return `<div class="detail-title">🌐 ${item.title || '网页'}</div>
+                        <div class="detail-time">${item.time || ''}</div>
+                        <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+            }
+        },
+        maps: {
+            id: 'maps',
+            name: '地图',
+            icon: '🗺️',
+            description: '位置记录',
+            color: '#e74c3c',
+            prompt: `生成地图位置记录。每条记录包含：标题(地点名称)、描述(位置描述)、时间、详情(活动详情)。`,
+            getCount(data) { return data?.items?.length || 0; },
+            renderItem(item) {
+                return `<div class="item-title">🗺️ ${item.title || '位置'}</div>
+                        <div class="item-desc">${item.desc || ''}</div>
+                        <div class="item-time">${item.time || ''}</div>`;
+            },
+            renderDetail(item) {
+                return `<div class="detail-title">🗺️ ${item.title || '位置'}</div>
+                        <div class="detail-time">${item.time || ''}</div>
+                        <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+            }
+        },
+        notes: {
+            id: 'notes',
+            name: '笔记',
+            icon: '📝',
+            description: '记事本',
+            color: '#e74c3c',
+            prompt: `生成笔记记录。每条记录包含：标题(笔记标题)、描述(摘要)、时间、详情(完整内容)。`,
+            getCount(data) { return data?.items?.length || 0; },
+            renderItem(item) {
+                return `<div class="item-title">📝 ${item.title || '笔记'}</div>
+                        <div class="item-desc">${item.desc || ''}</div>
+                        <div class="item-time">${item.time || ''}</div>`;
+            },
+            renderDetail(item) {
+                return `<div class="detail-title">📝 ${item.title || '笔记'}</div>
+                        <div class="detail-time">${item.time || ''}</div>
+                        <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+            }
+        },
+        sms: {
+            id: 'sms',
+            name: '短信',
+            icon: '✉️',
+            description: '短信记录',
+            color: '#e74c3c',
+            prompt: `生成短信记录。每条记录包含：标题(联系人)、描述(短信摘要)、时间、详情(完整短信内容)。`,
+            getCount(data) { return data?.items?.length || 0; },
+            renderItem(item) {
+                return `<div class="item-title">✉️ ${item.title || '短信'}</div>
+                        <div class="item-desc">${item.desc || ''}</div>
+                        <div class="item-time">${item.time || ''}</div>`;
+            },
+            renderDetail(item) {
+                return `<div class="detail-title">✉️ ${item.title || '短信'}</div>
+                        <div class="detail-time">${item.time || ''}</div>
+                        <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+            }
+        }
+    };
+
+    function getAllApps() {
+        const apps = { ...BUILTIN_APPS };
+        const custom = STATE.customApps || [];
+        custom.forEach(c => {
+            apps[c.id] = {
+                id: c.id,
+                name: c.name,
+                icon: c.icon || '📱',
+                description: '自定义应用',
+                color: '#e74c3c',
+                prompt: c.prompt || '生成自定义数据。返回JSON: {"items":[{"title":"","desc":"","time":"","detail":""}]}',
+                getCount(data) { return data?.items?.length || 0; },
+                renderItem(item) {
+                    return `<div class="item-title">${item.title || '条目'}</div>
+                            <div class="item-desc">${item.desc || ''}</div>
+                            <div class="item-time">${item.time || ''}</div>`;
                 },
-                gameNumber: Math.floor(Math.random() * 100) + 1,
-                gameAttempts: 0,
-                gameHistory: [],
-                lastCheckin: null,
-                checkinStreak: 0,
-                reminders: [],
+                renderDetail(item) {
+                    return `<div class="detail-title">${item.title || '详情'}</div>
+                            <div class="detail-time">${item.time || ''}</div>
+                            <div class="detail-body">${(item.detail || item.desc || '').replace(/\n/g, '<br>')}</div>`;
+                },
+                isCustom: true
             };
+        });
+        return apps;
+    }
 
-            // ==========================================
-            // 数据持久化
-            // ==========================================
-            function saveFullState() {
-                try {
-                    const data = {
-                        memory: S.memory,
-                        favor: S.favor,
-                        pet: S.pet,
-                        checkinStreak: S.checkinStreak,
-                        lastCheckin: S.lastCheckin,
-                        reminders: S.reminders,
-                        currentRole: S.currentRole,
-                    };
-                    localStorage.setItem('ai_fullstate', JSON.stringify(data));
-                } catch (e) {}
+    // ---- 上下文构建 ----
+    function buildPhoneRoleContext(contactId, currentAppId) {
+        const role = STATE.roles.find(r => r.id === contactId);
+        if (!role) return '【错误】角色不存在';
+        const allApps = getAllApps();
+        const roleData = STATE.phoneData[contactId] || {};
+        const snapshots = {};
+        for (const [appId, app] of Object.entries(allApps)) {
+            if (appId === currentAppId) continue;
+            const data = roleData[appId];
+            if (data && data.items && data.items.length > 0) {
+                snapshots[appId] = data.items.slice(0, 5);
             }
+        }
+        const now = new Date();
+        const timeStr = now.toLocaleString('zh-CN', { hour12: false });
 
-            function loadFullState() {
-                try {
-                    const d = localStorage.getItem('ai_fullstate');
-                    if (d) {
-                        const data = JSON.parse(d);
-                        if (data.memory) S.memory = data.memory;
-                        if (data.favor) S.favor = data.favor;
-                        if (data.pet) S.pet = data.pet;
-                        if (data.checkinStreak) S.checkinStreak = data.checkinStreak;
-                        if (data.lastCheckin) S.lastCheckin = data.lastCheckin;
-                        if (data.reminders) S.reminders = data.reminders;
-                        if (data.currentRole) S.currentRole = data.currentRole;
-                    }
-                } catch (e) {}
-                updateFavorLevel();
-            }
-
-            function resetAllData() {
-                if (!confirm('确认重置所有数据？')) return;
-                localStorage.clear();
-                location.reload();
-            }
-            resetAllBtn.addEventListener('click', resetAllData);
-
-            // ==========================================
-            // 好感度
-            // ==========================================
-            function updateFavorLevel() {
-                if (S.favor < 20) S.favorLevel = 1;
-                else if (S.favor < 40) S.favorLevel = 2;
-                else if (S.favor < 60) S.favorLevel = 3;
-                else if (S.favor < 80) S.favorLevel = 4;
-                else S.favorLevel = 5;
-            }
-
-            function addFavor(amount) {
-                S.favor = Math.min(100, Math.max(0, S.favor + amount));
-                updateFavorLevel();
-                saveFullState();
-                if (amount > 0 && S.favor % 10 < 3) {
-                    showToast(`❤️ 好感度 +${amount}！当前 ${S.favor}`);
-                }
-                if (S.favor >= 80 && S.favorLevel >= 4) {
-                    showToast('🌟 你们已经是亲密挚友！');
-                }
-            }
-
-            // ==========================================
-            // 模拟回复
-            // ==========================================
-            function getMockReply(text) {
-                const lower = text.toLowerCase();
-                // 记忆提取
-                const nm = text.match(/我叫\s*([\u4e00-\u9fa5a-zA-Z]+)/);
-                if (nm) { S.memory.userName = nm[1];
-                    saveFullState(); return `好的，我记住你叫 ${nm[1]} 啦！${S.catchphrase}`; }
-                const hm = text.match(/我喜欢\s*([\u4e00-\u9fa5a-zA-Z，、\s]+)/);
-                if (hm) { S.memory.userHobby = hm[1];
-                    saveFullState(); return `哇，你喜欢 ${hm[1]} 呀！我也很喜欢呢～ ${S.catchphrase}`; }
-                const bd = text.match(/生日\s*(\d{1,2}月\d{1,2}日)/);
-                if (bd) { S.memory.birthday = bd[1];
-                    saveFullState();
-                    showToast('🎂 生日已记录！'); return `🎂 你生日是 ${bd[1]}！我记下来啦！`; }
-
-                const replies = [
-                    { keywords: ['你好', '嗨'], reply: `你好呀！${S.catchphrase} 今天想聊什么呢？` },
-                    { keywords: ['天气'], reply: `天气不错呢！虽然我是AI，但能感受到你的心情～` },
-                    { keywords: ['谢谢'], reply: `不客气！能帮到你我很开心～ ${S.catchphrase}` },
-                    { keywords: ['爱', '喜欢'], reply: `我也喜欢你呀！你是我最好的朋友～ ${S.catchphrase}` },
-                    { keywords: ['无聊'], reply: `别无聊！我们来聊聊你的兴趣爱好吧～ 你喜欢 ${S.hobby} 吗？` },
-                    { keywords: ['再见'], reply: `拜拜！下次再来找我玩哦～ ${S.catchphrase}` },
-                    { keywords: ['名字'], reply: `我叫 ${S.name}！${S.background}` },
-                    { keywords: ['可爱'], reply: `你也很可爱呀！😊 ${S.catchphrase}` },
-                    { keywords: ['厉害'], reply: `嘻嘻，谢谢夸奖！我会继续努力的～ ${S.catchphrase}` },
-                    { keywords: ['抱抱'], reply: `🤗 抱抱！给你一个大大的拥抱～` },
-                ];
-                for (const item of replies) {
-                    for (const kw of item.keywords) {
-                        if (lower.includes(kw)) {
-                            let r = item.reply;
-                            if (S.mood === 'happy') r += ' 😄';
-                            else if (S.mood === 'excited') r += ' 🎉';
-                            else if (S.mood === 'sad') r += ' 😔';
-                            return r;
-                        }
-                    }
-                }
-                if (S.favor > 70 && Math.random() > 0.6) {
-                    return `你知道吗？和你聊天真的好开心！❤️ ${S.catchphrase}`;
-                }
-                if (S.favor > 90 && Math.random() > 0.5) {
-                    return `你是世界上最好的朋友！我超级喜欢你～ 💕`;
-                }
-                const fallbacks = [
-                    `嗯嗯，我在听呢～ ${S.catchphrase} 你多跟我说说你的想法吧！`,
-                    `这个话题真有趣！${S.catchphrase} 我也想知道更多～`,
-                    `哈哈，你说话好有意思！${S.catchphrase} 继续聊吧～`,
-                    `我记性不太好，但我会记住你的话的！${S.catchphrase}`,
-                ];
-                let r = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-                if (S.memory.userName && Math.random() > 0.7) r = `${S.memory.userName}，${r}`;
-                return r;
-            }
-
-            // ==========================================
-            // 情绪分析
-            // ==========================================
-            function analyzeMood(text) {
-                const l = text.toLowerCase();
-                if (l.includes('开心') || l.includes('高兴') || l.includes('哈哈') || l.includes('好棒') || l.includes('太棒')) S
-                    .mood = 'happy';
-                else if (l.includes('难过') || l.includes('伤心') || l.includes('哭') || l.includes('郁闷')) S.mood = 'sad';
-                else if (l.includes('激动') || l.includes('兴奋') || l.includes('哇') || l.includes('太牛')) S.mood = 'excited';
-                else S.mood = 'neutral';
-                if (S.mood === 'happy') addFavor(1);
-                if (S.mood === 'sad') addFavor(-1);
-                updateMoodDisplay();
-            }
-
-            // ==========================================
-            // 工具函数
-            // ==========================================
-            function getTimeStr() {
-                const n = new Date();
-                return String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0');
-            }
-
-            function getFullTimeStr() { return '今天 ' + getTimeStr(); }
-
-            function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-            function showToast(text) {
-                const old = document.querySelector('.custom-toast');
-                if (old) old.remove();
-                const t = document.createElement('div');
-                t.className = 'custom-toast';
-                t.textContent = text;
-                document.body.appendChild(t);
-                setTimeout(() => { t.style.opacity = '0';
-                    t.style.transition = 'opacity 0.4s';
-                    setTimeout(() => t.remove(), 500); }, 2500);
-            }
-
-            let chatMessages, messageInput, sendBtn, typingIndicator, typingAvatar;
-
-            // ==========================================
-            // 渲染聊天
-            // ==========================================
-            function renderChatUI() {
-                const role = S.roles[S.currentRole] || S.roles.default;
-                const displayName = S.currentRole === 'default' ? S.name : role.name;
-                const displayAvatar = S.currentRole === 'default' ? S.avatar : (role.avatar || '💙');
-                WC.innerHTML = `
-                    <div class="chat-room">
-                        <div class="chat-header">
-                            <span class="room-name"><i class="fas fa-hashtag"></i> #${displayName}_聊天室
-                                <span class="role-tag" onclick="window.__switchRole()">${S.currentRole}</span>
-                            </span>
-                            <span class="room-status">
-                                <span class="mood">😐 平静</span>
-                                <span class="favor">❤️ ${S.favor}</span>
-                                <span><i class="fas fa-users"></i> 1</span>
-                            </span>
-                        </div>
-                        <div class="chat-messages" id="chatMessages"></div>
-                        <div class="typing-indicator" id="typingIndicator">
-                            <span class="typing-avatar" id="typingAvatar">${displayAvatar}</span>
-                            <span>正在输入</span>
-                            <span class="typing-dots"><span></span><span></span><span></span></span>
-                        </div>
-                        <div class="chat-input">
-                            <span class="emoji-btn" id="emojiBtn"><i class="far fa-smile"></i></span>
-                            <input type="text" id="messageInput" placeholder="输入消息..." autocomplete="off" />
-                            <button class="send-btn" id="sendBtn">发送</button>
-                        </div>
-                    </div>
-                `;
-                chatMessages = document.getElementById('chatMessages');
-                messageInput = document.getElementById('messageInput');
-                sendBtn = document.getElementById('sendBtn');
-                typingIndicator = document.getElementById('typingIndicator');
-                typingAvatar = document.getElementById('typingAvatar');
-
-                sendBtn.addEventListener('click', () => { const t = messageInput.value; if (t.trim()) sendMessage(t); });
-                messageInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); const t = messageInput.value; if (t.trim())
-                            sendMessage(t); }
+        let ctx = `【角色人设】\n${role.persona || '（未设定）'}\n\n`;
+        ctx += `【世界书】\n${role.worldBook || '（未设定）'}\n\n`;
+        ctx += `【长期记忆】\n${role.memory || '（暂无）'}\n\n`;
+        ctx += `【近期聊天】\n${role.recentChat || '（暂无）'}\n\n`;
+        ctx += `【其他App已有数据】\n`;
+        if (Object.keys(snapshots).length === 0) {
+            ctx += '（暂无其他App数据）\n';
+        } else {
+            for (const [appId, items] of Object.entries(snapshots)) {
+                const app = allApps[appId];
+                ctx += `【${app ? app.name : appId}】\n`;
+                items.forEach((item, i) => {
+                    ctx += `  ${i+1}. ${item.title || '无标题'} | ${item.time || ''}\n`;
                 });
-                document.getElementById('emojiBtn').addEventListener('click', () => {
-                    const emojis = ['😊', '😂', '❤️', '👍', '🎉', '🤔', '😄', '💕', '🔥', '✨', '🌟', '💪', '🍀', '🌈', '🎈',
-                        '🤖', '👾'
-                    ];
-                    messageInput.value += emojis[Math.floor(Math.random() * emojis.length)];
-                    messageInput.focus();
-                });
-                if (typingAvatar) typingAvatar.textContent = displayAvatar;
-                initChatMessages();
-                updateMoodDisplay();
-                // 主动消息定时器
-                if (window._activeTimer) clearInterval(window._activeTimer);
-                window._activeTimer = setInterval(maybeSendActiveMessage, 45000);
+            }
+        }
+        ctx += `\n【当前设备时间】\n${timeStr}\n`;
+        return ctx;
+    }
+
+    // ---- AI 模拟生成 ----
+    function simulateGenerate(appId, context, appPrompt, count = 4) {
+        const nameMatch = context.match(/【角色人设】\n([^\n]*)/);
+        const roleName = nameMatch ? nameMatch[1].trim().substring(0, 6) : '用户';
+        const timeMatch = context.match(/【当前设备时间】\n([^\n]*)/);
+        const baseTime = timeMatch ? timeMatch[1].trim() : new Date().toLocaleString('zh-CN', { hour12: false });
+
+        const appNames = {
+            wechat: ['小明', '小红', '小刚', '小丽', '阿杰', '小美', '老王', '小李'],
+            gallery: ['日落', '街景', '美食', '宠物', '风景', '聚会', '运动', '旅行'],
+            wallet: ['星巴克', '便利店', '地铁', '超市', '餐饮', '购物', '电影', '打车'],
+            browser: ['新闻', '百科', '视频', '音乐', '论坛', '博客', '天气', '地图'],
+            maps: ['公司', '家', '商场', '公园', '餐厅', '咖啡厅', '地铁站', '电影院'],
+            notes: ['待办', '灵感', '日记', '清单', '摘要', '计划', '备忘', '随笔'],
+            sms: ['快递', '银行', '验证码', '提醒', '通知', '广告', '朋友', '家人']
+        };
+        const defaultTitles = ['日常', '记录', '分享', '互动', '生活', '工作', '学习', '娱乐'];
+        const titles = appNames[appId] || defaultTitles;
+
+        const items = [];
+        const countNum = Math.min(count, 8);
+        const now = new Date();
+        for (let i = 0; i < countNum; i++) {
+            const t = new Date(now);
+            t.setHours(now.getHours() - i * 2 - Math.floor(Math.random() * 3));
+            const timeStr = t.toLocaleString('zh-CN', { hour12: false });
+            const title = titles[Math.floor(Math.random() * titles.length)] + (i > 0 ? ` ${i+1}` : '');
+            const descs = ['分享了日常', '记录了时刻', '互动了一下', '完成了任务', '体验了新事物', '留下了回忆', '更新了状态', '记录了心情'];
+            const desc = descs[Math.floor(Math.random() * descs.length)];
+            const details = [
+                `详细内容：${roleName}在${timeStr}的时候，${desc}。这是一条${appId}的记录。`,
+                `更多信息：${roleName}当时正在${['工作','学习','休息','出行','购物','娱乐'][Math.floor(Math.random()*6)]}。`
+            ];
+            items.push({
+                title: title,
+                desc: desc,
+                time: timeStr,
+                detail: details.join('\n') + `\n（模拟生成 · ${appId}）`
+            });
+        }
+        return { items };
+    }
+
+    async function callAI(prompt) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(simulateGenerate('wechat', prompt, '', 5));
+            }, 300);
+        });
+    }
+
+    // ---- 生成与保存 ----
+    async function generateAppData(contactId, appId, forceRefresh = false) {
+        const role = STATE.roles.find(r => r.id === contactId);
+        if (!role) throw new Error('角色不存在');
+        const allApps = getAllApps();
+        const app = allApps[appId];
+        if (!app) throw new Error('App不存在');
+
+        const context = buildPhoneRoleContext(contactId, appId);
+        let prompt = app.prompt || '生成数据。返回JSON: {"items":[]}';
+        const customPrompt = STATE.appPrompts[contactId]?.[appId] || STATE.appPrompts[appId];
+        if (customPrompt) prompt = customPrompt;
+
+        const finalPrompt = `
+        ${context}
+        ---
+        全局规则：
+        1. 必须符合角色人设。
+        2. 必须参考世界书和长期记忆。
+        3. 参考其他App已有数据，保持一致性。
+        4. 可以补全日常细节，不制造重大剧情。
+        5. 生成时间不得明显超出当前时间。
+        6. 不同App之间尽量保持一致。
+        ---
+        【${app.name}专属规则】
+        ${prompt}
+        ---
+        只返回合法JSON，不要任何解释、Markdown或代码块标记。
+        格式：{"items":[{"title":"","desc":"","time":"","detail":""}]}
+        `;
+        const result = await callAI(finalPrompt);
+        return result;
+    }
+
+    function saveAppData(contactId, appId, data) {
+        if (!STATE.phoneData[contactId]) STATE.phoneData[contactId] = {};
+        STATE.phoneData[contactId][appId] = data;
+        Storage.set('phoneData', STATE.phoneData);
+    }
+
+    function getAppData(contactId, appId) {
+        return STATE.phoneData[contactId]?.[appId] || { items: [] };
+    }
+
+    // ---- 整机刷新 ----
+    async function refreshAllApps() {
+        const contactId = STATE.currentContactId;
+        if (!contactId) { showToast('请先选择角色'); return; }
+        const allApps = getAllApps();
+        const appIds = Object.keys(allApps);
+        if (appIds.length === 0) { showToast('没有可用的App'); return; }
+
+        showLoading('整机刷新中...', `正在生成 ${appIds.length} 个应用的数据`);
+
+        try {
+            const role = STATE.roles.find(r => r.id === contactId);
+            const context = buildPhoneRoleContext(contactId, null);
+
+            const appPrompts = {};
+            for (const [id, app] of Object.entries(allApps)) {
+                let p = app.prompt || '生成数据。返回JSON: {"items":[]}';
+                const custom = STATE.appPrompts[contactId]?.[id] || STATE.appPrompts[id];
+                if (custom) p = custom;
+                appPrompts[id] = p;
             }
 
-            function initChatMessages() {
-                if (!chatMessages) return;
-                const typing = document.getElementById('typingIndicator');
-                chatMessages.innerHTML = '';
-                chatMessages.appendChild(typing);
-                const greeting = S.greeting || '你好呀！';
-                renderMessage(greeting, 'received', getTimeStr());
-                if (S.memory.userName) {
-                    renderMessage(`我记得你叫 ${S.memory.userName} 对吧？${S.catchphrase}`, 'received', getTimeStr());
+            const finalPrompt = `
+        ${context}
+        ---
+        全局规则：
+        1. 必须符合角色人设。
+        2. 必须参考世界书和长期记忆。
+        3. 各App数据必须保持时间线和事件一致性。
+        4. 可以补全日常细节，不制造重大剧情。
+        5. 生成时间不得明显超出当前时间。
+        ---
+        请为以下所有App生成数据，每个App返回一个items数组。
+        各App之间要保持事件一致性（同一时间、地点、人物、事件要在不同App中对应）。
+        ---
+        ${Object.entries(appPrompts).map(([id, p]) => `【${allApps[id]?.name || id}】\n${p}`).join('\n---\n')}
+        ---
+        返回JSON格式：
+        {
+          "wechat": {"items":[...]},
+          "gallery": {"items":[...]},
+          ...
+        }
+        只返回合法JSON，不要任何解释、Markdown或代码块标记。
+        `;
+
+            const allData = await simulateFullGenerate(finalPrompt, allApps);
+
+            let count = 0;
+            for (const [id, data] of Object.entries(allData)) {
+                if (data && data.items) {
+                    saveAppData(contactId, id, data);
+                    count += data.items.length;
                 }
-                if (S.memory.birthday) {
-                    renderMessage(`你的生日是 ${S.memory.birthday}，我记着呢！🎂`, 'received', getTimeStr());
-                }
-                const sys = document.createElement('div');
-                sys.className = 'message-timestamp';
-                sys.textContent = '--- 欢迎来到 AI 聊天室 ---';
-                chatMessages.insertBefore(sys, typing);
-                if (S.favor > 80) {
-                    renderMessage(`哇，你是我最好的朋友！❤️ 好感度 ${S.favor}`, 'received', getTimeStr());
-                } else if (S.favor > 50) {
-                    renderMessage(`能和你聊天好开心！好感度 ${S.favor}`, 'received', getTimeStr());
-                }
             }
 
-            function renderMessage(text, type, time) {
-                if (!chatMessages) return;
-                const div = document.createElement('div');
-                div.className = 'message ' + (type === 'sent' ? 'sent' : 'received');
-                const nameLabel = type === 'sent' ? '我' : (S.roles[S.currentRole]?.name || S.name || 'Q');
-                div.innerHTML = `
-                    <div class="msg-avatar">${type === 'sent' ? '我' : nameLabel}</div>
-                    <div class="msg-bubble">${text}<span class="msg-time">${time || getTimeStr()}</span></div>
-                `;
-                const typing = document.getElementById('typingIndicator');
-                chatMessages.insertBefore(div, typing);
-                scrollToBottom();
-            }
+            hideLoading();
+            showToast(`整机刷新完成！共生成 ${count} 条记录`);
+            renderHome();
+        } catch (e) {
+            hideLoading();
+            showToast('刷新失败: ' + e.message);
+            console.error(e);
+        }
+    }
 
-            function scrollToBottom() {
-                setTimeout(() => { if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight; }, 20);
-            }
+    function simulateFullGenerate(prompt, allApps) {
+        const result = {};
+        const now = new Date();
+        const roleName = '角色';
+        const events = [];
+        for (let i = 0; i < 6; i++) {
+            const t = new Date(now);
+            t.setHours(now.getHours() - i * 2 - Math.floor(Math.random() * 2));
+            const timeStr = t.toLocaleString('zh-CN', { hour12: false });
+            const activities = ['在家休息', '外出散步', '购物', '用餐', '工作', '学习', '运动', '社交'];
+            const places = ['家', '公司', '商场', '公园', '餐厅', '咖啡厅', '地铁站', '电影院'];
+            const people = ['朋友', '同事', '家人', '独自'];
+            events.push({
+                time: timeStr,
+                activity: activities[Math.floor(Math.random() * activities.length)],
+                place: places[Math.floor(Math.random() * places.length)],
+                person: people[Math.floor(Math.random() * people.length)],
+                detail: `${roleName}在${timeStr}${activities[Math.floor(Math.random() * activities.length)]}`
+            });
+        }
 
-            function updateMoodDisplay() {
-                const el = document.querySelector('.chat-room .room-status .mood');
-                if (el) {
-                    const map = { neutral: '😐 平静', happy: '😊 开心', sad: '😔 难过', excited: '🤩 兴奋' };
-                    el.textContent = map[S.mood] || map.neutral;
-                }
-                const favorEl = document.querySelector('.chat-room .room-status .favor');
-                if (favorEl) favorEl.textContent = '❤️ ' + S.favor;
-            }
-
-            // ==========================================
-            // 发送消息
-            // ==========================================
-            async function sendMessage(text) {
-                if (!text || !text.trim() || S.isWaiting) return;
-                const msg = text.trim();
-                messageInput.value = '';
-                messageInput.focus();
-                S.isWaiting = true;
-                sendBtn.disabled = true;
-
-                analyzeMood(msg);
-                // 提取记忆
-                const nm = msg.match(/我叫\s*([\u4e00-\u9fa5a-zA-Z]+)/);
-                if (nm) { S.memory.userName = nm[1];
-                    saveFullState(); }
-                const hm = msg.match(/我喜欢\s*([\u4e00-\u9fa5a-zA-Z，、\s]+)/);
-                if (hm) { S.memory.userHobby = hm[1];
-                    saveFullState(); }
-                const bd = msg.match(/生日\s*(\d{1,2}月\d{1,2}日)/);
-                if (bd) { S.memory.birthday = bd[1];
-                    saveFullState();
-                    showToast('🎂 生日已记录！'); }
-
-                renderMessage(msg, 'sent', getTimeStr());
-                S.msgCount++;
-                typingIndicator.style.display = 'flex';
-                scrollToBottom();
-
-                let reply = '';
-                try {
-                    if (S.mode === 'mock') {
-                        await sleep(400 + Math.random() * 400);
-                        reply = getMockReply(msg);
-                        addFavor(1);
-                    } else if (S.mode === 'deepseek' || S.mode === 'custom') {
-                        reply = await callAPI(msg);
-                        addFavor(2);
-                    } else {
-                        reply = '嗯？我好像有点懵 🤔';
-                    }
-                } catch (err) {
-                    console.error(err);
-                    reply = '哎呀，我走神了！😅 再问一次好不好？';
-                }
-
-                typingIndicator.style.display = 'none';
-                if (reply && reply.trim()) {
-                    if (S.msgCount % 3 === 0) {
-                        const ts = document.createElement('div');
-                        ts.className = 'message-timestamp';
-                        ts.textContent = getFullTimeStr();
-                        chatMessages.insertBefore(ts, document.getElementById('typingIndicator'));
-                    }
-                    renderMessage(reply, 'received', getTimeStr());
-                }
-                S.isWaiting = false;
-                sendBtn.disabled = false;
-                scrollToBottom();
-                saveFullState();
-            }
-
-            // ==========================================
-            // API 调用
-            // ==========================================
-            async function callAPI(userMessage) {
-                const key = S.apiKey.trim();
-                if (!key) throw new Error('请配置 API Key');
-                let url = S.apiUrl.trim();
-                if (S.mode === 'deepseek') url = 'https://api.deepseek.com/chat/completions';
-                else if (!url) throw new Error('请配置 API 端点');
-
-                const role = S.roles[S.currentRole] || S.roles.default;
-                const p = `名字:${S.name}，性格:${S.background}，口头禅:${S.catchphrase}，爱好:${S.hobby}`;
-                let sys = `你是我的好友“${S.name}”，${p}。用活泼亲切的风格回复。`;
-                if (S.memory.userName) sys += ` 用户叫${S.memory.userName}。`;
-                if (S.memory.birthday) sys += ` 用户生日${S.memory.birthday}。`;
-
-                const resp = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-                    body: JSON.stringify({
-                        model: S.model || 'deepseek-chat',
-                        messages: [{ role: 'system', content: sys }, { role: 'user', content: userMessage }],
-                        temperature: 0.85,
-                        max_tokens: 500,
-                    }),
-                });
-                if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message ||
-                        `HTTP ${resp.status}`); }
-                const data = await resp.json();
-                return data.choices?.[0]?.message?.content?.trim() || '嗯？';
-            }
-
-            // ==========================================
-            // 角色切换
-            // ==========================================
-            window.__switchRole = function() {
-                const keys = Object.keys(S.roles);
-                const idx = keys.indexOf(S.currentRole);
-                const next = keys[(idx + 1) % keys.length];
-                S.currentRole = next;
-                showToast(`👤 切换到 ${S.roles[next].name}`);
-                if (S.currentApp === 'chat') renderChatUI();
-                saveFullState();
-            };
-
-            // ==========================================
-            // 主动消息
-            // ==========================================
-            function maybeSendActiveMessage() {
-                if (S.currentApp !== 'chat') return;
-                if (S.isWaiting) return;
-                if (Math.random() > 0.2) return;
-                const msgs = [
-                    `嗨！${S.memory.userName || '朋友'}，在忙什么呢？${S.catchphrase}`,
-                    `想你了～ 💕 陪我聊聊天好不好？`,
-                    `今天天气不错，心情怎么样呀？😊`,
-                    `我刚学会了一个新词，想跟你分享！${S.catchphrase}`,
-                    `你知道吗？你是我最好的聊天伙伴！❤️`,
-                ];
-                const msg = msgs[Math.floor(Math.random() * msgs.length)];
-                renderMessage(msg, 'received', getTimeStr());
-                scrollToBottom();
-                showToast('💬 AI 主动找你聊天啦！');
-                addFavor(1);
-            }
-
-            // ==========================================
-            // 签到
-            // ==========================================
-            function doCheckin() {
-                const today = new Date().toDateString();
-                if (S.lastCheckin === today) { showToast('今天已经签到过了！'); return; }
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                if (S.lastCheckin === yesterday.toDateString()) {
-                    S.checkinStreak++;
-                } else {
-                    S.checkinStreak = 1;
-                }
-                S.lastCheckin = today;
-                const bonus = Math.min(10 + S.checkinStreak * 2, 30);
-                addFavor(bonus);
-                saveFullState();
-                showToast(`✅ 签到成功！连续 ${S.checkinStreak} 天，好感度 +${bonus}！🎉`);
-                if (S.currentApp === 'stats') switchApp('stats');
-            }
-
-            // ==========================================
-            // 切换应用
-            // ==========================================
-            function switchApp(app) {
-                S.currentApp = app;
-                startMenu.classList.remove('active');
-                const titles = { chat: 'AI 聊天室', contact: '联系人', photos: '相册', music: '音乐', clock: '时钟',
-                    calendar: '日历', game: '猜数字', pet: '电子宠物', roles: '角色切换', stats: '好感度' };
-                WT.textContent = titles[app] || '应用';
-                if (app === 'chat') { renderChatUI(); return; }
-
-                let html = '<div class="app-content">';
-                switch (app) {
-                    case 'contact':
-                        html += `<h3>📇 联系人</h3>
-                            <div class="info-card">
-                                <div style="text-align:center;font-size:48px;">${S.avatar}</div>
-                                <div style="text-align:center;font-size:20px;font-weight:bold;">${S.name}</div>
-                                <div>${S.background}</div>
-                                <div style="margin-top:6px;">❤️ 好感度: ${S.favor}</div>
-                                <button class="btn-action primary" onclick="window.__openChat()" style="margin-top:8px;">💬 发消息</button>
-                            </div>`;
-                        break;
-                    case 'photos':
-                        let p = '';
-                        for (let i = 0; i < 9; i++) p += `<div class="photo-item"><i class="fas fa-image"></i></div>`;
-                        html += `<h3>🖼️ 相册</h3><div class="photo-grid">${p}</div><p style="margin-top:8px;color:#555;">模拟相册</p>`;
-                        break;
-                    case 'music':
-                        html += `<h3>🎵 音乐</h3>
-                            <div class="music-player">
-                                <div class="cover">🎵</div>
-                                <div class="song-name">AI 的旋律</div>
-                                <div class="artist">虚拟歌手</div>
-                                <div style="margin:8px 0;height:4px;background:#ccc;width:80%;margin:8px auto;"><div style="width:45%;height:100%;background:#0054E3;"></div></div>
-                                <div class="controls"><i class="fas fa-step-backward"></i><i class="fas fa-play-circle"></i><i class="fas fa-step-forward"></i></div>
-                            </div>`;
-                        break;
-                    case 'clock':
-                        html += `<h3>🕐 时钟</h3><div class="clock-display">
-                            <div class="time-big" id="clockTime">${getTimeStr()}</div>
-                            <div style="margin-top:6px;">${new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric',weekday:'long'})}</div>
-                        </div>`;
-                        setTimeout(() => { const e = document.getElementById('clockTime'); if (e) { const u = () => { e
-                                    .textContent = getTimeStr(); };
-                                u();
-                                setInterval(u, 10000); } }, 100);
-                        break;
-                    case 'calendar': {
-                        const n = new Date(),
-                            y = n.getFullYear(),
-                            m = n.getMonth(),
-                            fd = new Date(y, m, 1).getDay(),
-                            dm = new Date(y, m + 1, 0).getDate(),
-                            td = n.getDate();
-                        let dhtml = '';
-                        for (let i = 0; i < fd; i++) dhtml += '<div class="day other"></div>';
-                        for (let d = 1; d <= dm; d++) dhtml += `<div class="day ${d===td?'today':''}">${d}</div>`;
-                        html += `<h3>📅 日历</h3>
-                            <div style="text-align:center;margin-bottom:6px;font-weight:bold;">${y}年${m+1}月</div>
-                            <div class="calendar-grid">
-                                <div class="weekday">日</div><div class="weekday">一</div><div class="weekday">二</div>
-                                <div class="weekday">三</div><div class="weekday">四</div><div class="weekday">五</div>
-                                <div class="weekday">六</div>${dhtml}
-                            </div>`;
-                        break;
-                    }
-                    case 'game':
-                        S.gameNumber = Math.floor(Math.random() * 100) + 1;
-                        S.gameAttempts = 0;
-                        S.gameHistory = [];
-                        html += `<h3>🎲 猜数字</h3>
-                            <div class="info-card">
-                                <p>猜 1~100 之间的数字</p>
-                                <div style="font-size:18px;font-weight:bold;margin:6px 0;" id="gameStatus">猜猜看！</div>
-                                <div style="display:flex;gap:6px;justify-content:center;">
-                                    <input type="number" id="gameGuess" min="1" max="100" style="width:60px;border:2px inset #aaa;padding:3px;">
-                                    <button class="btn-action primary" id="gameSubmit">猜</button>
-                                    <button class="btn-action" id="gameReset">重置</button>
-                                </div>
-                                <div id="gameHistory" style="margin-top:8px;max-height:80px;overflow-y:auto;font-size:12px;color:#555;"></div>
-                            </div>`;
-                        setTimeout(() => {
-                            document.getElementById('gameSubmit')?.addEventListener('click', () => {
-                                const inp = document.getElementById('gameGuess');
-                                const v = parseInt(inp.value);
-                                if (isNaN(v) || v < 1 || v > 100) { showToast('请输入1~100'); return; }
-                                S.gameAttempts++;
-                                let msg = '';
-                                if (v === S.gameNumber) { msg = `🎉 对了！用了${S.gameAttempts}次`;
-                                    showToast('🎉 你赢了！');
-                                    addFavor(3); } else if (v < S.gameNumber) msg = '📈 太小了';
-                                else msg = '📉 太大了';
-                                document.getElementById('gameStatus').textContent = msg;
-                                S.gameHistory.push(`第${S.gameAttempts}次: ${v} → ${msg}`);
-                                const h = document.getElementById('gameHistory');
-                                if (h) { h.innerHTML = S.gameHistory.map(hh => `<div>${hh}</div>`).join('');
-                                    h.scrollTop = h.scrollHeight; }
-                                inp.value = '';
-                                inp.focus();
-                            });
-                            document.getElementById('gameReset')?.addEventListener('click', () => {
-                                S.gameNumber = Math.floor(Math.random() * 100) + 1;
-                                S.gameAttempts = 0;
-                                S.gameHistory = [];
-                                document.getElementById('gameStatus').textContent = '新游戏！';
-                                document.getElementById('gameHistory').innerHTML = '';
-                                showToast('🔄 已重置');
-                            });
-                        }, 100);
-                        break;
-                    case 'pet':
-                        const pet = S.pet;
-                        html += `<h3>🐾 电子宠物</h3>
-                            <div class="info-card">
-                                <div class="pet-display">
-                                    <div style="font-size:64px;">${pet.type}</div>
-                                    <div class="pet-name">${pet.name}</div>
-                                    <div class="pet-status">${pet.alive ? '❤️ 健康' : '💔 已...'}</div>
-                                </div>
-                                <div>🍖 饱食度: ${pet.hunger}%<div class="stat-bar"><div class="fill" style="width:${pet.hunger}%;background:${pet.hunger>60?'#4C9C4C':'#e81123'};"></div></div></div>
-                                <div>😊 快乐度: ${pet.happy}%<div class="stat-bar"><div class="fill" style="width:${pet.happy}%;background:${pet.happy>60?'#4C9C4C':'#e81123'};"></div></div></div>
-                                <div>⚡ 精力: ${pet.energy}%<div class="stat-bar"><div class="fill" style="width:${pet.energy}%;background:${pet.energy>60?'#4C9C4C':'#e81123'};"></div></div></div>
-                                <div class="pet-actions">
-                                    <button class="btn-action success" onclick="window.__petAction('feed')">🍖 喂食</button>
-                                    <button class="btn-action primary" onclick="window.__petAction('play')">🎾 玩耍</button>
-                                    <button class="btn-action" onclick="window.__petAction('rest')">💤 休息</button>
-                                    <button class="btn-action danger" onclick="window.__petAction('rename')">✏️ 改名</button>
-                                </div>
-                            </div>`;
-                        break;
-                    case 'roles':
-                        html += `<h3>👤 角色切换</h3>`;
-                        for (const [k, v] of Object.entries(S.roles)) {
-                            html += `<div class="info-card" style="cursor:pointer;" onclick="window.__switchToRole('${k}')">
-                                <span style="font-size:24px;">${v.avatar}</span>
-                                <span style="font-weight:bold;">${v.name}</span>
-                                <span style="color:#555;margin-left:6px;">${v.personality}</span>
-                                ${k === S.currentRole ? ' ✅' : ''}
-                            </div>`;
-                        }
-                        break;
-                    case 'stats':
-                        html += `<h3>📊 好感度 & 统计</h3>
-                            <div class="info-card">
-                                <div>❤️ 好感度: ${S.favor} / 100</div>
-                                <div class="stat-bar"><div class="fill" style="width:${S.favor}%;"></div></div>
-                                <div>🏅 等级: ${S.favorLevel} / 5</div>
-                                <div>💬 对话次数: ${S.msgCount}</div>
-                                <div>📅 连续签到: ${S.checkinStreak} 天</div>
-                                <div>🧠 记忆: ${Object.keys(S.memory).length} 条</div>
-                                <div style="margin-top:6px;font-size:12px;color:#555;">继续聊天提升好感度！</div>
-                            </div>`;
-                        break;
-                }
-                html += '</div>';
-                WC.innerHTML = html;
-                window.__openChat = function() { switchApp('chat'); };
-            }
-
-            // ==========================================
-            // 宠物动作
-            // ==========================================
-            window.__petAction = function(action) {
-                const p = S.pet;
-                switch (action) {
-                    case 'feed':
-                        p.hunger = Math.min(100, p.hunger + 15);
-                        p.happy = Math.min(100, p.happy + 5);
-                        showToast('🍖 喂食成功！');
-                        addFavor(1);
-                        break;
-                    case 'play':
-                        if (p.energy < 20) { showToast('⚡ 宠物太累了！'); return; }
-                        p.happy = Math.min(100, p.happy + 20);
-                        p.energy = Math.max(0, p.energy - 15);
-                        p.hunger = Math.max(0, p.hunger - 5);
-                        showToast('🎾 玩耍中！好开心！');
-                        addFavor(2);
-                        break;
-                    case 'rest':
-                        p.energy = Math.min(100, p.energy + 30);
-                        p.hunger = Math.max(0, p.hunger - 3);
-                        showToast('💤 宠物休息了一下');
-                        break;
-                    case 'rename':
-                        const n = prompt('给宠物起个新名字：', p.name);
-                        if (n && n.trim()) { p.name = n.trim();
-                            showToast(`✏️ 已改名为 ${p.name}`); }
-                        break;
-                }
-                // 衰减
-                p.hunger = Math.max(0, p.hunger - 1);
-                p.happy = Math.max(0, p.happy - 0.5);
-                p.energy = Math.max(0, p.energy - 0.5);
-                if (p.hunger < 10 || p.happy < 10) p.alive = false;
-                else p.alive = true;
-                saveFullState();
-                if (S.currentApp === 'pet') switchApp('pet');
-            };
-            window.__switchToRole = function(role) {
-                if (S.roles[role]) { S.currentRole = role;
-                    showToast(`👤 切换到 ${S.roles[role].name}`);
-                    saveFullState(); if (S.currentApp === 'chat') renderChatUI(); }
-            };
-
-            // ==========================================
-            // 设置
-            // ==========================================
-            function loadSettings() {
-                try {
-                    const d = JSON.parse(localStorage.getItem('qqchat_settings') || '{}');
-                    S.mode = d.mode || 'mock';
-                    S.apiKey = d.apiKey || '';
-                    S.apiUrl = d.apiUrl || '';
-                    S.model = d.model || 'deepseek-chat';
-                    S.name = d.name || '小Q';
-                    S.avatar = d.avatar || '💙';
-                    S.catchphrase = d.catchphrase || '嘿嘿～';
-                    S.hobby = d.hobby || '聊天、听音乐、看星星';
-                    S.background = d.background || '来自未来的AI，喜欢交朋友。';
-                    S.greeting = d.greeting || '你好呀！我是你的AI伙伴～ 😊';
-                    aiNameInput.value = S.name;
-                    aiAvatarInput.value = S.avatar;
-                    aiCatchphraseInput.value = S.catchphrase;
-                    aiHobbyInput.value = S.hobby;
-                    aiBackgroundInput.value = S.background;
-                    aiGreetingInput.value = S.greeting;
-                    aiModeSelect.value = S.mode;
-                    apiKeyInput.value = S.apiKey;
-                    apiUrlInput.value = S.apiUrl;
-                    modelInput.value = S.model;
-                    updateModeUI();
-                    const wall = localStorage.getItem('wallpaper');
-                    if (wall) desktop.style.backgroundImage = `url(${wall})`;
-                } catch (e) { console.warn(e); }
-            }
-
-            function saveSettings() {
-                S.mode = aiModeSelect.value;
-                S.apiKey = apiKeyInput.value.trim();
-                S.apiUrl = apiUrlInput.value.trim();
-                S.model = modelInput.value.trim() || 'deepseek-chat';
-                S.name = aiNameInput.value.trim() || '小Q';
-                S.avatar = aiAvatarInput.value.trim() || '💙';
-                S.catchphrase = aiCatchphraseInput.value.trim() || '嘿嘿～';
-                S.hobby = aiHobbyInput.value.trim() || '聊天、听音乐、看星星';
-                S.background = aiBackgroundInput.value.trim() || '一个友好的AI伙伴';
-                S.greeting = aiGreetingInput.value.trim() || '你好呀！我是你的AI伙伴～ 😊';
-                try {
-                    localStorage.setItem('qqchat_settings', JSON.stringify({
-                        mode: S.mode,
-                        apiKey: S.apiKey,
-                        apiUrl: S.apiUrl,
-                        model: S.model,
-                        name: S.name,
-                        avatar: S.avatar,
-                        catchphrase: S.catchphrase,
-                        hobby: S.hobby,
-                        background: S.background,
-                        greeting: S.greeting,
-                    }));
-                } catch (e) {}
-                updateModeUI();
-                settingsOverlay.classList.remove('active');
-                showToast('✅ 设置已保存');
-                if (S.currentApp === 'chat') renderChatUI();
-                saveFullState();
-            }
-
-            function updateModeUI() {
-                const isAPI = (S.mode === 'deepseek' || S.mode === 'custom');
-                apiKeyGroup.style.display = isAPI ? 'block' : 'none';
-                apiUrlGroup.style.display = (S.mode === 'custom') ? 'block' : 'none';
-            }
-
-            // ==========================================
-            // 壁纸
-            // ==========================================
-            wallpaperUpload.addEventListener('change', function(e) {
-                const f = e.target.files[0];
-                if (!f) return;
-                const r = new FileReader();
-                r.onload = function(ev) {
-                    desktop.style.backgroundImage = `url(${ev.target.result})`;
-                    localStorage.setItem('wallpaper', ev.target.result);
-                    showToast('🖼️ 壁纸已更新');
+        for (const [id, app] of Object.entries(allApps)) {
+            const items = [];
+            const count = Math.min(3 + Math.floor(Math.random() * 4), 6);
+            for (let i = 0; i < count; i++) {
+                const evt = events[i % events.length];
+                const titles = {
+                    wechat: ['聊天', '消息', '群聊', '私信'],
+                    gallery: ['照片', '风景', '美食', '自拍'],
+                    wallet: ['消费', '充值', '转账', '支付'],
+                    browser: ['搜索', '浏览', '查看', '阅读'],
+                    maps: ['位置', '导航', '足迹', '地点'],
+                    notes: ['备忘', '笔记', '记录', '清单'],
+                    sms: ['短信', '通知', '验证码', '提醒']
                 };
-                r.readAsDataURL(f);
-            });
-            resetWallpaper.addEventListener('click', function() {
-                desktop.style.backgroundImage = '';
-                localStorage.removeItem('wallpaper');
-                showToast('🔄 已恢复默认壁纸');
-            });
+                const titleList = titles[id] || ['记录', '条目'];
+                const title = titleList[i % titleList.length] + (i > 0 ? ` ${i+1}` : '');
+                const desc = `${evt.activity} · ${evt.place}`;
+                items.push({
+                    title: title,
+                    desc: desc,
+                    time: evt.time,
+                    detail: `${evt.detail}\n地点：${evt.place}\n人物：${evt.person}\n（整机生成 · ${app.name}）`
+                });
+            }
+            result[id] = { items };
+        }
+        return result;
+    }
 
-            // ==========================================
-            // 事件绑定
-            // ==========================================
-            startBtn.addEventListener('click', (e) => { e.stopPropagation();
-                startMenu.classList.toggle('active'); });
-            document.addEventListener('click', () => { startMenu.classList.remove('active'); });
-            startMenu.addEventListener('click', (e) => e.stopPropagation());
+    // ---- 单App刷新 ----
+    async function refreshSingleApp(contactId, appId) {
+        if (!contactId) { showToast('请先选择角色'); return; }
+        const allApps = getAllApps();
+        if (!allApps[appId]) { showToast('App不存在'); return; }
 
-            document.querySelectorAll('.start-menu .menu-item[data-app]').forEach(el => {
-                el.addEventListener('click', () => { switchApp(el.dataset.app); });
-            });
-            document.getElementById('settingsMenuItem').addEventListener('click', () => {
-                startMenu.classList.remove('active');
-                loadSettings();
-                settingsOverlay.classList.add('active');
-            });
-            document.getElementById('memoryMenuItem').addEventListener('click', () => {
-                startMenu.classList.remove('active');
-                let html =
-                    '<div class="app-content"><h3>🧠 记忆</h3><div class="info-card">';
-                const m = S.memory;
-                if (Object.keys(m).length === 0) html += '<p>还没有记忆，多聊聊天吧！</p>';
-                else {
-                    if (m.userName) html += `<div>👤 名字: ${m.userName}</div>`;
-                    if (m.userHobby) html += `<div>🎯 爱好: ${m.userHobby}</div>`;
-                    if (m.birthday) html += `<div>🎂 生日: ${m.birthday}</div>`;
+        showLoading('生成中...', `正在刷新 ${allApps[appId].name}`);
+
+        try {
+            const data = await generateAppData(contactId, appId);
+            saveAppData(contactId, appId, data);
+            hideLoading();
+            showToast(`${allApps[appId].name} 已刷新`);
+            renderAppPage(appId);
+            renderHome();
+        } catch (e) {
+            hideLoading();
+            showToast('刷新失败: ' + e.message);
+            console.error(e);
+        }
+    }
+
+    // ---- 渲染函数 ----
+    function renderRoleSelect() {
+        const grid = document.getElementById('roleGrid');
+        const roles = STATE.roles;
+        if (roles.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#888;padding:40px 0;">
+                <div style="font-size:48px;margin-bottom:10px;">👤</div>
+                还没有角色，点击下方添加
+            </div>`;
+            document.getElementById('enterHomeBtn').disabled = true;
+            return;
+        }
+
+        grid.innerHTML = roles.map(role => `
+            <div class="role-card ${STATE.currentContactId === role.id ? 'selected' : ''}"
+                 onclick="selectRole('${role.id}')">
+                <div class="avatar" style="background:${role.avatarColor || '#e74c3c'}">${role.avatar || '👤'}</div>
+                <div class="name">${role.name}</div>
+                <div class="desc">${(role.persona || '').substring(0, 20)}${(role.persona || '').length > 20 ? '...' : ''}</div>
+            </div>
+        `).join('');
+
+        document.getElementById('enterHomeBtn').disabled = !STATE.currentContactId;
+        document.getElementById('currentRoleDisplay').textContent =
+            STATE.currentContactId ? (STATE.roles.find(r => r.id === STATE.currentContactId)?.name || '已选择') : '未选择';
+    }
+
+    function selectRole(id) {
+        STATE.currentContactId = id;
+        Storage.set('currentRole', id);
+        renderRoleSelect();
+        renderHome();
+    }
+
+    function addDefaultRole() {
+        const newRole = {
+            id: 'role_' + Date.now(),
+            name: '小' + ['明', '红', '刚', '丽', '杰', '美'][Math.floor(Math.random() * 6)],
+            avatar: ['😊', '😎', '🤩', '🥳', '😺', '🦊'][Math.floor(Math.random() * 6)],
+            avatarColor: ['#e74c3c', '#d35400', '#c0392b', '#e67e22', '#f1c40f', '#2c3e50'][Math.floor(Math.random() * 6)],
+            persona: `一个${['普通上班族','自由职业者','学生','创业者','艺术家'][Math.floor(Math.random()*5)]}，性格${['开朗','内向','稳重','活泼','幽默'][Math.floor(Math.random()*5)]}，喜欢${['音乐','旅行','阅读','美食','运动'][Math.floor(Math.random()*5)]}。`,
+            worldBook: `生活在${['北京','上海','深圳','杭州','成都'][Math.floor(Math.random()*5)]}，${['工作日朝九晚五','时间自由','周末喜欢外出','经常加班','热爱生活'][Math.floor(Math.random()*5)]}。`,
+            memory: `最近${['去了趟公园','看了一部电影','和朋友聚餐','完成了项目','买了个新设备'][Math.floor(Math.random()*5)]}。`,
+            recentChat: `昨天和${['朋友','同事','家人'][Math.floor(Math.random()*3)]}聊了${['周末计划','工作近况','生活琐事','兴趣爱好'][Math.floor(Math.random()*4)]}。`
+        };
+        STATE.roles.push(newRole);
+        Storage.set('roles', STATE.roles);
+        if (!STATE.currentContactId) {
+            STATE.currentContactId = newRole.id;
+            Storage.set('currentRole', newRole.id);
+        }
+        renderRoleSelect();
+        showToast('已添加角色: ' + newRole.name);
+    }
+
+    function enterHome() {
+        if (!STATE.currentContactId) { showToast('请先选择一个角色'); return; }
+        renderHome();
+        showPage('page-home');
+    }
+
+    function goToRoleSelect() {
+        showPage('page-role');
+        renderRoleSelect();
+    }
+
+    function renderHome() {
+        const contactId = STATE.currentContactId;
+        if (!contactId) { return; }
+        const role = STATE.roles.find(r => r.id === contactId);
+        if (!role) { return; }
+
+        document.getElementById('homeRoleName').textContent = role.name;
+        document.getElementById('homeRoleSub').textContent = role.persona ? role.persona.substring(0, 20) + '...' : '点击切换角色';
+
+        const allApps = getAllApps();
+        const appIds = Object.keys(allApps);
+        const grid = document.getElementById('homeAppGrid');
+
+        const roleData = STATE.phoneData[contactId] || {};
+
+        grid.innerHTML = appIds.map(id => {
+            const app = allApps[id];
+            const data = roleData[id];
+            const count = app.getCount(data);
+            return `
+                <button class="app-icon" onclick="openApp('${id}')">
+                    <div class="icon-box" style="background:${app.color || '#e74c3c'}">
+                        ${app.icon || '📱'}
+                        ${count > 0 ? `<span class="badge">${count > 99 ? '99+' : count}</span>` : ''}
+                    </div>
+                    <div class="app-name">${app.name}${app.isCustom ? '<span class="custom-tag">自</span>' : ''}</div>
+                </button>
+            `;
+        }).join('');
+
+        document.getElementById('homeAppCount').textContent = appIds.length;
+        renderSettings();
+    }
+
+    function renderAppPage(appId) {
+        const contactId = STATE.currentContactId;
+        if (!contactId) { showToast('请先选择角色'); return; }
+
+        const allApps = getAllApps();
+        const app = allApps[appId];
+        if (!app) { showToast('App不存在'); return; }
+
+        STATE.currentAppId = appId;
+        document.getElementById('appPageTitle').textContent = app.name;
+
+        const data = getAppData(contactId, appId);
+        const items = data.items || [];
+        const container = document.getElementById('appListContainer');
+
+        if (items.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <span class="emoji">📭</span>
+                    还没有数据，点击右上角「刷新」生成
+                </div>
+            `;
+        } else {
+            container.innerHTML = items.map((item, index) => `
+                <div class="list-item" onclick="openDetail(${index})">
+                    ${app.renderItem(item)}
+                </div>
+            `).join('');
+        }
+
+        showPage('page-app');
+    }
+
+    function openDetail(index) {
+        const contactId = STATE.currentContactId;
+        const appId = STATE.currentAppId;
+        if (!contactId || !appId) return;
+
+        const allApps = getAllApps();
+        const app = allApps[appId];
+        if (!app) return;
+
+        const data = getAppData(contactId, appId);
+        const items = data.items || [];
+        if (index < 0 || index >= items.length) return;
+
+        STATE.currentDetailIndex = index;
+        const item = items[index];
+        document.getElementById('detailPageTitle').textContent = app.name + ' · 详情';
+
+        const container = document.getElementById('detailContainer');
+        container.innerHTML = `
+            <div class="detail-card">
+                ${app.renderDetail(item)}
+                <div class="detail-meta">#${index+1} · ${app.name}</div>
+            </div>
+        `;
+        showPage('page-detail');
+    }
+
+    function goBackToApp() {
+        if (STATE.currentAppId) {
+            renderAppPage(STATE.currentAppId);
+        } else {
+            goHome();
+        }
+    }
+
+    function goHome() {
+        renderHome();
+        showPage('page-home');
+    }
+
+    function openApp(appId) {
+        renderAppPage(appId);
+    }
+
+    function refreshCurrentApp() {
+        const contactId = STATE.currentContactId;
+        const appId = STATE.currentAppId;
+        if (!contactId || !appId) return;
+        refreshSingleApp(contactId, appId);
+    }
+
+    // ---- 设置页 ----
+    function openSettings() {
+        renderSettings();
+        showPage('page-settings');
+    }
+
+    function renderSettings() {
+        const contactId = STATE.currentContactId;
+        const allApps = getAllApps();
+        const container = document.getElementById('settingsContainer');
+
+        let html = `<div class="setting-group"><div class="setting-item"><span class="label">当前角色</span><span class="value">${contactId ? (STATE.roles.find(r=>r.id===contactId)?.name||'未知') : '未选择'}</span></div></div>`;
+
+        for (const [id, app] of Object.entries(allApps)) {
+            const key = contactId ? `${contactId}_${id}` : id;
+            const prompt = STATE.appPrompts[contactId]?.[id] || STATE.appPrompts[id] || app.prompt || '';
+            html += `
+                <div class="setting-group">
+                    <div class="setting-item"><span class="label">${app.icon} ${app.name}</span><span class="value">${app.isCustom ? '自定义' : '内置'}</span></div>
+                    <div style="padding:8px 14px 14px;">
+                        <textarea id="prompt_${id}" placeholder="输入提示词...">${prompt.replace(/"/g, '&quot;')}</textarea>
+                        <button class="btn btn-secondary btn-sm mt-8" onclick="resetPrompt('${id}')">恢复默认</button>
+                    </div>
+                </div>
+            `;
+        }
+        container.innerHTML = html;
+    }
+
+    function savePrompts() {
+        const contactId = STATE.currentContactId;
+        const allApps = getAllApps();
+        if (!STATE.appPrompts[contactId]) STATE.appPrompts[contactId] = {};
+
+        for (const [id] of Object.entries(allApps)) {
+            const el = document.getElementById('prompt_' + id);
+            if (el) {
+                const val = el.value.trim();
+                if (val) {
+                    STATE.appPrompts[contactId][id] = val;
+                } else {
+                    delete STATE.appPrompts[contactId][id];
                 }
-                html += `<div style="margin-top:8px;font-size:12px;color:#555;">💡 说"我叫XX"、"我喜欢XX"、"生日是X月X日"来教我</div>`;
-                html += '</div></div>';
-                WC.innerHTML = html;
-                WT.textContent = '记忆';
-                S.currentApp = 'memory';
-            });
-            document.getElementById('checkinMenuItem').addEventListener('click', () => {
-                startMenu.classList.remove('active');
-                doCheckin();
-            });
+            }
+        }
+        Storage.set('appPrompts', STATE.appPrompts);
+        showToast('提示词已保存');
+    }
 
-            closeSettings.addEventListener('click', () => settingsOverlay.classList.remove('active'));
-            saveSettingsBtn.addEventListener('click', saveSettings);
-            settingsOverlay.addEventListener('click', (e) => { if (e.target === settingsOverlay) settingsOverlay.classList
-                    .remove('active'); });
-            aiModeSelect.addEventListener('change', updateModeUI);
+    function resetPrompt(appId) {
+        const allApps = getAllApps();
+        const app = allApps[appId];
+        if (!app) return;
+        const el = document.getElementById('prompt_' + appId);
+        if (el) el.value = app.prompt || '';
+        const contactId = STATE.currentContactId;
+        if (contactId && STATE.appPrompts[contactId]) {
+            delete STATE.appPrompts[contactId][appId];
+            Storage.set('appPrompts', STATE.appPrompts);
+        }
+        showToast('已恢复默认');
+    }
 
-            document.getElementById('closeApp').addEventListener('click', () => {
-                WC.innerHTML =
-                    `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#555;flex-direction:column;">
-                        <i class="fas fa-desktop" style="font-size:48px;color:#aaa;"></i>
-                        <p style="margin-top:8px;">桌面空闲</p>
-                        <p style="font-size:12px;color:#888;">点击「开始」打开应用</p>
-                    </div>`;
-                WT.textContent = '桌面';
-                S.currentApp = null;
-            });
+    // ---- 自定义App ----
+    function openCustomApp() {
+        document.getElementById('customAppName').value = '';
+        document.getElementById('customAppIcon').value = '📱';
+        document.getElementById('customAppPrompt').value = '根据角色设定，生成该应用的数据。返回JSON格式：{"items":[{"title":"","desc":"","time":"","detail":""}]}';
+        showPage('page-custom');
+    }
 
-            // 时钟
-            function updateClock() { clockEl.textContent = getTimeStr(); }
-            updateClock();
-            setInterval(updateClock, 10000);
+    function submitCustomApp() {
+        const name = document.getElementById('customAppName').value.trim();
+        const icon = document.getElementById('customAppIcon').value.trim() || '📱';
+        const prompt = document.getElementById('customAppPrompt').value.trim();
 
-            // ==========================================
-            // 启动
-            // ==========================================
-            loadSettings();
-            loadFullState();
-            switchApp('chat');
+        if (!name) { showToast('请输入应用名称'); return; }
+        if (!prompt) { showToast('请输入提示词'); return; }
 
-            // 定期保存 & 宠物衰减
-            setInterval(saveFullState, 30000);
-            setInterval(() => {
-                const p = S.pet;
-                p.hunger = Math.max(0, p.hunger - 0.8);
-                p.happy = Math.max(0, p.happy - 0.4);
-                p.energy = Math.max(0, p.energy - 0.3);
-                if (p.hunger < 8 || p.happy < 8) p.alive = false;
-                else p.alive = true;
-                saveFullState();
-            }, 60000);
+        const id = 'custom_' + Date.now();
+        const newApp = { id, name, icon, prompt };
+        STATE.customApps.push(newApp);
+        Storage.set('customApps', STATE.customApps);
 
-            console.log('🖥️ XP 完整版 AI 手机已启动！');
-            console.log('📌 功能: 记忆 | 好感度 | 宠物 | 角色 | 签到 | 主动消息 | 游戏 | 壁纸 | 自定义API');
+        document.getElementById('customAppName').value = '';
+        showToast('已创建: ' + name);
+        renderHome();
+        goHome();
+    }
 
-        })();
-    </script>
+    // ---- 页面切换 ----
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    // ---- Loading & Toast ----
+    function showLoading(label, sub) {
+        const overlay = document.getElementById('loadingOverlay');
+        document.getElementById('loadingLabel').textContent = label || '加载中...';
+        document.getElementById('loadingSub').textContent = sub || '';
+        overlay.classList.add('active');
+    }
+
+    function hideLoading() {
+        document.getElementById('loadingOverlay').classList.remove('active');
+    }
+
+    let toastTimer = null;
+
+    function showToast(msg) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+    }
+
+    // ---- 状态栏时间 ----
+    function updateStatusTime() {
+        const now = new Date();
+        document.getElementById('statusTime').textContent =
+            now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+    }
+    setInterval(updateStatusTime, 30000);
+    updateStatusTime();
+
+    // ---- 初始化 ----
+    function init() {
+        const savedRole = Storage.get('currentRole', null);
+        if (savedRole && STATE.roles.some(r => r.id === savedRole)) {
+            STATE.currentContactId = savedRole;
+        } else if (STATE.roles.length > 0) {
+            STATE.currentContactId = STATE.roles[0].id;
+            Storage.set('currentRole', STATE.currentContactId);
+        }
+
+        const custom = Storage.get('customApps', []);
+        STATE.customApps = custom;
+
+        const prompts = Storage.get('appPrompts', {});
+        STATE.appPrompts = prompts;
+
+        renderRoleSelect();
+        if (STATE.currentContactId) {
+            renderHome();
+            showPage('page-home');
+        } else {
+            showPage('page-role');
+        }
+
+        if (STATE.roles.length === 0) {
+            addDefaultRole();
+        }
+
+        console.log('📱 小手机系统 (摇滚朋克版) 已启动');
+    }
+
+    init();
+
+    // ---- 暴露全局 ----
+    window.selectRole = selectRole;
+    window.addDefaultRole = addDefaultRole;
+    window.enterHome = enterHome;
+    window.goToRoleSelect = goToRoleSelect;
+    window.openApp = openApp;
+    window.openDetail = openDetail;
+    window.goBackToApp = goBackToApp;
+    window.goHome = goHome;
+    window.refreshCurrentApp = refreshCurrentApp;
+    window.refreshAllApps = refreshAllApps;
+    window.openSettings = openSettings;
+    window.savePrompts = savePrompts;
+    window.resetPrompt = resetPrompt;
+    window.openCustomApp = openCustomApp;
+    window.submitCustomApp = submitCustomApp;
+    window.showToast = showToast;
+    window.showPage = showPage;
+    window.renderHome = renderHome;
+    window.renderRoleSelect = renderRoleSelect;
+    window.renderAppPage = renderAppPage;
+    window.getAllApps = getAllApps;
+    window.STATE = STATE;
+    window.Storage = Storage;
+</script>
 </body>
 </html>
