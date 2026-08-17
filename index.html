@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-  <title>小手机 · 精简版</title>
+  <title>小手机 · 修复版</title>
   <style>
-    /* ===== 自定义字体 ===== */
     @font-face {
       font-family: 'CustomFont';
       src: url('https://zora404.dpdns.org/file/1786970803671_肉の病症小猫___1_.ttf') format('truetype');
@@ -13,7 +12,6 @@
       font-style: normal;
     }
 
-    /* ===== 全局 ===== */
     :root {
       --bg: #f5f3f0;
       --bg-card: #ffffff;
@@ -64,12 +62,12 @@
     #desktop {
       flex:1; padding:8px 18px 12px; display:flex; flex-direction:column; background:var(--bg); overflow:hidden; position:relative;
     }
-    /* 桌面壁纸 - 透明度从0.08提到0.35，让图片可见 */
+    /* 桌面壁纸 - 完全不透明 */
     #desktop::before {
       content:''; position:absolute; inset:0;
       background-image:url('https://zora404.dpdns.org/file/1786970535430_IMG_5751.jpeg');
       background-size:cover; background-position:center;
-      opacity:0.35; pointer-events:none; z-index:0;
+      opacity:1; pointer-events:none; z-index:0;
     }
     .page-dots { text-align:center; font-size:10px; color:var(--text-ter); padding:4px 0 12px; flex-shrink:0; letter-spacing:8px; opacity:0.4; position:relative; z-index:1; }
     .app-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px 6px; padding:8px 0; flex:1; align-content:flex-start; position:relative; z-index:1; }
@@ -116,6 +114,9 @@
     .chat-msg .t { font-size:9px; font-weight:300; opacity:0.3; display:block; text-align:right; margin-top:4px; }
     .chat-msg.user .t { color:rgba(255,255,255,0.4); }
     .chat-msg.ai .t { color:var(--text-ter); }
+    /* 表情包在消息中的样式 */
+    .chat-msg.sticker { background:none !important; border:none !important; box-shadow:none !important; padding:4px 0; max-width:120px; }
+    .chat-msg.sticker img { width:100%; border-radius:var(--radius-sm); max-width:120px; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
     .chat-msg.ai + .chat-msg.ai, .chat-msg.user + .chat-msg.user { margin-top:4px; }
     .chat-msg.user + .chat-msg.ai, .chat-msg.ai + .chat-msg.user { margin-top:16px; }
@@ -127,15 +128,25 @@
     .typing-dots span:nth-child(3){animation-delay:0s}
     @keyframes dotB { 0%,60%,100%{transform:translateY(0);opacity:0.15;} 30%{transform:translateY(-6px);opacity:0.6;} }
 
-    /* ===== 输入栏 ===== */
-    .chat-input { display:flex; gap:8px; padding:8px 0 4px; border-top:var(--border); flex-shrink:0; background:rgba(255,255,255,0.3); backdrop-filter:blur(10px); align-items:center; }
+    /* ===== 输入栏（含加号+表情按钮） ===== */
+    .chat-input { display:flex; gap:6px; padding:8px 0 4px; border-top:var(--border); flex-shrink:0; background:rgba(255,255,255,0.3); backdrop-filter:blur(10px); align-items:center; }
+    .chat-input .btn-icon { width:36px; height:36px; border-radius:50%; border:none; background:var(--bg-input); color:var(--text-sec); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s; flex-shrink:0; }
+    .chat-input .btn-icon:active { background:var(--text-ter); }
     .chat-input input { flex:1; padding:10px 14px; border:var(--border); background:var(--bg-input); font-size:14px; font-weight:400; color:var(--text); border-radius:var(--radius-full); transition:border-color 0.2s; }
     .chat-input input:focus { border-color:var(--gold); background:#fff; }
     .chat-input input::placeholder { color:var(--text-ter); font-weight:300; }
     .chat-input .btn-send { padding:10px 20px; border:none; border-radius:var(--radius-full); background:var(--bg-dark); color:#fff; font-size:14px; font-weight:400; cursor:pointer; }
     .chat-input .btn-send:active { transform:scale(0.94); }
 
-    /* ===== 个人资料（放在消息里） ===== */
+    /* ===== 加号展开菜单 ===== */
+    .plus-menu { display:none; grid-template-columns:repeat(4,1fr); gap:12px; padding:12px 0; border-top:var(--border); background:rgba(255,255,255,0.5); backdrop-filter:blur(10px); }
+    .plus-menu.open { display:grid; }
+    .plus-menu .item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:8px 0; }
+    .plus-menu .item:active { transform:scale(0.88); }
+    .plus-menu .item .icon { width:44px; height:44px; border-radius:var(--radius); background:var(--bg-input); display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--text-sec); }
+    .plus-menu .item .label { font-size:10px; color:var(--text-sec); font-weight:300; }
+
+    /* ===== 个人资料 ===== */
     .profile-header { display:flex; flex-direction:column; align-items:center; padding:20px 0; border-bottom:var(--border); }
     .profile-header .avatar { width:72px; height:72px; border-radius:50%; background:var(--gold-light); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; margin-bottom:8px; overflow:hidden; }
     .profile-header .avatar img { width:100%; height:100%; object-fit:cover; }
@@ -176,6 +187,22 @@
     .world-item .acts button { background:transparent; border:none; color:var(--text-ter); font-size:12px; font-weight:400; cursor:pointer; padding:0; }
     .world-item .acts button:active { color:var(--text); }
     .world-item .acts .del { color:#d64545; }
+
+    /* ===== 表情包（消息内部） ===== */
+    .sticker-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .sticker-item { aspect-ratio:1; background:var(--bg-card); border:var(--border); border-radius:var(--radius-sm); overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center; position:relative; }
+    .sticker-item:active { transform:scale(0.92); }
+    .sticker-item img { width:100%; height:100%; object-fit:contain; padding:4px; }
+    .sticker-item .del { position:absolute; top:2px; right:2px; background:rgba(255,255,255,0.7); border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#d64545; cursor:pointer; }
+    .sticker-item .lb { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.35); color:#fff; font-size:9px; font-weight:300; text-align:center; padding:2px 0; }
+
+    /* ===== 美化（设置内） ===== */
+    .font-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:var(--border); }
+    .font-item .name { flex:1; font-size:14px; }
+    .widget-item { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:var(--border); }
+    .widget-item .preview { width:60px; height:24px; background:var(--bg-input); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--text-ter); flex-shrink:0; }
+    .widget-item .info { flex:1; }
+    .widget-item .info .name { font-size:13px; font-weight:500; }
 
     /* ===== 设置 ===== */
     .setting-item { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:var(--border); flex-wrap:wrap; gap:8px; }
@@ -261,17 +288,19 @@
   </div>
 
   <!-- ============================================================
-     消息 (包含对话列表 + 个人资料)
+     消息 (包含对话列表 + 个人资料 + 表情包)
      ============================================================ -->
   <div class="app-win" id="chatWin">
     <div class="header">
-      <span class="back" data-close="chatWin">←</span>
+      <button class="back" data-close="chatWin">←</button>
       <span class="title" id="chatTitle">消息</span>
       <button class="action" id="chatToggleProfile">我</button>
     </div>
     <div class="body" id="chatBody">
       <!-- 对话列表 (默认显示) -->
-      <div id="chatListBody"><div class="empty-state"><span class="big">✉</span>暂无对话</div></div>
+      <div id="chatListBody">
+        <div class="empty-state"><span class="big">✉</span>暂无对话</div>
+      </div>
       <!-- 个人资料 (隐藏) -->
       <div id="profileBody" style="display:none;">
         <div class="profile-header">
@@ -303,9 +332,35 @@
     <div class="body" style="padding:8px 14px 12px;">
       <div class="chat-msgs" id="convMsgs"><div class="empty"><span class="big">✧</span>开始对话</div><div class="typing-dots" id="convTyping"><span></span><span></span><span></span></div></div>
       <div class="chat-input">
+        <button class="btn-icon" id="plusBtn">+</button>
+        <button class="btn-icon" id="stickerPickerBtn">⊞</button>
         <input type="text" id="convInput" placeholder="输入消息…" autocomplete="off">
         <button class="btn-send" id="convSend">发送</button>
       </div>
+      <div class="plus-menu" id="plusMenu">
+        <div class="item" data-action="重回"><span class="icon">↩</span><span class="label">重回</span></div>
+        <div class="item" data-action="照片"><span class="icon">🖼</span><span class="label">照片</span></div>
+        <div class="item" data-action="相册"><span class="icon">📷</span><span class="label">相册</span></div>
+        <div class="item" data-action="位置"><span class="icon">📍</span><span class="label">位置</span></div>
+        <div class="item" data-action="语音注"><span class="icon">🎤</span><span class="label">语音注</span></div>
+        <div class="item" data-action="视频注"><span class="icon">🎥</span><span class="label">视频注</span></div>
+        <div class="item" data-action="转屏"><span class="icon">🔄</span><span class="label">转屏</span></div>
+        <div class="item" data-action="历中回复"><span class="icon">⏪</span><span class="label">历中回复</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 表情包抽屉 (消息内) ===== -->
+  <div class="drawer-mask" id="stickerDrawer">
+    <div class="drawer-panel">
+      <button class="close" id="stickerDrawerClose">✕</button>
+      <div class="title">表情包</div>
+      <div style="display:flex;gap:8px;margin-bottom:4px;">
+        <button class="btn btn-dark" id="addStickerBtn">+ 上传</button>
+        <input type="file" id="stickerInput" accept="image/*" style="display:none;" multiple>
+      </div>
+      <div style="font-size:12px;font-weight:300;color:var(--text-ter);">点击表情插入 · AI会从库中选取</div>
+      <div class="sticker-grid" id="stickerGrid"></div>
     </div>
   </div>
 
@@ -370,7 +425,7 @@
   </div>
 
   <!-- ============================================================
-     设置
+     设置 (含美化)
      ============================================================ -->
   <div class="app-win" id="settingsWin">
     <div class="header"><button class="back" data-close="settingsWin">←</button><span class="title">设置</span></div>
@@ -398,7 +453,8 @@
   // ===== 存储 =====
   const K = {
     chats:'sc_chats', roles:'sc_roles', world:'sc_world',
-    settings:'sc_settings', messages:'sc_messages', currentChat:'sc_currentchat'
+    settings:'sc_settings', messages:'sc_messages', currentChat:'sc_currentchat',
+    stickers:'sc_stickers'
   };
   function load(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){return d;} }
   function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
@@ -416,6 +472,7 @@
   let settings = load(K.settings, { notify:true, keepalive:true, dark:false, fontSize:16 });
   let messages = load(K.messages, {});
   let currentChatId = load(K.currentChat, null);
+  let stickers = load(K.stickers, []);
 
   // ===== 状态 =====
   let editingRoleId = null;
@@ -450,17 +507,17 @@
   function openApp(id){ $$('.app-win').forEach(w=>w.classList.remove('open')); const el=$('#'+id+'Win'); if(el) el.classList.add('open'); }
   function closeApp(id){ const el=$('#'+id+'Win'); if(el) el.classList.remove('open'); }
 
-  // 返回按钮 - 修复: 用事件委托处理所有返回按钮
+  // ===== 返回按钮 - 统一委托 =====
   document.addEventListener('click', function(e){
     const back = e.target.closest('[data-close]');
     if(back){
       const targetId = back.dataset.close;
-      closeApp(targetId);
+      if(targetId) closeApp(targetId);
       e.preventDefault();
     }
   });
 
-  // 桌面点击
+  // ===== 桌面点击 =====
   $('#appGrid').addEventListener('click', function(e){
     const item=e.target.closest('.app-item'); if(!item) return;
     const app=item.dataset.app;
@@ -509,20 +566,24 @@
       div.addEventListener('click',()=>openConversation(c.id));
       body.appendChild(div);
     });
+    // 添加对话按钮（放在列表末尾）
+    const addDiv=document.createElement('div');
+    addDiv.className='chat-list-item';
+    addDiv.style.justifyContent='center';
+    addDiv.style.color='var(--text-ter)';
+    addDiv.style.fontSize='13px';
+    addDiv.textContent='+ 添加对话';
+    addDiv.addEventListener('click', function(){
+      const name=prompt('输入联系人名称：');
+      if(!name) return;
+      const id='c'+Date.now();
+      chats.push({ id, name, avatar:name[0].toUpperCase(), lastMsg:'开始对话', time:timeStr() });
+      save(K.chats, chats);
+      renderChatList();
+      snack('已添加 '+name);
+    });
+    body.appendChild(addDiv);
   }
-
-  // 添加对话
-  document.addEventListener('click', function(e){
-    const btn=e.target.closest('#addChatBtn');
-    if(!btn) return;
-    const name=prompt('输入联系人名称：');
-    if(!name) return;
-    const id='c'+Date.now();
-    chats.push({ id, name, avatar:name[0].toUpperCase(), lastMsg:'开始对话', time:timeStr() });
-    save(K.chats, chats);
-    renderChatList();
-    snack('已添加 '+name);
-  });
 
   // ============================================================
   // 对话窗口
@@ -548,10 +609,18 @@
     if(empty) empty.style.display='none';
     const frag=document.createDocumentFragment();
     convMsgList.slice(-50).forEach(m=>{
-      const div=document.createElement('div');
-      div.className='chat-msg '+(m.role||'user');
-      div.innerHTML=m.text+'<span class="t">'+m.time+'</span>';
-      frag.appendChild(div);
+      const parts=parseStickers(m.text);
+      parts.forEach(p=>{
+        const div=document.createElement('div');
+        if(p.type==='sticker'){
+          div.className='chat-msg sticker';
+          div.innerHTML='<img src="'+p.sticker.dataUrl+'" alt="'+p.sticker.name+'">';
+        }else{
+          div.className='chat-msg '+(m.role||'user');
+          div.innerHTML=p.content+'<span class="t">'+m.time+'</span>';
+        }
+        frag.appendChild(div);
+      });
     });
     if(typing) frag.appendChild(typing);
     container.appendChild(frag);
@@ -577,6 +646,21 @@
     else el.classList.remove('show');
   }
 
+  // ===== 解析表情 =====
+  function parseStickers(text){
+    const parts=[]; const regex=/\[表情:([^\]]+)\]/g; let li=0,m;
+    while((m=regex.exec(text))!==null){
+      const b=text.slice(li,m.index).trim(); if(b) parts.push({ type:'text', content:b });
+      const name=m[1].trim(); const s=stickers.find(x=>x.name===name);
+      if(s) parts.push({ type:'sticker', sticker:s });
+      else parts.push({ type:'text', content:m[0] });
+      li=regex.lastIndex;
+    }
+    const rest=text.slice(li).trim(); if(rest) parts.push({ type:'text', content:rest });
+    return parts;
+  }
+
+  // ===== AI 回复 (带表情约束) =====
   async function sendConvMsg(){
     const input=$('#convInput'); if(!input) return;
     const text=input.value.trim(); if(!text) return;
@@ -584,14 +668,107 @@
     input.value='';
     showConvTyping(true);
     await new Promise(r=>setTimeout(r, 400+Math.random()*500));
+    // 构建带表情约束的回复
+    let stickerHint='';
+    if(stickers.length>0){
+      const names=stickers.map(s=>s.name).join(', ');
+      stickerHint=' 格式 [表情:名字]，只能从：'+names+' 里选。';
+    }
     const replies=['嗯嗯，我在听','有意思，继续说','好呀，我记下了','这个想法真棒','哈哈，确实','原来如此','你今天的分享很温暖'];
-    const reply=replies[Math.floor(Math.random()*replies.length)];
+    let reply=replies[Math.floor(Math.random()*replies.length)];
+    // 随机决定是否插入表情
+    if(stickers.length>0 && Math.random()>0.6){
+      const s=stickers[Math.floor(Math.random()*stickers.length)];
+      reply+=' [表情:'+s.name+']';
+    }
     showConvTyping(false);
     addConvMsg('ai', reply);
   }
 
   $('#convSend').addEventListener('click', sendConvMsg);
   $('#convInput').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); sendConvMsg(); } });
+
+  // ===== 加号菜单 =====
+  let plusOpen=false;
+  $('#plusBtn').addEventListener('click', function(e){
+    e.stopPropagation();
+    plusOpen=!plusOpen;
+    $('#plusMenu').classList.toggle('open', plusOpen);
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.chat-input') && !e.target.closest('.plus-menu')){
+      $('#plusMenu').classList.remove('open');
+      plusOpen=false;
+    }
+  });
+  $('#plusMenu').addEventListener('click', function(e){
+    const item=e.target.closest('.item');
+    if(item){ snack('功能: '+item.dataset.action); $('#plusMenu').classList.remove('open'); plusOpen=false; }
+  });
+
+  // ============================================================
+  // 表情包系统 (消息内)
+  // ============================================================
+  function renderStickers(){
+    const grid=$('#stickerGrid'); if(!grid) return;
+    grid.innerHTML='';
+    if(stickers.length===0){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-ter);padding:20px 0;font-size:13px;font-weight:300;">还没有表情，点击上传</div>'; return; }
+    stickers.forEach((s,idx)=>{
+      const div=document.createElement('div'); div.className='sticker-item';
+      div.innerHTML='<img src="'+s.dataUrl+'" alt="'+s.name+'"><span class="lb">'+s.name+'</span><span class="del" data-sdel="'+idx+'">✕</span>';
+      div.addEventListener('click', function(e){
+        if(e.target.closest('.del')) return;
+        const input=$('#convInput');
+        if(input){
+          input.value='[表情:'+s.name+']';
+          input.focus();
+          snack('已插入: '+s.name);
+          closeStickerDrawer();
+        }
+      });
+      grid.appendChild(div);
+    });
+    grid.querySelectorAll('[data-sdel]').forEach(b=>{
+      b.addEventListener('click', function(e){
+        e.stopPropagation();
+        const idx=parseInt(this.dataset.sdel);
+        if(!confirm('删除 "'+stickers[idx].name+'" ？')) return;
+        const name=stickers[idx].name;
+        stickers.splice(idx,1);
+        save(K.stickers, stickers);
+        renderStickers();
+        snack('已删除: '+name);
+      });
+    });
+  }
+
+  function openStickerDrawer(){ renderStickers(); $('#stickerDrawer').classList.add('open'); }
+  function closeStickerDrawer(){ $('#stickerDrawer').classList.remove('open'); }
+
+  $('#stickerPickerBtn').addEventListener('click', function(e){
+    e.stopPropagation();
+    openStickerDrawer();
+  });
+  $('#stickerDrawerClose').addEventListener('click', closeStickerDrawer);
+  $('#stickerDrawer').addEventListener('click', function(e){ if(e.target===this) closeStickerDrawer(); });
+
+  $('#addStickerBtn').addEventListener('click', ()=>$('#stickerInput').click());
+  $('#stickerInput').addEventListener('change', function(e){
+    const files=e.target.files;
+    for(const file of files){
+      const reader=new FileReader();
+      reader.onload=function(ev){
+        const name=prompt('给表情起个名字 (AI会识别):', file.name.split('.')[0]||'表情');
+        if(name===null) return;
+        stickers.push({ id:genId(), name:name.trim()||'表情', dataUrl:ev.target.result });
+        save(K.stickers, stickers);
+        renderStickers();
+        snack('已上传: '+name);
+      };
+      reader.readAsDataURL(file);
+    }
+    this.value='';
+  });
 
   // ============================================================
   // 角色
@@ -772,7 +949,7 @@
   });
 
   // ============================================================
-  // 设置
+  // 设置 (含美化)
   // ============================================================
   function renderSettings(){
     const body=$('#settingsBody'); if(!body) return;
@@ -788,11 +965,32 @@
         <button class="btn btn-dark" id="setApiSave">保存 API</button>
       </div>
       <div class="setting-item"><span class="label">暗夜模式</span><div class="toggle ${s.dark?'on':''}" id="setDark"><div class="knob"></div></div></div>
-      <div class="setting-item" style="flex-direction:column;align-items:stretch;gap:6px;"><span class="label">数据管理</span>
+
+      <!-- 美化区域 -->
+      <div style="margin-top:8px;border-top:2px solid var(--gold);padding-top:12px;">
+        <div style="font-size:15px;font-weight:500;margin-bottom:8px;">🎨 美化系统</div>
+
+        <div style="font-size:13px;font-weight:400;margin-bottom:4px;">主题 CSS</div>
+        <textarea id="themeCss" style="width:100%;min-height:80px;padding:8px;border:var(--border);background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;font-family:monospace;resize:vertical;">.chat-list-item { background: rgba(255,255,255,0.8); }</textarea>
+        <div style="display:flex;gap:8px;margin:4px 0 12px;"><button class="btn btn-ghost" id="themeReset">恢复默认</button><button class="btn btn-dark" id="themeSave">保存主题</button></div>
+
+        <div style="font-size:13px;font-weight:400;margin-bottom:4px;">图标替换</div>
+        <div id="iconReplaceList"></div>
+
+        <div style="font-size:13px;font-weight:400;margin:12px 0 4px;">Widgets 组件</div>
+        <div style="font-size:11px;color:var(--text-ter);font-weight:300;margin-bottom:4px;">4x1 尺寸 · 粘贴 HTML 创建</div>
+        <input type="text" id="widgetName" placeholder="组件名称" style="padding:6px 10px;border:var(--border);background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;width:100%;margin-bottom:4px;">
+        <textarea id="widgetHtml" placeholder="粘贴组件 HTML…" style="width:100%;min-height:50px;padding:6px;border:var(--border);background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;font-family:monospace;resize:vertical;"></textarea>
+        <div style="display:flex;gap:8px;margin:4px 0;"><button class="btn btn-dark" id="widgetAdd">添加</button><button class="btn btn-ghost" id="widgetImport">导入</button></div>
+        <div id="widgetList"></div>
+      </div>
+
+      <div class="setting-item" style="border-top:2px solid var(--gold);padding-top:12px;margin-top:8px;flex-direction:column;align-items:stretch;gap:6px;"><span class="label">数据管理</span>
         <div style="display:flex;gap:8px;"><button class="btn btn-dark" id="setExport">导出备份</button><button class="btn btn-ghost" id="setImport">导入备份</button><button class="btn" style="background:#d64545;color:#fff;" id="setReset">重置</button></div>
         <input type="file" id="setImportInput" accept=".json" style="display:none;">
       </div>
     `;
+    // 绑定 toggle
     body.querySelectorAll('.toggle').forEach(el=>{
       el.addEventListener('click', function(){
         this.classList.toggle('on');
@@ -814,8 +1012,49 @@
       snack('API 配置已保存');
     });
 
+    // 主题
+    const themeCss = load('sc_theme_css', '');
+    if(themeCss) $('#themeCss').value=themeCss;
+    $('#themeSave').addEventListener('click', function(){
+      save('sc_theme_css', $('#themeCss').value);
+      snack('主题已保存');
+    });
+    $('#themeReset').addEventListener('click', function(){
+      $('#themeCss').value='';
+      localStorage.removeItem('sc_theme_css');
+      snack('已恢复默认');
+    });
+
+    // 图标替换
+    renderIconReplace();
+
+    // Widgets
+    renderWidgets();
+    $('#widgetAdd').addEventListener('click', function(){
+      const name=$('#widgetName').value.trim();
+      const html=$('#widgetHtml').value.trim();
+      if(!name||!html){ snack('请输入名称和 HTML'); return; }
+      const widgets=load('sc_widgets', []);
+      widgets.push({ id:'w'+Date.now(), name, html, size:'4x1' });
+      save('sc_widgets', widgets);
+      $('#widgetName').value=''; $('#widgetHtml').value='';
+      renderWidgets();
+      snack('组件已添加');
+    });
+    $('#widgetImport').addEventListener('click', function(){
+      const input=document.createElement('input'); input.type='file'; input.accept='.json';
+      input.onchange=function(e){
+        const file=e.target.files[0]; if(!file) return;
+        const reader=new FileReader();
+        reader.onload=function(ev){ try{ const data=JSON.parse(ev.target.result); if(Array.isArray(data)){ const widgets=load('sc_widgets', []); widgets.push(...data); save('sc_widgets', widgets); renderWidgets(); snack('导入成功'); } }catch(err){ snack('导入失败'); } };
+        reader.readAsText(file);
+      };
+      input.click();
+    });
+
+    // 数据管理
     $('#setExport').addEventListener('click', function(){
-      const data={ chats, roles, worldBooks, settings, messages, api:{url:load('sc_api_url',''),key:load('sc_api_key',''),model:load('sc_api_model',''),temp:load('sc_api_temp',0.8)} };
+      const data={ chats, roles, worldBooks, settings, messages, stickers, api:{url:load('sc_api_url',''),key:load('sc_api_key',''),model:load('sc_api_model',''),temp:load('sc_api_temp',0.8)} };
       const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
       const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='backup_'+dateStr().replace(/\//g,'-')+'.json'; a.click();
       snack('导出成功');
@@ -824,18 +1063,68 @@
     $('#setImportInput').addEventListener('change', function(e){
       const file=e.target.files[0]; if(!file) return;
       const reader=new FileReader();
-      reader.onload=function(ev){ try{ const data=JSON.parse(ev.target.result); if(data.chats) chats=data.chats; if(data.roles) roles=data.roles; if(data.worldBooks) worldBooks=data.worldBooks; if(data.settings) settings=data.settings; if(data.messages) messages=data.messages; save(K.chats,chats); save(K.roles,roles); save(K.world,worldBooks); save(K.settings,settings); save(K.messages,messages); snack('导入成功'); location.reload(); }catch(err){ snack('导入失败'); } };
+      reader.onload=function(ev){ try{ const data=JSON.parse(ev.target.result); if(data.chats) chats=data.chats; if(data.roles) roles=data.roles; if(data.worldBooks) worldBooks=data.worldBooks; if(data.settings) settings=data.settings; if(data.messages) messages=data.messages; if(data.stickers) stickers=data.stickers; save(K.chats,chats); save(K.roles,roles); save(K.world,worldBooks); save(K.settings,settings); save(K.messages,messages); save(K.stickers,stickers); snack('导入成功'); location.reload(); }catch(err){ snack('导入失败'); } };
       reader.readAsText(file);
       this.value='';
     });
     $('#setReset').addEventListener('click', function(){
       if(!confirm('确定重置所有数据？')) return;
       Object.values(K).forEach(k=>localStorage.removeItem(k));
-      ['sc_api_url','sc_api_key','sc_api_model','sc_api_temp'].forEach(k=>localStorage.removeItem(k));
+      ['sc_api_url','sc_api_key','sc_api_model','sc_api_temp','sc_theme_css','sc_widgets','sc_icon_map'].forEach(k=>localStorage.removeItem(k));
       location.reload();
     });
   }
 
+  function renderIconReplace(){
+    const list=$('#iconReplaceList'); if(!list) return;
+    const appNames=['消息','角色','世界书','设置'];
+    const iconMap=load('sc_icon_map', {});
+    list.innerHTML='';
+    appNames.forEach(name=>{
+      const div=document.createElement('div'); div.className='font-item';
+      const current=iconMap[name]||'原图标';
+      div.innerHTML='<span class="name">'+name+'</span><span style="font-size:12px;color:var(--text-ter);font-weight:300;margin-right:8px;">'+current+'</span><button class="btn btn-ghost" style="font-size:11px;padding:2px 10px;" data-icon-name="'+name+'">替换</button><button class="btn btn-ghost" style="font-size:11px;padding:2px 10px;color:#d64545;" data-icon-restore="'+name+'">恢复</button>';
+      list.appendChild(div);
+    });
+    list.querySelectorAll('[data-icon-name]').forEach(b=>{
+      b.addEventListener('click', function(){
+        const name=this.dataset.iconName;
+        const url=prompt('输入图标图片 URL：');
+        if(url){ const map=load('sc_icon_map', {}); map[name]=url; save('sc_icon_map', map); renderIconReplace(); snack('已替换 '+name); }
+      });
+    });
+    list.querySelectorAll('[data-icon-restore]').forEach(b=>{
+      b.addEventListener('click', function(){
+        const name=this.dataset.iconRestore;
+        const map=load('sc_icon_map', {});
+        delete map[name]; save('sc_icon_map', map); renderIconReplace(); snack('已恢复 '+name);
+      });
+    });
+  }
+
+  function renderWidgets(){
+    const list=$('#widgetList'); if(!list) return;
+    const widgets=load('sc_widgets', []);
+    list.innerHTML='';
+    if(widgets.length===0){ list.innerHTML='<div style="font-size:12px;color:var(--text-ter);font-weight:300;padding:8px 0;">暂无组件</div>'; return; }
+    widgets.forEach((w,i)=>{
+      const div=document.createElement('div'); div.className='widget-item';
+      div.innerHTML='<div class="preview">4x1</div><div class="info"><div class="name">'+w.name+'</div><div class="size">4x1</div></div><button class="btn btn-ghost" style="font-size:11px;padding:2px 10px;" data-wdel="'+i+'">删除</button>';
+      list.appendChild(div);
+    });
+    list.querySelectorAll('[data-wdel]').forEach(b=>{
+      b.addEventListener('click', function(){
+        const i=parseInt(this.dataset.wdel);
+        const widgets=load('sc_widgets', []);
+        widgets.splice(i,1);
+        save('sc_widgets', widgets);
+        renderWidgets();
+        snack('已删除');
+      });
+    });
+  }
+
+  // ===== 暗夜模式 =====
   function applyDarkMode(){
     const dark=settings.dark;
     if(dark){
@@ -868,10 +1157,9 @@
     if(window.__init) return; window.__init=true;
     applyDarkMode();
     renderChatList();
-    // 消息默认显示列表，不显示profile
     showProfile=false;
     toggleProfileView();
-    console.log('📱 精简版已启动 · 消息/角色/世界书/设置');
+    console.log('📱 修复版已启动 · 消息/角色/世界书/设置 · 表情包已整合');
   }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
