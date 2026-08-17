@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-  <title>小手机 · 完整版</title>
+  <title>小手机 · 精简版</title>
   <style>
-    /* ============================================================
-       自定义字体
-       ============================================================ */
+    /* ===== 自定义字体 ===== */
     @font-face {
       font-family: 'CustomFont';
       src: url('https://zora404.dpdns.org/file/1786970803671_肉の病症小猫___1_.ttf') format('truetype');
@@ -15,9 +13,7 @@
       font-style: normal;
     }
 
-    /* ============================================================
-       全局 · 瑞士水疗风格 + 自定义字体
-       ============================================================ */
+    /* ===== 全局 ===== */
     :root {
       --bg: #f5f3f0;
       --bg-card: #ffffff;
@@ -27,33 +23,25 @@
       --text-sec: #6e6a66;
       --text-ter: #b0aaa4;
       --gold: #c9a87c;
-      --gold-light: #e8ddcc;
       --radius: 12px;
       --radius-sm: 6px;
       --radius-full: 999px;
       --shadow: 0 2px 16px rgba(26,26,26,0.04);
-      --shadow-float: 0 8px 40px rgba(26,26,26,0.06);
       --border: 1px solid rgba(26,26,26,0.04);
-      --space: 8px;
       --font: 'CustomFont', -apple-system, 'Helvetica Neue', system-ui, sans-serif;
     }
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    html, body { width:100%; height:100%; background:var(--bg); font-family:var(--font); color:var(--text); overflow:hidden; -webkit-font-smoothing:antialiased; }
+    html, body { width:100%; height:100%; background:var(--bg); font-family:var(--font); color:var(--text); overflow:hidden; }
     input, textarea, select, button { font-family:var(--font); outline:none; }
-    .hidden { display:none !important; }
 
-    /* ===== 屏幕容器 ===== */
     #app { width:100%; height:100%; background:var(--bg); display:flex; flex-direction:column; position:relative; overflow:hidden; }
 
-    /* ============================================================
-       锁屏
-       ============================================================ */
+    /* ===== 锁屏 ===== */
     #lockscreen {
       position:absolute; inset:0; z-index:1000;
       background:linear-gradient(150deg,#1a1a1a 0%,#2a2826 100%);
       background-image:url('https://zora404.dpdns.org/file/1786970531449_IMG_5753.jpeg');
-      background-size:cover;
-      background-position:center;
+      background-size:cover; background-position:center;
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       transition:transform 0.6s cubic-bezier(0.22,1,0.36,1), opacity 0.6s ease;
       color:#fff; cursor:pointer;
@@ -71,52 +59,47 @@
     #statusbar {
       padding:10px 20px 6px; display:flex; justify-content:space-between; font-size:12px; font-weight:400; color:var(--text-sec); flex-shrink:0; background:rgba(245,243,240,0.6); backdrop-filter:blur(20px); position:relative; z-index:50;
     }
-    #statusbar .notif-badge { background:var(--gold); color:#fff; font-size:9px; border-radius:var(--radius-full); padding:0 7px; line-height:17px; min-width:17px; text-align:center; display:none; }
 
     /* ===== 桌面 ===== */
     #desktop {
       flex:1; padding:8px 18px 12px; display:flex; flex-direction:column; background:var(--bg); overflow:hidden; position:relative;
     }
-    /* 桌面壁纸 */
+    /* 桌面壁纸 - 透明度从0.08提到0.35，让图片可见 */
     #desktop::before {
       content:''; position:absolute; inset:0;
       background-image:url('https://zora404.dpdns.org/file/1786970535430_IMG_5751.jpeg');
       background-size:cover; background-position:center;
-      opacity:0.08; pointer-events:none; z-index:0;
+      opacity:0.35; pointer-events:none; z-index:0;
     }
     .page-dots { text-align:center; font-size:10px; color:var(--text-ter); padding:4px 0 12px; flex-shrink:0; letter-spacing:8px; opacity:0.4; position:relative; z-index:1; }
     .app-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px 6px; padding:8px 0; flex:1; align-content:flex-start; position:relative; z-index:1; }
     .app-item { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; padding:4px 0; transition:transform 0.1s; }
     .app-item:active { transform:scale(0.88); }
-    .app-item .icon { width:58px; height:58px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; background:var(--bg-dark); box-shadow:var(--shadow); overflow:hidden; }
+    .app-item .icon { width:58px; height:58px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:400; color:#fff; background:var(--bg-dark); box-shadow:var(--shadow); overflow:hidden; }
     .app-item .icon img { width:100%; height:100%; object-fit:cover; }
     .app-item .icon.gold { background:var(--gold); }
     .app-item .name { font-size:10px; font-weight:400; color:var(--text-sec); text-align:center; }
     #dock { display:flex; justify-content:center; gap:28px; padding:10px 0 4px; border-top:var(--border); background:rgba(255,255,255,0.15); backdrop-filter:blur(20px); border-radius:var(--radius); margin:0 4px 4px; flex-shrink:0; position:relative; z-index:1; }
-    #dock .app-item .icon { width:48px; height:48px; font-size:15px; }
+    #dock .app-item .icon { width:48px; height:48px; font-size:12px; }
 
-    /* ============================================================
-       应用窗口
-       ============================================================ */
+    /* ===== 应用窗口 ===== */
     .app-win {
       position:absolute; inset:0; z-index:100; background:var(--bg); display:none; flex-direction:column; animation:winOpen 0.3s cubic-bezier(0.22,1,0.36,1);
     }
     .app-win.open { display:flex; }
     @keyframes winOpen { from { opacity:0; transform:scale(0.96) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
     .app-win .header { padding:14px 16px 10px; background:rgba(255,255,255,0.5); backdrop-filter:blur(20px); border-bottom:var(--border); display:flex; align-items:center; gap:10px; flex-shrink:0; }
-    .app-win .header .back { font-size:20px; font-weight:300; cursor:pointer; color:var(--text-sec); line-height:1; padding:0 4px; }
+    .app-win .header .back { font-size:20px; font-weight:300; cursor:pointer; color:var(--text-sec); line-height:1; padding:0 4px; border:none; background:none; }
     .app-win .header .back:active { color:var(--text); }
     .app-win .header .title { font-size:15px; font-weight:500; color:var(--text); flex:1; }
     .app-win .header .action { padding:6px 16px; border:none; border-radius:var(--radius-full); background:var(--bg-dark); color:#fff; font-size:12px; font-weight:400; cursor:pointer; transition:background 0.15s; }
     .app-win .header .action:active { background:var(--text-sec); }
     .app-win .body { flex:1; padding:14px 16px 20px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; }
 
-    /* ============================================================
-       聊天 · Messages 列表
-       ============================================================ */
+    /* ===== 消息列表 ===== */
     .chat-list-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:var(--border); cursor:pointer; transition:background 0.1s; }
     .chat-list-item:active { background:rgba(0,0,0,0.02); }
-    .chat-list-item .avatar { width:44px; height:44px; border-radius:var(--radius); background:var(--gold-light); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:500; color:var(--text); flex-shrink:0; overflow:hidden; }
+    .chat-list-item .avatar { width:44px; height:44px; border-radius:var(--radius); background:var(--gold-light); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; color:var(--text); flex-shrink:0; overflow:hidden; }
     .chat-list-item .avatar img { width:100%; height:100%; object-fit:cover; }
     .chat-list-item .info { flex:1; min-width:0; }
     .chat-list-item .info .name { font-weight:500; font-size:14px; }
@@ -133,8 +116,6 @@
     .chat-msg .t { font-size:9px; font-weight:300; opacity:0.3; display:block; text-align:right; margin-top:4px; }
     .chat-msg.user .t { color:rgba(255,255,255,0.4); }
     .chat-msg.ai .t { color:var(--text-ter); }
-    .chat-msg.sticker { background:none !important; border:none !important; box-shadow:none !important; padding:4px 0; max-width:120px; }
-    .chat-msg.sticker img { width:100%; border-radius:var(--radius-sm); max-width:120px; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
     .chat-msg.ai + .chat-msg.ai, .chat-msg.user + .chat-msg.user { margin-top:4px; }
     .chat-msg.user + .chat-msg.ai, .chat-msg.ai + .chat-msg.user { margin-top:16px; }
@@ -151,45 +132,12 @@
     .chat-input input { flex:1; padding:10px 14px; border:var(--border); background:var(--bg-input); font-size:14px; font-weight:400; color:var(--text); border-radius:var(--radius-full); transition:border-color 0.2s; }
     .chat-input input:focus { border-color:var(--gold); background:#fff; }
     .chat-input input::placeholder { color:var(--text-ter); font-weight:300; }
-    .chat-input .btn-icon { width:38px; height:38px; border-radius:50%; border:none; background:var(--bg-input); color:var(--text-sec); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
-    .chat-input .btn-icon:active { background:var(--text-ter); }
     .chat-input .btn-send { padding:10px 20px; border:none; border-radius:var(--radius-full); background:var(--bg-dark); color:#fff; font-size:14px; font-weight:400; cursor:pointer; }
     .chat-input .btn-send:active { transform:scale(0.94); }
 
-    /* ===== 加号展开菜单 ===== */
-    .plus-menu { display:none; grid-template-columns:repeat(4,1fr); gap:12px; padding:12px 0; border-top:var(--border); background:rgba(255,255,255,0.5); backdrop-filter:blur(10px); }
-    .plus-menu.open { display:grid; }
-    .plus-menu .item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:8px 0; }
-    .plus-menu .item:active { transform:scale(0.88); }
-    .plus-menu .item .icon { width:44px; height:44px; border-radius:var(--radius); background:var(--bg-input); display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--text-sec); }
-
-    /* ============================================================
-       通讯录
-       ============================================================ */
-    .contact-item { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:var(--border); }
-    .contact-item .avatar { width:40px; height:40px; border-radius:var(--radius); background:var(--gold-light); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; overflow:hidden; }
-    .contact-item .avatar img { width:100%; height:100%; object-fit:cover; }
-    .contact-item .info { flex:1; }
-    .contact-item .info .name { font-weight:500; font-size:14px; }
-    .contact-item .info .sub { font-size:12px; color:var(--text-sec); font-weight:300; }
-    .letter-index { display:flex; gap:4px; flex-wrap:wrap; padding:8px 0; border-bottom:var(--border); }
-    .letter-index .l { width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:400; color:var(--text-sec); cursor:pointer; border-radius:var(--radius-sm); }
-    .letter-index .l:active { background:var(--gold-light); }
-
-    /* ============================================================
-       发现页
-       ============================================================ */
-    .discovery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; padding:8px 0; }
-    .discovery-grid .item { display:flex; flex-direction:column; align-items:center; gap:8px; padding:20px 0; background:var(--bg-card); border-radius:var(--radius); border:var(--border); cursor:pointer; transition:transform 0.1s; }
-    .discovery-grid .item:active { transform:scale(0.94); }
-    .discovery-grid .item .icon { font-size:28px; }
-    .discovery-grid .item .label { font-size:12px; font-weight:400; color:var(--text-sec); }
-
-    /* ============================================================
-       个人资料
-       ============================================================ */
+    /* ===== 个人资料（放在消息里） ===== */
     .profile-header { display:flex; flex-direction:column; align-items:center; padding:20px 0; border-bottom:var(--border); }
-    .profile-header .avatar { width:72px; height:72px; border-radius:50%; background:var(--gold-light); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:500; margin-bottom:8px; overflow:hidden; }
+    .profile-header .avatar { width:72px; height:72px; border-radius:50%; background:var(--gold-light); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; margin-bottom:8px; overflow:hidden; }
     .profile-header .avatar img { width:100%; height:100%; object-fit:cover; }
     .profile-header .name { font-size:18px; font-weight:600; }
     .profile-header .id { font-size:13px; color:var(--text-sec); font-weight:300; }
@@ -204,9 +152,7 @@
     .profile-menu .item .label { font-size:14px; font-weight:400; }
     .profile-menu .item .arrow { color:var(--text-ter); }
 
-    /* ============================================================
-       角色编辑
-       ============================================================ */
+    /* ===== 角色 ===== */
     .role-form label { font-size:13px; font-weight:400; color:var(--text); display:flex; flex-direction:column; gap:4px; }
     .role-form label small { font-weight:300; color:var(--text-ter); font-size:11px; }
     .role-form input, .role-form select, .role-form textarea { padding:8px 12px; border:var(--border); background:var(--bg-input); font-size:13px; border-radius:var(--radius-sm); transition:border-color 0.2s; width:100%; }
@@ -220,96 +166,30 @@
     .role-tabs .tab:not(.active) { color:var(--text-sec); }
     .role-tabs .tab:not(.active):active { background:var(--gold-light); }
 
-    /* ============================================================
-       社交动态
-       ============================================================ */
-    .timeline-tabs { display:flex; gap:16px; border-bottom:var(--border); padding-bottom:8px; }
-    .timeline-tabs .tab { font-size:14px; font-weight:400; cursor:pointer; color:var(--text-sec); padding:4px 0; }
-    .timeline-tabs .tab.active { color:var(--text); font-weight:500; border-bottom:2px solid var(--gold); }
-    .post-card { background:var(--bg-card); border-radius:var(--radius); border:var(--border); padding:14px 16px; box-shadow:var(--shadow); }
-    .post-card .head { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-    .post-card .head .avatar { width:36px; height:36px; border-radius:50%; background:var(--gold-light); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; overflow:hidden; }
-    .post-card .head .avatar img { width:100%; height:100%; object-fit:cover; }
-    .post-card .head .info .name { font-weight:500; font-size:14px; }
-    .post-card .head .info .id { font-size:11px; color:var(--text-ter); font-weight:300; }
-    .post-card .content { font-size:14px; font-weight:400; line-height:1.6; margin-bottom:8px; }
-    .post-card .content .tag { color:var(--gold); }
-    .post-card .time { font-size:11px; color:var(--text-ter); font-weight:300; }
-    .post-card .stats { display:flex; gap:16px; margin-top:8px; padding-top:8px; border-top:var(--border); }
-    .post-card .stats span { font-size:12px; color:var(--text-sec); font-weight:300; }
+    /* ===== 世界书 ===== */
+    .world-item { background:var(--bg-card); padding:12px 16px; border-radius:var(--radius-sm); border-left:3px solid var(--gold); border:var(--border); }
+    .world-item .head { display:flex; justify-content:space-between; align-items:center; }
+    .world-item .name { font-weight:500; font-size:14px; }
+    .world-item .scope { font-size:10px; font-weight:300; color:var(--text-ter); background:var(--bg-input); padding:2px 10px; border-radius:var(--radius-full); }
+    .world-item .content { font-size:13px; font-weight:300; color:var(--text-sec); margin-top:6px; line-height:1.5; }
+    .world-item .acts { display:flex; gap:10px; margin-top:8px; }
+    .world-item .acts button { background:transparent; border:none; color:var(--text-ter); font-size:12px; font-weight:400; cursor:pointer; padding:0; }
+    .world-item .acts button:active { color:var(--text); }
+    .world-item .acts .del { color:#d64545; }
 
-    /* ============================================================
-       设置
-       ============================================================ */
+    /* ===== 设置 ===== */
     .setting-item { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:var(--border); flex-wrap:wrap; gap:8px; }
     .setting-item .label { font-size:14px; font-weight:400; }
-    .setting-item .value { font-size:13px; color:var(--text-sec); font-weight:300; }
-    .setting-item .desc { font-size:11px; color:var(--text-ter); font-weight:300; margin-top:2px; }
     .setting-item .toggle { width:44px; height:26px; border-radius:var(--radius-full); background:var(--text-ter); cursor:pointer; transition:background 0.2s; position:relative; flex-shrink:0; }
     .setting-item .toggle.on { background:var(--gold); }
     .setting-item .toggle .knob { width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:3px; left:3px; transition:transform 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.1); }
     .setting-item .toggle.on .knob { transform:translateX(18px); }
-    .setting-item input[type="text"], .setting-item input[type="password"], .setting-item input[type="number"] { padding:6px 10px; border:var(--border); background:var(--bg-input); border-radius:var(--radius-sm); font-size:13px; width:180px; max-width:100%; }
+    .setting-item input[type="text"], .setting-item input[type="password"] { padding:6px 10px; border:var(--border); background:var(--bg-input); border-radius:var(--radius-sm); font-size:13px; width:180px; max-width:100%; }
     .setting-item select { padding:6px 10px; border:var(--border); background:var(--bg-input); border-radius:var(--radius-sm); font-size:13px; }
     .setting-item .range-wrap { display:flex; align-items:center; gap:10px; }
     .setting-item .range-wrap input[type="range"] { width:120px; }
 
-    /* ============================================================
-       字体管理
-       ============================================================ */
-    .font-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:var(--border); }
-    .font-item .name { flex:1; font-size:14px; }
-    .font-item .checkbox { width:18px; height:18px; border:2px solid var(--text-ter); border-radius:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-    .font-item .checkbox.checked { background:var(--gold); border-color:var(--gold); color:#fff; }
-    .font-item .del { color:var(--text-ter); cursor:pointer; font-size:14px; }
-
-    /* ============================================================
-       壁纸
-       ============================================================ */
-    .wallpaper-grid { display:flex; gap:10px; flex-wrap:wrap; }
-    .wallpaper-opt { width:60px; height:60px; border-radius:var(--radius-sm); border:2px solid transparent; cursor:pointer; transition:border-color 0.2s; background-size:cover; background-position:center; }
-    .wallpaper-opt.active { border-color:var(--gold); }
-    .wallpaper-opt:active { transform:scale(0.92); }
-
-    /* ============================================================
-       组件 Widgets
-       ============================================================ */
-    .widget-item { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:var(--border); }
-    .widget-item .preview { width:60px; height:24px; background:var(--bg-input); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--text-ter); flex-shrink:0; }
-    .widget-item .info { flex:1; }
-    .widget-item .info .name { font-size:13px; font-weight:500; }
-    .widget-item .info .size { font-size:10px; color:var(--text-ter); font-weight:300; }
-
-    /* ============================================================
-       Snackbar
-       ============================================================ */
-    #snackbar {
-      position:fixed; left:50%; bottom:32px; z-index:9999;
-      transform:translate(-50%, 20px);
-      background:var(--bg-dark); color:#fff;
-      padding:10px 20px; border-radius:var(--radius);
-      box-shadow:var(--shadow-float);
-      opacity:0; transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
-      pointer-events:none; font-size:14px; font-weight:300; max-width:90%;
-    }
-    #snackbar.show { opacity:1; transform:translate(-50%,0); pointer-events:auto; }
-
-    /* ===== 通用 ===== */
-    .empty-state { text-align:center; color:var(--text-ter); padding:30px 0; font-size:13px; font-weight:300; }
-    .empty-state .big { font-size:32px; font-weight:200; display:block; margin-bottom:8px; color:#ddd; }
-    .btn { padding:6px 16px; border:none; border-radius:var(--radius-full); font-size:12px; font-weight:400; cursor:pointer; transition:background 0.15s, transform 0.1s; }
-    .btn:active { transform:scale(0.94); }
-    .btn-dark { background:var(--bg-dark); color:#fff; }
-    .btn-dark:active { background:var(--text-sec); }
-    .btn-gold { background:var(--gold); color:#fff; }
-    .btn-gold:active { background:#b8946a; }
-    .btn-ghost { background:transparent; color:var(--text-sec); border:var(--border); }
-
-    ::-webkit-scrollbar { width:0; background:transparent; }
-
-    /* ============================================================
-       Drawer 通用
-       ============================================================ */
+    /* ===== Drawer ===== */
     .drawer-mask {
       position:fixed; inset:0; z-index:200; opacity:0; pointer-events:none; transition:opacity 0.35s ease; background:rgba(0,0,0,0.15); backdrop-filter:blur(4px);
     }
@@ -324,15 +204,28 @@
     .drawer-panel .close { align-self:flex-end; font-size:20px; font-weight:300; cursor:pointer; color:var(--text-ter); background:none; border:none; padding:0 4px; }
     .drawer-panel .title { font-size:17px; font-weight:500; color:var(--text); }
 
-    .conv-setting-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:var(--border); flex-wrap:wrap; gap:8px; }
-    .conv-setting-item .label { font-size:13px; font-weight:400; }
-    .conv-setting-item .value { font-size:12px; color:var(--text-sec); font-weight:300; }
-    .conv-setting-item .toggle { width:40px; height:22px; border-radius:var(--radius-full); background:var(--text-ter); cursor:pointer; transition:background 0.2s; position:relative; flex-shrink:0; }
-    .conv-setting-item .toggle.on { background:var(--gold); }
-    .conv-setting-item .toggle .knob { width:16px; height:16px; border-radius:50%; background:#fff; position:absolute; top:3px; left:3px; transition:transform 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.1); }
-    .conv-setting-item .toggle.on .knob { transform:translateX(18px); }
-    .conv-setting-item input[type="number"], .conv-setting-item input[type="text"] { padding:4px 8px; border:var(--border); background:var(--bg-input); border-radius:var(--radius-sm); font-size:12px; width:80px; }
-    .conv-setting-item select { padding:4px 8px; border:var(--border); background:var(--bg-input); border-radius:var(--radius-sm); font-size:12px; }
+    /* ===== Snackbar ===== */
+    #snackbar {
+      position:fixed; left:50%; bottom:32px; z-index:9999;
+      transform:translate(-50%, 20px);
+      background:var(--bg-dark); color:#fff;
+      padding:10px 20px; border-radius:var(--radius);
+      box-shadow:0 8px 40px rgba(26,26,26,0.08);
+      opacity:0; transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
+      pointer-events:none; font-size:14px; font-weight:300; max-width:90%;
+    }
+    #snackbar.show { opacity:1; transform:translate(-50%,0); pointer-events:auto; }
+
+    /* ===== 通用 ===== */
+    .empty-state { text-align:center; color:var(--text-ter); padding:30px 0; font-size:13px; font-weight:300; }
+    .empty-state .big { font-size:32px; font-weight:200; display:block; margin-bottom:8px; color:#ddd; }
+    .btn { padding:6px 16px; border:none; border-radius:var(--radius-full); font-size:12px; font-weight:400; cursor:pointer; transition:background 0.15s, transform 0.1s; }
+    .btn:active { transform:scale(0.94); }
+    .btn-dark { background:var(--bg-dark); color:#fff; }
+    .btn-dark:active { background:var(--text-sec); }
+    .btn-ghost { background:transparent; color:var(--text-sec); border:var(--border); }
+
+    ::-webkit-scrollbar { width:0; background:transparent; }
   </style>
 </head>
 <body>
@@ -349,7 +242,7 @@
   <!-- ===== 状态栏 ===== -->
   <div id="statusbar">
     <span id="statusTime">12:00</span>
-    <span><span class="notif-badge" id="notifBadge" style="display:none;">0</span></span>
+    <span></span>
   </div>
 
   <!-- ===== 桌面 ===== -->
@@ -357,106 +250,61 @@
     <div class="page-dots">● ● ○</div>
     <div class="app-grid" id="appGrid">
       <div class="app-item" data-app="chat"><div class="icon gold"><img src="https://zora404.dpdns.org/file/1786970318053_IMG_5742.jpeg" alt="消息"></div><span class="name">消息</span></div>
-      <div class="app-item" data-app="contacts"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970321134_IMG_5743.jpeg" alt="通讯录"></div><span class="name">通讯录</span></div>
-      <div class="app-item" data-app="discovery"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970318725_IMG_5744.jpeg" alt="发现"></div><span class="name">发现</span></div>
-      <div class="app-item" data-app="profile"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970321602_IMG_5749.jpeg" alt="我"></div><span class="name">我</span></div>
       <div class="app-item" data-app="roles"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970321106_IMG_5748.jpeg" alt="角色"></div><span class="name">角色</span></div>
-      <div class="app-item" data-app="social"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970319904_IMG_5747.jpeg" alt="动态"></div><span class="name">动态</span></div>
-      <div class="app-item" data-app="theme"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970326700_IMG_5745.jpeg" alt="美化"></div><span class="name">美化</span></div>
+      <div class="app-item" data-app="world"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970319904_IMG_5747.jpeg" alt="世界书"></div><span class="name">世界书</span></div>
       <div class="app-item" data-app="settings"><div class="icon"><img src="https://zora404.dpdns.org/file/1786970320660_IMG_5746.jpeg" alt="设置"></div><span class="name">设置</span></div>
     </div>
     <div id="dock">
-      <div class="app-item" style="opacity:0.2;pointer-events:none;"><div class="icon" style="background:var(--bg-input);color:var(--text-ter);">◯</div><span class="name">电话</span></div>
-      <div class="app-item" style="opacity:0.2;pointer-events:none;"><div class="icon" style="background:var(--bg-input);color:var(--text-ter);">◉</div><span class="name">浏览器</span></div>
+      <div class="app-item" style="opacity:0.15;pointer-events:none;"><div class="icon" style="background:var(--bg-input);color:var(--text-ter);font-size:10px;">电话</div><span class="name">电话</span></div>
+      <div class="app-item" style="opacity:0.15;pointer-events:none;"><div class="icon" style="background:var(--bg-input);color:var(--text-ter);font-size:10px;">浏览</div><span class="name">浏览器</span></div>
     </div>
   </div>
 
   <!-- ============================================================
-     消息 (Messages)
+     消息 (包含对话列表 + 个人资料)
      ============================================================ -->
   <div class="app-win" id="chatWin">
-    <div class="header"><span class="back" data-close="chatWin">←</span><span class="title">消息</span><button class="action" id="addChatBtn">+ 添加</button></div>
-    <div class="body" id="chatListBody">
-      <div class="empty-state"><span class="big">✉</span>暂无对话</div>
+    <div class="header">
+      <span class="back" data-close="chatWin">←</span>
+      <span class="title" id="chatTitle">消息</span>
+      <button class="action" id="chatToggleProfile">我</button>
+    </div>
+    <div class="body" id="chatBody">
+      <!-- 对话列表 (默认显示) -->
+      <div id="chatListBody"><div class="empty-state"><span class="big">✉</span>暂无对话</div></div>
+      <!-- 个人资料 (隐藏) -->
+      <div id="profileBody" style="display:none;">
+        <div class="profile-header">
+          <div class="avatar"><img src="https://zora404.dpdns.org/file/1786970323496_IMG_5217.jpeg" alt="avatar"></div>
+          <div class="name">phage</div>
+          <div class="id">@phage8026</div>
+          <div class="sig">"别以为我是 我就不能弄你"</div>
+        </div>
+        <div class="profile-stats">
+          <div class="stat"><div class="num">0</div><div class="label">Pests</div></div>
+          <div class="stat"><div class="num">520</div><div class="label">Followers</div></div>
+          <div class="stat"><div class="num">162</div><div class="label">Following</div></div>
+        </div>
+        <div class="profile-menu">
+          <div class="item"><span class="label">微信支付</span><span class="arrow">›</span></div>
+          <div class="item"><span class="label">我的收藏</span><span class="arrow">›</span></div>
+          <div class="item"><span class="label">表情</span><span class="arrow">›</span></div>
+          <div class="item"><span class="label">插件</span><span class="arrow">›</span></div>
+          <div class="item"><span class="label">美化</span><span class="arrow">›</span></div>
+          <div class="item" style="border-bottom:none;"><span class="label" style="color:#d64545;">切换账号</span><span class="arrow">›</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- ===== 聊天窗口 ===== -->
+  <!-- ===== 聊天窗口 (点击对话后打开) ===== -->
   <div class="app-win" id="convWin">
-    <div class="header"><span class="back" data-close="convWin">←</span><span class="title" id="convTitle">对话</span><button class="action" id="convSettingsBtn">⚙</button></div>
+    <div class="header"><button class="back" data-close="convWin">←</button><span class="title" id="convTitle">对话</span></div>
     <div class="body" style="padding:8px 14px 12px;">
       <div class="chat-msgs" id="convMsgs"><div class="empty"><span class="big">✧</span>开始对话</div><div class="typing-dots" id="convTyping"><span></span><span></span><span></span></div></div>
       <div class="chat-input">
-        <button class="btn-icon" id="plusBtn">+</button>
         <input type="text" id="convInput" placeholder="输入消息…" autocomplete="off">
-        <button class="btn-icon" id="emojiBtn">😊</button>
         <button class="btn-send" id="convSend">发送</button>
-      </div>
-      <div class="plus-menu" id="plusMenu">
-        <div class="item" data-action="重回"><span class="icon">↩</span><span class="label">重回</span></div>
-        <div class="item" data-action="照片"><span class="icon">🖼</span><span class="label">照片</span></div>
-        <div class="item" data-action="相册"><span class="icon">📷</span><span class="label">相册</span></div>
-        <div class="item" data-action="位置"><span class="icon">📍</span><span class="label">位置</span></div>
-        <div class="item" data-action="语音注"><span class="icon">🎤</span><span class="label">语音注</span></div>
-        <div class="item" data-action="视频注"><span class="icon">🎥</span><span class="label">视频注</span></div>
-        <div class="item" data-action="转屏"><span class="icon">🔄</span><span class="label">转屏</span></div>
-        <div class="item" data-action="历中回复"><span class="icon">⏪</span><span class="label">历中回复</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-     通讯录
-     ============================================================ -->
-  <div class="app-win" id="contactsWin">
-    <div class="header"><span class="back" data-close="contactsWin">←</span><span class="title">通讯录</span><button class="action">+ 添加</button></div>
-    <div class="body" id="contactsBody">
-      <div class="letter-index" id="letterIndex"></div>
-      <div id="contactsList"></div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-     发现
-     ============================================================ -->
-  <div class="app-win" id="discoveryWin">
-    <div class="header"><span class="back" data-close="discoveryWin">←</span><span class="title">发现</span></div>
-    <div class="body">
-      <div class="discovery-grid">
-        <div class="item"><span class="icon">📱</span><span class="label">朋友圈</span></div>
-        <div class="item"><span class="icon">🖼</span><span class="label">我约图库</span></div>
-        <div class="item"><span class="icon">💬</span><span class="label">信息</span></div>
-        <div class="item"><span class="icon">👤</span><span class="label">通讯录</span></div>
-        <div class="item"><span class="icon">✦</span><span class="label">发现</span></div>
-        <div class="item"><span class="icon">◈</span><span class="label">我</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-     我 (个人资料)
-     ============================================================ -->
-  <div class="app-win" id="profileWin">
-    <div class="header"><span class="back" data-close="profileWin">←</span><span class="title">我</span><button class="action">编辑</button></div>
-    <div class="body" id="profileBody">
-      <div class="profile-header">
-        <div class="avatar" id="profileAvatar"><img src="https://zora404.dpdns.org/file/1786970323496_IMG_5217.jpeg" alt="avatar"></div>
-        <div class="name" id="profileName">phage</div>
-        <div class="id" id="profileId">@phage8026</div>
-        <div class="sig" id="profileSig">"别以为我是 我就不能弄你"</div>
-      </div>
-      <div class="profile-stats">
-        <div class="stat"><div class="num" id="profilePests">0</div><div class="label">Pests</div></div>
-        <div class="stat"><div class="num" id="profileFollowers">520</div><div class="label">Followers</div></div>
-        <div class="stat"><div class="num" id="profileFollowing">162</div><div class="label">Following</div></div>
-      </div>
-      <div class="profile-menu">
-        <div class="item"><span class="label">微信支付</span><span class="arrow">›</span></div>
-        <div class="item"><span class="label">我的收藏</span><span class="arrow">›</span></div>
-        <div class="item"><span class="label">表情</span><span class="arrow">›</span></div>
-        <div class="item"><span class="label">插件</span><span class="arrow">›</span></div>
-        <div class="item"><span class="label">美化</span><span class="arrow">›</span></div>
-        <div class="item" style="border-bottom:none;"><span class="label" style="color:#d64545;">切换账号</span><span class="arrow">›</span></div>
       </div>
     </div>
   </div>
@@ -465,7 +313,7 @@
      角色
      ============================================================ -->
   <div class="app-win" id="rolesWin">
-    <div class="header"><span class="back" data-close="rolesWin">←</span><span class="title">角色</span><button class="action" id="addRoleBtn">+ 新建</button></div>
+    <div class="header"><button class="back" data-close="rolesWin">←</button><span class="title">角色</span><button class="action" id="addRoleBtn">+ 新建</button></div>
     <div class="body" id="rolesBody">
       <div class="role-tabs" id="roleTabs">
         <span class="tab active" data-filter="all">全部</span>
@@ -497,42 +345,26 @@
   </div>
 
   <!-- ============================================================
-     社交动态
+     世界书
      ============================================================ -->
-  <div class="app-win" id="socialWin">
-    <div class="header"><span class="back" data-close="socialWin">←</span><span class="title">动态</span></div>
-    <div class="body">
-      <div class="timeline-tabs" id="timelineTabs">
-        <span class="tab active" data-tab="recommend">为你推荐</span>
-        <span class="tab" data-tab="following">正在跟随</span>
-      </div>
-      <div id="timelineBody"></div>
+  <div class="app-win" id="worldWin">
+    <div class="header"><button class="back" data-close="worldWin">←</button><span class="title">世界书</span><button class="action" id="addWorldBtn">+ 新建</button></div>
+    <div class="body" id="worldBody">
+      <div style="font-size:12px;font-weight:300;color:var(--text-ter);margin-bottom:4px;">全局自动生效 · 局部需绑定</div>
+      <div id="worldList"></div>
     </div>
   </div>
 
-  <!-- ============================================================
-     美化 (Theme)
-     ============================================================ -->
-  <div class="app-win" id="themeWin">
-    <div class="header"><span class="back" data-close="themeWin">←</span><span class="title">美化</span></div>
-    <div class="body">
-      <div style="font-size:13px;font-weight:400;margin-bottom:4px;">APP Theme · CSS 定制</div>
-      <div style="font-size:11px;color:var(--text-ter);font-weight:300;margin-bottom:8px;">仅支持 Messages · Contacts · Discovery · 动态 · 我</div>
-      <textarea id="themeCss" style="width:100%;min-height:120px;padding:10px;border:var(--border);background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;font-family:monospace;resize:vertical;">.wechat-theme-messages .chat-list-item { background: rgba(255,255,255,0.8); }</textarea>
-      <div style="display:flex;gap:8px;margin-top:4px;"><button class="btn btn-ghost" id="themeReset">恢复默认</button><button class="btn btn-dark" id="themeSave">保存主题</button></div>
-
-      <div style="margin-top:12px;border-top:var(--border);padding-top:12px;">
-        <div style="font-size:13px;font-weight:400;margin-bottom:4px;">图标替换</div>
-        <div id="iconReplaceList"></div>
-      </div>
-
-      <div style="margin-top:12px;border-top:var(--border);padding-top:12px;">
-        <div style="font-size:13px;font-weight:400;margin-bottom:4px;">Widgets 组件</div>
-        <div style="font-size:11px;color:var(--text-ter);font-weight:300;margin-bottom:8px;">4x1 尺寸 · 粘贴 HTML 创建</div>
-        <input type="text" id="widgetName" placeholder="组件名称" style="padding:6px 10px;border:var(--border);background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;width:100%;margin-bottom:6px;">
-        <textarea id="widgetHtml" placeholder="粘贴组件 HTML…" style="width:100%;min-height:60px;padding:8px;border:var(--border);background:var(--bg-input);border-radius:var(--radius-sm);font-size:12px;font-family:monospace;resize:vertical;"></textarea>
-        <div style="display:flex;gap:8px;margin-top:4px;"><button class="btn btn-dark" id="widgetAdd">添加组件</button><button class="btn btn-ghost" id="widgetImport">导入组件</button></div>
-        <div id="widgetList" style="margin-top:8px;"></div>
+  <!-- ===== 编辑世界书弹窗 ===== -->
+  <div class="drawer-mask" id="worldDrawer">
+    <div class="drawer-panel">
+      <button class="close" id="worldDrawerClose">✕</button>
+      <div class="title">编辑世界书</div>
+      <div class="role-form">
+        <label>名称 <input type="text" id="worldName" placeholder="世界书名称"></label>
+        <label>内容 <textarea id="worldContent" placeholder="世界书内容…" style="min-height:80px;"></textarea></label>
+        <label>范围 <select id="worldScope"><option value="global">全局</option><option value="local">局部</option></select></label>
+        <div style="display:flex;gap:8px;margin-top:4px;"><button class="btn btn-dark" id="worldSaveBtn">保存</button><button class="btn btn-ghost" id="worldDeleteBtn" style="color:#d64545;">删除</button></div>
       </div>
     </div>
   </div>
@@ -541,19 +373,8 @@
      设置
      ============================================================ -->
   <div class="app-win" id="settingsWin">
-    <div class="header"><span class="back" data-close="settingsWin">←</span><span class="title">设置</span></div>
+    <div class="header"><button class="back" data-close="settingsWin">←</button><span class="title">设置</span></div>
     <div class="body" id="settingsBody"></div>
-  </div>
-
-  <!-- ============================================================
-     会话设置 (聊天右上角⚙打开)
-     ============================================================ -->
-  <div class="drawer-mask" id="convSettingsDrawer">
-    <div class="drawer-panel">
-      <button class="close" id="convSettingsClose">✕</button>
-      <div class="title">会话设置</div>
-      <div id="convSettingsBody" style="display:flex;flex-direction:column;gap:12px;"></div>
-    </div>
   </div>
 
   <!-- ============================================================
@@ -576,10 +397,8 @@
 
   // ===== 存储 =====
   const K = {
-    chats:'ww_chats', contacts:'ww_contacts', roles:'ww_roles',
-    posts:'ww_posts', theme:'ww_theme', icons:'ww_icons',
-    widgets:'ww_widgets', settings:'ww_settings', convSettings:'ww_convsettings',
-    messages:'ww_messages', currentChat:'ww_currentchat'
+    chats:'sc_chats', roles:'sc_roles', world:'sc_world',
+    settings:'sc_settings', messages:'sc_messages', currentChat:'sc_currentchat'
   };
   function load(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){return d;} }
   function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
@@ -588,30 +407,22 @@
   let chats = load(K.chats, [
     { id:'c1', name:'luna.chen', avatar:'L', lastMsg:'起来吃饭 · 想吃什么', time:'17:50' }
   ]);
-  let contacts = load(K.contacts, [
-    { id:'ct1', name:'luna.chen', initial:'L', sub:'男 · 学生' }
-  ]);
   let roles = load(K.roles, [
     { id:'r1', type:'CHAR', name:'luna.chen', gender:'男', group:'', desc:'Luna Chen - 完整人设' }
   ]);
-  let posts = load(K.posts, [
-    { id:'p1', author:'弯弯协会', idName:'@Wanwan_Official', avatar:'https://zora404.dpdns.org/file/1786970531433_IMG_4976.jpeg', content:'产品上线请多多关注。#AI #Wanwan', time:'2小时', stats:{reply:847,retweet:203,like:3654,view:'28.6万'} }
+  let worldBooks = load(K.world, [
+    { id:'w1', name:'现代都市', content:'故事发生在2024年的上海…', scope:'global' }
   ]);
-  let themeCss = load(K.theme, '');
-  let iconMap = load(K.icons, {});
-  let widgets = load(K.widgets, []);
-  let settings = load(K.settings, { notify:true, keepalive:true, dark:false, fontSize:16, letterSpacing:0 });
-  let convSettings = load(K.convSettings, { shortMem:1000, longMem:14, autoSum:30, readMem:12, vector:true, forget:'适中', timezone:true, worldbook:'', stickerGroup:'', voiceId:'', remark:'', autoReply:false, replyInterval:60, dnd:false, dndStart:'00:01', dndEnd:'08:01', bilingual:false });
+  let settings = load(K.settings, { notify:true, keepalive:true, dark:false, fontSize:16 });
   let messages = load(K.messages, {});
   let currentChatId = load(K.currentChat, null);
 
   // ===== 状态 =====
   let editingRoleId = null;
+  let editingWorldId = null;
   let convMsgList = [];
-
-  // ===== 默认头像 URL =====
+  let showProfile = false;
   const DEFAULT_AVATAR = 'https://zora404.dpdns.org/file/1786970323932_IMG_5219.jpeg';
-  const DEFAULT_CONTACT_AVATAR = 'https://zora404.dpdns.org/file/1786970323496_IMG_5217.jpeg';
 
   // ===== Snackbar =====
   function snack(msg){
@@ -639,23 +450,48 @@
   function openApp(id){ $$('.app-win').forEach(w=>w.classList.remove('open')); const el=$('#'+id+'Win'); if(el) el.classList.add('open'); }
   function closeApp(id){ const el=$('#'+id+'Win'); if(el) el.classList.remove('open'); }
 
+  // 返回按钮 - 修复: 用事件委托处理所有返回按钮
   document.addEventListener('click', function(e){
-    const back=e.target.closest('[data-close]');
-    if(back){ closeApp(back.dataset.close); }
+    const back = e.target.closest('[data-close]');
+    if(back){
+      const targetId = back.dataset.close;
+      closeApp(targetId);
+      e.preventDefault();
+    }
   });
 
   // 桌面点击
   $('#appGrid').addEventListener('click', function(e){
     const item=e.target.closest('.app-item'); if(!item) return;
     const app=item.dataset.app;
-    if(app==='chat'){ renderChatList(); openApp('chat'); }
-    else if(app==='contacts'){ renderContacts(); openApp('contacts'); }
-    else if(app==='discovery'){ openApp('discovery'); }
-    else if(app==='profile'){ renderProfile(); openApp('profile'); }
+    if(app==='chat'){ renderChatList(); showProfile=false; toggleProfileView(); openApp('chat'); }
     else if(app==='roles'){ renderRoles(); openApp('roles'); }
-    else if(app==='social'){ renderTimeline(); openApp('social'); }
-    else if(app==='theme'){ renderTheme(); openApp('theme'); }
+    else if(app==='world'){ renderWorldBooks(); openApp('world'); }
     else if(app==='settings'){ renderSettings(); openApp('settings'); }
+  });
+
+  // ============================================================
+  // 消息 + 个人资料切换
+  // ============================================================
+  function toggleProfileView(){
+    const list=$('#chatListBody');
+    const profile=$('#profileBody');
+    if(showProfile){
+      list.style.display='none';
+      profile.style.display='flex';
+      profile.style.flexDirection='column';
+      profile.style.gap='12px';
+      $('#chatTitle').textContent='我';
+    }else{
+      list.style.display='block';
+      profile.style.display='none';
+      $('#chatTitle').textContent='消息';
+    }
+  }
+
+  $('#chatToggleProfile').addEventListener('click', function(){
+    showProfile = !showProfile;
+    toggleProfileView();
   });
 
   // ============================================================
@@ -675,7 +511,10 @@
     });
   }
 
-  $('#addChatBtn').addEventListener('click', function(){
+  // 添加对话
+  document.addEventListener('click', function(e){
+    const btn=e.target.closest('#addChatBtn');
+    if(!btn) return;
     const name=prompt('输入联系人名称：');
     if(!name) return;
     const id='c'+Date.now();
@@ -753,121 +592,6 @@
 
   $('#convSend').addEventListener('click', sendConvMsg);
   $('#convInput').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); sendConvMsg(); } });
-
-  // 加号菜单
-  let plusOpen=false;
-  $('#plusBtn').addEventListener('click', function(e){
-    e.stopPropagation();
-    plusOpen=!plusOpen;
-    $('#plusMenu').classList.toggle('open', plusOpen);
-  });
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('.chat-input') && !e.target.closest('.plus-menu')){
-      $('#plusMenu').classList.remove('open');
-      plusOpen=false;
-    }
-  });
-  $('#plusMenu').addEventListener('click', function(e){
-    const item=e.target.closest('.item');
-    if(item){ snack('功能: '+item.dataset.action); $('#plusMenu').classList.remove('open'); plusOpen=false; }
-  });
-
-  // 表情按钮
-  $('#emojiBtn').addEventListener('click', function(){
-    const input=$('#convInput');
-    if(input) input.value+=' 😊';
-  });
-
-  // 会话设置
-  $('#convSettingsBtn').addEventListener('click', function(){
-    renderConvSettings();
-    $('#convSettingsDrawer').classList.add('open');
-  });
-  $('#convSettingsClose').addEventListener('click', function(){
-    $('#convSettingsDrawer').classList.remove('open');
-  });
-  $('#convSettingsDrawer').addEventListener('click', function(e){
-    if(e.target===this) this.classList.remove('open');
-  });
-
-  function renderConvSettings(){
-    const body=$('#convSettingsBody');
-    if(!body) return;
-    const s=convSettings;
-    body.innerHTML=`
-      <div class="conv-setting-item"><span class="label">短期记忆 (回合)</span><input type="number" id="csShortMem" value="${s.shortMem}" min="10" max="9999"></div>
-      <div class="conv-setting-item"><span class="label">长期记忆</span><span class="value">${s.longMem} 条</span></div>
-      <div class="conv-setting-item"><span class="label">自动总结 (条)</span><input type="number" id="csAutoSum" value="${s.autoSum}" min="5"></div>
-      <div class="conv-setting-item"><span class="label">回复前读取记忆</span><input type="number" id="csReadMem" value="${s.readMem}" min="1"></div>
-      <div class="conv-setting-item"><span class="label">向量检索</span><div class="toggle ${s.vector?'on':''}" id="csVector"><div class="knob"></div></div></div>
-      <div class="conv-setting-item"><span class="label">遗忘</span><select id="csForget"><option ${s.forget==='适中'?'selected':''}>适中</option><option ${s.forget==='快速'?'selected':''}>快速</option><option ${s.forget==='缓慢'?'selected':''}>缓慢</option></select></div>
-      <div class="conv-setting-item"><span class="label">时区设置</span><div class="toggle ${s.timezone?'on':''}" id="csTimezone"><div class="knob"></div></div></div>
-      <div class="conv-setting-item"><span class="label">挂载世界书</span><input type="text" id="csWorldbook" placeholder="选择世界书" value="${s.worldbook||''}"></div>
-      <div class="conv-setting-item"><span class="label">表情包分组</span><input type="text" id="csStickerGroup" placeholder="分组名称" value="${s.stickerGroup||''}"></div>
-      <div class="conv-setting-item"><span class="label">Minimax VoiceID</span><input type="text" id="csVoiceId" placeholder="输入 VoiceID" value="${s.voiceId||''}"></div>
-      <div class="conv-setting-item"><span class="label">备注</span><input type="text" id="csRemark" placeholder="设置微信备注" value="${s.remark||''}"></div>
-      <div class="conv-setting-item"><span class="label">主动回复</span><div class="toggle ${s.autoReply?'on':''}" id="csAutoReply"><div class="knob"></div></div></div>
-      <div class="conv-setting-item"><span class="label">间隔 (分钟)</span><input type="number" id="csReplyInterval" value="${s.replyInterval||60}" min="5"></div>
-      <div class="conv-setting-item"><span class="label">免打扰</span><div class="toggle ${s.dnd?'on':''}" id="csDnd"><div class="knob"></div></div></div>
-      <div class="conv-setting-item"><span class="label">时段</span><span><input type="text" id="csDndStart" value="${s.dndStart||'00:01'}" style="width:50px;"> - <input type="text" id="csDndEnd" value="${s.dndEnd||'08:01'}" style="width:50px;"></span></div>
-      <div class="conv-setting-item"><span class="label">双语模式</span><div class="toggle ${s.bilingual?'on':''}" id="csBilingual"><div class="knob"></div></div></div>
-      <div style="display:flex;gap:8px;padding:8px 0;"><button class="btn btn-dark" id="csSave">保存设置</button></div>
-    `;
-    body.querySelectorAll('.toggle').forEach(el=>{
-      el.addEventListener('click', function(){
-        this.classList.toggle('on');
-      });
-    });
-    $('#csSave').addEventListener('click', function(){
-      convSettings.shortMem=parseInt($('#csShortMem').value)||1000;
-      convSettings.autoSum=parseInt($('#csAutoSum').value)||30;
-      convSettings.readMem=parseInt($('#csReadMem').value)||12;
-      convSettings.vector=$('#csVector').classList.contains('on');
-      convSettings.forget=$('#csForget').value;
-      convSettings.timezone=$('#csTimezone').classList.contains('on');
-      convSettings.worldbook=$('#csWorldbook').value;
-      convSettings.stickerGroup=$('#csStickerGroup').value;
-      convSettings.voiceId=$('#csVoiceId').value;
-      convSettings.remark=$('#csRemark').value;
-      convSettings.autoReply=$('#csAutoReply').classList.contains('on');
-      convSettings.replyInterval=parseInt($('#csReplyInterval').value)||60;
-      convSettings.dnd=$('#csDnd').classList.contains('on');
-      convSettings.dndStart=$('#csDndStart').value;
-      convSettings.dndEnd=$('#csDndEnd').value;
-      convSettings.bilingual=$('#csBilingual').classList.contains('on');
-      save(K.convSettings, convSettings);
-      snack('会话设置已保存');
-      $('#convSettingsDrawer').classList.remove('open');
-    });
-  }
-
-  // ============================================================
-  // 通讯录
-  // ============================================================
-  function renderContacts(){
-    const list=$('#contactsList'); if(!list) return;
-    list.innerHTML='';
-    const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const idx=$('#letterIndex'); if(idx){ idx.innerHTML=letters.split('').map(l=>'<span class="l" data-letter="'+l+'">'+l+'</span>').join(''); }
-    if(contacts.length===0){ list.innerHTML='<div class="empty-state"><span class="big">👤</span>暂无联系人</div>'; return; }
-    contacts.forEach(c=>{
-      const div=document.createElement('div'); div.className='contact-item';
-      div.innerHTML='<div class="avatar"><img src="'+DEFAULT_CONTACT_AVATAR+'" alt=""></div><div class="info"><div class="name">'+c.name+'</div><div class="sub">'+c.sub+'</div></div>';
-      list.appendChild(div);
-    });
-  }
-
-  // ============================================================
-  // 个人资料
-  // ============================================================
-  function renderProfile(){
-    $('#profileName').textContent='phage';
-    $('#profileId').textContent='@phage8026';
-    $('#profileSig').textContent='"别以为我是 我就不能弄你"';
-    $('#profilePests').textContent='0';
-    $('#profileFollowers').textContent='520';
-    $('#profileFollowing').textContent='162';
-  }
 
   // ============================================================
   // 角色
@@ -960,110 +684,91 @@
   });
 
   // ============================================================
-  // 社交动态
+  // 世界书
   // ============================================================
-  let timelineTab='recommend';
-
-  function renderTimeline(){
-    const body=$('#timelineBody'); if(!body) return;
-    body.innerHTML='';
-    const filtered = timelineTab==='recommend' ? posts : posts.filter(p=>p.author.includes('关注'));
-    if(filtered.length===0){ body.innerHTML='<div class="empty-state"><span class="big">⌂</span>暂无动态</div>'; return; }
-    filtered.forEach(p=>{
-      const div=document.createElement('div'); div.className='post-card';
+  function renderWorldBooks(){
+    const list=$('#worldList'); if(!list) return;
+    list.innerHTML='';
+    if(worldBooks.length===0){ list.innerHTML='<div class="empty-state"><span class="big">◈</span>暂无世界书</div>'; return; }
+    worldBooks.forEach(w=>{
+      const div=document.createElement('div'); div.className='world-item';
       div.innerHTML=`
-        <div class="head"><div class="avatar"><img src="${p.avatar||'https://zora404.dpdns.org/file/1786970531433_IMG_4976.jpeg'}" alt=""></div><div class="info"><div class="name">${p.author}</div><div class="id">${p.idName||''}</div></div></div>
-        <div class="content">${p.content.replace(/#([^\s]+)/g,'<span class="tag">#$1</span>')}</div>
-        <div class="time">${p.time}</div>
-        <div class="stats"><span>${p.stats?.reply||0} 转发</span><span>${p.stats?.retweet||0} 评论</span><span>${p.stats?.like||0} 点赞</span><span>${p.stats?.view||0} 浏览</span></div>
+        <div class="head"><span class="name">${w.name}</span><span class="scope">${w.scope==='global'?'全局':'局部'}</span></div>
+        <div class="content">${w.content}</div>
+        <div class="acts">
+          <button data-wedit="${w.id}">编辑</button>
+          <button class="del" data-wdel="${w.id}">删除</button>
+        </div>
       `;
-      body.appendChild(div);
-    });
-  }
-
-  $('#timelineTabs').addEventListener('click', function(e){
-    const tab=e.target.closest('.tab');
-    if(!tab) return;
-    $$('#timelineTabs .tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    timelineTab=tab.dataset.tab;
-    renderTimeline();
-  });
-
-  // ============================================================
-  // 美化
-  // ============================================================
-  function renderTheme(){
-    $('#themeCss').value=themeCss||'.wechat-theme-messages .chat-list-item { background: rgba(255,255,255,0.8); }';
-    const list=$('#iconReplaceList'); if(!list) return;
-    const appNames=['设置','信息','微信','角色档案','世界书'];
-    list.innerHTML='';
-    appNames.forEach(name=>{
-      const div=document.createElement('div'); div.className='font-item';
-      const current=iconMap[name]||'原图标';
-      div.innerHTML='<span class="name">'+name+'</span><span style="font-size:12px;color:var(--text-ter);font-weight:300;margin-right:8px;">'+current+'</span><button class="btn btn-ghost" style="font-size:11px;padding:2px 10px;" data-icon-name="'+name+'">替换</button><button class="btn btn-ghost" style="font-size:11px;padding:2px 10px;color:#d64545;" data-icon-restore="'+name+'">恢复</button>';
       list.appendChild(div);
     });
-    renderWidgets();
-    list.querySelectorAll('[data-icon-name]').forEach(b=>{
+    list.querySelectorAll('[data-wedit]').forEach(b=>{
       b.addEventListener('click', function(){
-        const name=this.dataset.iconName;
-        const url=prompt('输入图标图片 URL：');
-        if(url){ iconMap[name]=url; save(K.icons, iconMap); renderTheme(); snack('已替换 '+name); }
+        const id=this.dataset.wedit;
+        const w=worldBooks.find(x=>x.id===id);
+        if(w){ openWorldEditor(w.id); }
       });
-    });
-    list.querySelectorAll('[data-icon-restore]').forEach(b=>{
-      b.addEventListener('click', function(){
-        const name=this.dataset.iconRestore;
-        delete iconMap[name]; save(K.icons, iconMap); renderTheme(); snack('已恢复 '+name);
-      });
-    });
-  }
-
-  $('#themeSave').addEventListener('click', function(){
-    themeCss=$('#themeCss').value; save(K.theme, themeCss); snack('主题已保存');
-  });
-  $('#themeReset').addEventListener('click', function(){
-    themeCss=''; save(K.theme, ''); $('#themeCss').value=''; snack('已恢复默认');
-  });
-
-  function renderWidgets(){
-    const list=$('#widgetList'); if(!list) return;
-    list.innerHTML='';
-    if(widgets.length===0){ list.innerHTML='<div style="font-size:12px;color:var(--text-ter);font-weight:300;padding:8px 0;">暂无组件</div>'; return; }
-    widgets.forEach((w,i)=>{
-      const div=document.createElement('div'); div.className='widget-item';
-      div.innerHTML='<div class="preview">4x1</div><div class="info"><div class="name">'+w.name+'</div><div class="size">4x1</div></div><button class="btn btn-ghost" style="font-size:11px;padding:2px 10px;" data-wdel="'+i+'">删除</button>';
-      list.appendChild(div);
     });
     list.querySelectorAll('[data-wdel]').forEach(b=>{
       b.addEventListener('click', function(){
-        const i=parseInt(this.dataset.wdel);
-        widgets.splice(i,1); save(K.widgets, widgets); renderWidgets(); snack('已删除');
+        const id=this.dataset.wdel;
+        const w=worldBooks.find(x=>x.id===id);
+        if(!w) return;
+        if(!confirm('删除 "'+w.name+'" ？')) return;
+        worldBooks=worldBooks.filter(x=>x.id!==id);
+        save(K.world, worldBooks);
+        renderWorldBooks();
+        snack('已删除');
       });
     });
   }
 
-  $('#widgetAdd').addEventListener('click', function(){
-    const name=$('#widgetName').value.trim();
-    const html=$('#widgetHtml').value.trim();
-    if(!name||!html){ snack('请输入名称和 HTML'); return; }
-    widgets.push({ id:'w'+Date.now(), name, html, size:'4x1' });
-    save(K.widgets, widgets);
-    $('#widgetName').value=''; $('#widgetHtml').value='';
-    renderWidgets();
-    snack('组件已添加');
+  function openWorldEditor(id){
+    const w=worldBooks.find(x=>x.id===id);
+    if(w){
+      editingWorldId=id;
+      $('#worldName').value=w.name;
+      $('#worldContent').value=w.content;
+      $('#worldScope').value=w.scope;
+    }else{
+      editingWorldId=null;
+      $('#worldName').value='';
+      $('#worldContent').value='';
+      $('#worldScope').value='global';
+    }
+    $('#worldDrawer').classList.add('open');
+  }
+
+  $('#addWorldBtn').addEventListener('click', function(){ openWorldEditor(null); });
+  $('#worldDrawerClose').addEventListener('click', function(){ $('#worldDrawer').classList.remove('open'); });
+  $('#worldDrawer').addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
+
+  $('#worldSaveBtn').addEventListener('click', function(){
+    const name=$('#worldName').value.trim();
+    const content=$('#worldContent').value.trim();
+    const scope=$('#worldScope').value;
+    if(!name){ snack('请输入名称'); return; }
+    if(!content){ snack('请输入内容'); return; }
+    if(editingWorldId){
+      const w=worldBooks.find(x=>x.id===editingWorldId);
+      if(w){ w.name=name; w.content=content; w.scope=scope; }
+    }else{
+      worldBooks.push({ id:'w'+Date.now(), name, content, scope });
+    }
+    save(K.world, worldBooks);
+    $('#worldDrawer').classList.remove('open');
+    renderWorldBooks();
+    snack('世界书已保存');
   });
 
-  $('#widgetImport').addEventListener('click', function(){
-    const input=document.createElement('input'); input.type='file'; input.accept='.json';
-    input.onchange=function(e){
-      const file=e.target.files[0]; if(!file) return;
-      const reader=new FileReader();
-      reader.onload=function(ev){ try{ const data=JSON.parse(ev.target.result); if(Array.isArray(data)){ widgets=widgets.concat(data); save(K.widgets, widgets); renderWidgets(); snack('导入成功'); } }catch(err){ snack('导入失败'); } };
-      reader.readAsText(file);
-    };
-    input.click();
+  $('#worldDeleteBtn').addEventListener('click', function(){
+    if(!editingWorldId) return;
+    if(!confirm('确定删除？')) return;
+    worldBooks=worldBooks.filter(x=>x.id!==editingWorldId);
+    save(K.world, worldBooks);
+    $('#worldDrawer').classList.remove('open');
+    renderWorldBooks();
+    snack('已删除');
   });
 
   // ============================================================
@@ -1076,27 +781,14 @@
       <div class="setting-item"><span class="label">通知</span><div class="toggle ${s.notify?'on':''}" id="setNotify"><div class="knob"></div></div></div>
       <div class="setting-item"><span class="label">强力保活</span><div class="toggle ${s.keepalive?'on':''}" id="setKeepalive"><div class="knob"></div></div></div>
       <div class="setting-item" style="flex-direction:column;align-items:stretch;gap:6px;"><span class="label">API 配置</span>
-        <input type="text" id="setApiUrl" placeholder="API 地址" value="${load('ww_api_url','')}">
-        <input type="password" id="setApiKey" placeholder="API 密钥" value="${load('ww_api_key','')}">
+        <input type="text" id="setApiUrl" placeholder="API 地址" value="${load('sc_api_url','')}">
+        <input type="password" id="setApiKey" placeholder="API 密钥" value="${load('sc_api_key','')}">
         <select id="setModel"><option value="">选择模型</option><option value="gpt-4o-mini">gpt-4o-mini</option><option value="gpt-4o">gpt-4o</option></select>
-        <div class="range-wrap"><span style="font-size:12px;">温度</span><input type="range" id="setTemp" min="0" max="1" step="0.1" value="${load('ww_api_temp',0.8)}"><span id="setTempDisplay" style="font-size:12px;color:var(--text-ter);">${load('ww_api_temp',0.8)}</span></div>
+        <div class="range-wrap"><span style="font-size:12px;">温度</span><input type="range" id="setTemp" min="0" max="1" step="0.1" value="${load('sc_api_temp',0.8)}"><span id="setTempDisplay" style="font-size:12px;color:var(--text-ter);">${load('sc_api_temp',0.8)}</span></div>
         <button class="btn btn-dark" id="setApiSave">保存 API</button>
       </div>
-      <div class="setting-item"><span class="label">Minimax 语音</span><span class="value">${load('ww_voice_id','')?'已配置':'未配置'}</span></div>
-      <div class="setting-item"><span class="label">图像配置</span><span class="value">未配置</span></div>
       <div class="setting-item"><span class="label">暗夜模式</span><div class="toggle ${s.dark?'on':''}" id="setDark"><div class="knob"></div></div></div>
-      <div class="setting-item" style="flex-direction:column;align-items:stretch;gap:6px;"><span class="label">字体</span>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;"><input type="text" id="setFontUrl" placeholder="Google Fonts URL" style="flex:1;"><button class="btn btn-dark" id="setFontAdd">导入</button></div>
-        <div style="display:flex;gap:12px;align-items:center;"><span style="font-size:12px;">大小</span><input type="range" id="setFontSize" min="12" max="24" value="${s.fontSize||16}"><span id="setFontSizeDisplay" style="font-size:12px;color:var(--text-ter);">${s.fontSize||16}px</span></div>
-        <div style="display:flex;gap:12px;align-items:center;"><span style="font-size:12px;">字间距</span><input type="range" id="setLetterSpacing" min="0" max="2" step="0.01" value="${s.letterSpacing||0}"><span id="setLetterSpacingDisplay" style="font-size:12px;color:var(--text-ter);">${s.letterSpacing||0}</span></div>
-        <button class="btn btn-ghost" id="setFontSave">保存排版</button>
-      </div>
-      <div class="setting-item" style="flex-direction:column;align-items:stretch;gap:6px;"><span class="label">壁纸</span>
-        <div style="display:flex;gap:8px;"><input type="text" id="setWallpaperUrl" placeholder="图片 URL" style="flex:1;"><button class="btn btn-dark" id="setWallpaperUrlBtn">应用 URL</button></div>
-        <div><input type="file" id="setWallpaperFile" accept="image/*" style="font-size:12px;"></div>
-        <button class="btn btn-ghost" id="setWallpaperReset">恢复默认</button>
-      </div>
-      <div class="setting-item"><span class="label">数据管理</span>
+      <div class="setting-item" style="flex-direction:column;align-items:stretch;gap:6px;"><span class="label">数据管理</span>
         <div style="display:flex;gap:8px;"><button class="btn btn-dark" id="setExport">导出备份</button><button class="btn btn-ghost" id="setImport">导入备份</button><button class="btn" style="background:#d64545;color:#fff;" id="setReset">重置</button></div>
         <input type="file" id="setImportInput" accept=".json" style="display:none;">
       </div>
@@ -1114,88 +806,34 @@
     });
     const tempSlider=$('#setTemp');
     if(tempSlider){ tempSlider.addEventListener('input', function(){ $('#setTempDisplay').textContent=this.value; }); }
-    const fsSlider=$('#setFontSize');
-    if(fsSlider){ fsSlider.addEventListener('input', function(){ $('#setFontSizeDisplay').textContent=this.value+'px'; }); }
-    const lsSlider=$('#setLetterSpacing');
-    if(lsSlider){ lsSlider.addEventListener('input', function(){ $('#setLetterSpacingDisplay').textContent=this.value; }); }
 
     $('#setApiSave').addEventListener('click', function(){
       const url=$('#setApiUrl').value.trim(); const key=$('#setApiKey').value.trim();
       const model=$('#setModel').value; const temp=$('#setTemp').value;
-      save('ww_api_url', url); save('ww_api_key', key); save('ww_api_model', model); save('ww_api_temp', parseFloat(temp));
+      save('sc_api_url', url); save('sc_api_key', key); save('sc_api_model', model); save('sc_api_temp', parseFloat(temp));
       snack('API 配置已保存');
     });
 
-    $('#setFontAdd').addEventListener('click', function(){
-      const url=$('#setFontUrl').value.trim();
-      if(!url){ snack('请输入 URL'); return; }
-      const link=document.createElement('link'); link.rel='stylesheet'; link.href=url;
-      document.head.appendChild(link);
-      snack('字体已导入');
-    });
-
-    $('#setFontSave').addEventListener('click', function(){
-      settings.fontSize=parseInt($('#setFontSize').value)||16;
-      settings.letterSpacing=parseFloat($('#setLetterSpacing').value)||0;
-      save(K.settings, settings);
-      document.documentElement.style.fontSize=settings.fontSize+'px';
-      document.documentElement.style.letterSpacing=settings.letterSpacing+'em';
-      snack('排版已保存');
-    });
-
-    $('#setWallpaperUrlBtn').addEventListener('click', function(){
-      const url=$('#setWallpaperUrl').value.trim();
-      if(!url){ snack('请输入 URL'); return; }
-      document.querySelector('#desktop').style.backgroundImage='url('+url+')';
-      document.querySelector('#desktop').style.backgroundSize='cover';
-      save('ww_wallpaper_url', url);
-      snack('壁纸已应用');
-    });
-    $('#setWallpaperFile').addEventListener('change', function(e){
-      const file=e.target.files[0]; if(!file) return;
-      const reader=new FileReader();
-      reader.onload=function(ev){
-        document.querySelector('#desktop').style.backgroundImage='url('+ev.target.result+')';
-        document.querySelector('#desktop').style.backgroundSize='cover';
-        save('ww_wallpaper_data', ev.target.result);
-        snack('壁纸已应用');
-      };
-      reader.readAsDataURL(file);
-      this.value='';
-    });
-    $('#setWallpaperReset').addEventListener('click', function(){
-      document.querySelector('#desktop').style.backgroundImage='';
-      document.querySelector('#desktop').style.backgroundSize='';
-      localStorage.removeItem('ww_wallpaper_url');
-      localStorage.removeItem('ww_wallpaper_data');
-      snack('已恢复默认壁纸');
-    });
-
     $('#setExport').addEventListener('click', function(){
-      const data={ chats, contacts, roles, posts, themeCss, iconMap, widgets, settings, convSettings, messages, api:{url:load('ww_api_url',''),key:load('ww_api_key',''),model:load('ww_api_model',''),temp:load('ww_api_temp',0.8)} };
+      const data={ chats, roles, worldBooks, settings, messages, api:{url:load('sc_api_url',''),key:load('sc_api_key',''),model:load('sc_api_model',''),temp:load('sc_api_temp',0.8)} };
       const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='wanwan_backup_'+dateStr().replace(/\//g,'-')+'.json'; a.click();
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='backup_'+dateStr().replace(/\//g,'-')+'.json'; a.click();
       snack('导出成功');
     });
     $('#setImport').addEventListener('click', ()=>$('#setImportInput').click());
     $('#setImportInput').addEventListener('change', function(e){
       const file=e.target.files[0]; if(!file) return;
       const reader=new FileReader();
-      reader.onload=function(ev){ try{ const data=JSON.parse(ev.target.result); if(data.chats) chats=data.chats; if(data.contacts) contacts=data.contacts; if(data.roles) roles=data.roles; if(data.posts) posts=data.posts; if(data.themeCss) themeCss=data.themeCss; if(data.iconMap) iconMap=data.iconMap; if(data.widgets) widgets=data.widgets; if(data.settings) settings=data.settings; if(data.convSettings) convSettings=data.convSettings; if(data.messages) messages=data.messages; Object.keys(K).forEach(k=>{ if(data[k]!==undefined) save(K[k], data[k]); }); snack('导入成功，刷新页面生效'); }catch(err){ snack('导入失败'); } };
+      reader.onload=function(ev){ try{ const data=JSON.parse(ev.target.result); if(data.chats) chats=data.chats; if(data.roles) roles=data.roles; if(data.worldBooks) worldBooks=data.worldBooks; if(data.settings) settings=data.settings; if(data.messages) messages=data.messages; save(K.chats,chats); save(K.roles,roles); save(K.world,worldBooks); save(K.settings,settings); save(K.messages,messages); snack('导入成功'); location.reload(); }catch(err){ snack('导入失败'); } };
       reader.readAsText(file);
       this.value='';
     });
     $('#setReset').addEventListener('click', function(){
       if(!confirm('确定重置所有数据？')) return;
       Object.values(K).forEach(k=>localStorage.removeItem(k));
-      ['ww_api_url','ww_api_key','ww_api_model','ww_api_temp','ww_wallpaper_url','ww_wallpaper_data','ww_voice_id'].forEach(k=>localStorage.removeItem(k));
+      ['sc_api_url','sc_api_key','sc_api_model','sc_api_temp'].forEach(k=>localStorage.removeItem(k));
       location.reload();
     });
-
-    const savedWall=load('ww_wallpaper_data','')||load('ww_wallpaper_url','');
-    if(savedWall){ document.querySelector('#desktop').style.backgroundImage='url('+savedWall+')'; document.querySelector('#desktop').style.backgroundSize='cover'; }
-    if(settings.fontSize) document.documentElement.style.fontSize=settings.fontSize+'px';
-    if(settings.letterSpacing) document.documentElement.style.letterSpacing=settings.letterSpacing+'em';
   }
 
   function applyDarkMode(){
@@ -1229,7 +867,11 @@
   function init(){
     if(window.__init) return; window.__init=true;
     applyDarkMode();
-    console.log('📱 完整版已启动 · 14 个模块 · 自定义字体已加载');
+    renderChatList();
+    // 消息默认显示列表，不显示profile
+    showProfile=false;
+    toggleProfileView();
+    console.log('📱 精简版已启动 · 消息/角色/世界书/设置');
   }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
